@@ -1,0 +1,36 @@
+/* Card Component Styles */
+
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Variants */
+
+.default {
+  border-left: 3px solid transparent;
+}
+
+.success {
+  border-left: 3px solid #10B981;
+}
+
+.warning {
+  border-left: 3px solid #F59E0B;
+}
+
+.error {
+  border-left: 3px solid #EF4444;
+}
+
+.info {
+  border-left: 3px solid #3B82F6;
+}

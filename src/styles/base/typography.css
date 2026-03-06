@@ -1,0 +1,107 @@
+/* Base Styles: Global Typography */
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-regular);
+  font-weight: var(--font-weight-body-regular);
+  line-height: var(--line-height-body-regular);
+  color: var(--color-neutral-700);
+}
+
+/* Heading Styles */
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-xl);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-h2);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-lg);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-md);
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-h4);
+  line-height: var(--line-height-h4);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+h5, h6 {
+  font-size: var(--font-size-body-large);
+  font-weight: var(--font-weight-body-large);
+  line-height: var(--line-height-body-large);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Body Text Styles */
+p {
+  font-size: var(--font-size-body-regular);
+  font-weight: var(--font-weight-body-regular);
+  line-height: var(--line-height-body-regular);
+  color: var(--color-neutral-700);
+}
+
+/* Label Styles */
+label {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-label);
+  color: var(--color-neutral-700);
+  display: block;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Small Text Styles */
+small {
+  font-size: var(--font-size-body-small);
+  font-weight: var(--font-weight-body-small);
+  line-height: var(--line-height-body-small);
+  color: var(--color-neutral-600);
+}
+
+/* Link Styles */
+a {
+  color: var(--color-primary-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary-blue-hover);
+}
+
+a:active {
+  color: var(--color-primary-blue-active);
+}
+
+/* Code Styles */
+code, pre {
+  font-family: "Courier New", monospace;
+  background-color: var(--color-neutral-100);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+}
+
+pre {
+  padding: var(--spacing-md);
+  overflow-x: auto;
+}

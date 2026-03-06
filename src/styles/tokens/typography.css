@@ -1,0 +1,62 @@
+/* Design Tokens: Typography */
+
+:root {
+  /* Font Family */
+  --font-family-primary: "ITC Avant Garde Gothic Std", Arial, Helvetica, sans-serif;
+  --font-family-fallback: Arial, Helvetica, sans-serif;
+
+  /* Heading Styles */
+  --font-size-h1: 32px;
+  --font-weight-h1: 700;
+  --line-height-h1: 1.2;
+  --letter-spacing-h1: -0.5px;
+
+  --font-size-h2: 24px;
+  --font-weight-h2: 700;
+  --line-height-h2: 1.3;
+  --letter-spacing-h2: -0.3px;
+
+  --font-size-h3: 20px;
+  --font-weight-h3: 600;
+  --line-height-h3: 1.4;
+  --letter-spacing-h3: -0.2px;
+
+  --font-size-h4: 16px;
+  --font-weight-h4: 600;
+  --line-height-h4: 1.5;
+
+  /* Body Text Styles */
+  --font-size-body-large: 16px;
+  --font-weight-body-large: 400;
+  --line-height-body-large: 1.6;
+
+  --font-size-body-regular: 14px;
+  --font-weight-body-regular: 400;
+  --line-height-body-regular: 1.6;
+
+  --font-size-body-small: 12px;
+  --font-weight-body-small: 400;
+  --line-height-body-small: 1.5;
+
+  /* Label and Input Styles */
+  --font-size-label: 14px;
+  --font-weight-label: 500;
+  --line-height-label: 1.5;
+
+  --font-size-input: 14px;
+  --font-weight-input: 400;
+  --line-height-input: 1.5;
+
+  /* Button Text Styles */
+  --font-size-button-large: 16px;
+  --font-weight-button-large: 600;
+  --line-height-button-large: 1.5;
+
+  --font-size-button-regular: 14px;
+  --font-weight-button-regular: 600;
+  --line-height-button-regular: 1.5;
+
+  --font-size-button-small: 12px;
+  --font-weight-button-small: 600;
+  --line-height-button-small: 1.5;
+}

@@ -1,0 +1,271 @@
+/* Responsive Utility Classes */
+
+/* Mobile First Approach */
+
+/* Tablet Breakpoint (640px and up) */
+
+@media (min-width: 640px) {
+  .sm\:block {
+    display: block;
+  }
+
+  .sm\:hidden {
+    display: none;
+  }
+
+  .sm\:flex {
+    display: flex;
+  }
+
+  .sm\:grid {
+    display: grid;
+  }
+
+  .sm\:w-full {
+    width: 100%;
+  }
+
+  .sm\:w-1\/2 {
+    width: 50%;
+  }
+
+  .sm\:w-1\/3 {
+    width: 33.333%;
+  }
+
+  .sm\:w-2\/3 {
+    width: 66.666%;
+  }
+
+  .sm\:p-lg {
+    padding: 16px;
+  }
+
+  .sm\:p-xl {
+    padding: 24px;
+  }
+
+  .sm\:m-lg {
+    margin: 16px;
+  }
+
+  .sm\:m-xl {
+    margin: 24px;
+  }
+
+  .sm\:gap-lg {
+    gap: 16px;
+  }
+
+  .sm\:gap-xl {
+    gap: 24px;
+  }
+}
+
+/* Tablet Breakpoint (768px and up) */
+
+@media (min-width: 768px) {
+  .md\:block {
+    display: block;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:grid {
+    display: grid;
+  }
+
+  .md\:w-full {
+    width: 100%;
+  }
+
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
+  .md\:w-1\/3 {
+    width: 33.333%;
+  }
+
+  .md\:w-2\/3 {
+    width: 66.666%;
+  }
+
+  .md\:p-lg {
+    padding: 16px;
+  }
+
+  .md\:p-xl {
+    padding: 24px;
+  }
+
+  .md\:m-lg {
+    margin: 16px;
+  }
+
+  .md\:m-xl {
+    margin: 24px;
+  }
+
+  .md\:gap-lg {
+    gap: 16px;
+  }
+
+  .md\:gap-xl {
+    gap: 24px;
+  }
+}
+
+/* Desktop Breakpoint (1024px and up) */
+
+@media (min-width: 1024px) {
+  .lg\:block {
+    display: block;
+  }
+
+  .lg\:hidden {
+    display: none;
+  }
+
+  .lg\:flex {
+    display: flex;
+  }
+
+  .lg\:grid {
+    display: grid;
+  }
+
+  .lg\:w-full {
+    width: 100%;
+  }
+
+  .lg\:w-1\/2 {
+    width: 50%;
+  }
+
+  .lg\:w-1\/3 {
+    width: 33.333%;
+  }
+
+  .lg\:w-2\/3 {
+    width: 66.666%;
+  }
+
+  .lg\:p-lg {
+    padding: 16px;
+  }
+
+  .lg\:p-xl {
+    padding: 24px;
+  }
+
+  .lg\:m-lg {
+    margin: 16px;
+  }
+
+  .lg\:m-xl {
+    margin: 24px;
+  }
+
+  .lg\:gap-lg {
+    gap: 16px;
+  }
+
+  .lg\:gap-xl {
+    gap: 24px;
+  }
+}
+
+/* Large Desktop Breakpoint (1280px and up) */
+
+@media (min-width: 1280px) {
+  .xl\:block {
+    display: block;
+  }
+
+  .xl\:hidden {
+    display: none;
+  }
+
+  .xl\:flex {
+    display: flex;
+  }
+
+  .xl\:grid {
+    display: grid;
+  }
+
+  .xl\:w-full {
+    width: 100%;
+  }
+
+  .xl\:w-1\/2 {
+    width: 50%;
+  }
+
+  .xl\:w-1\/3 {
+    width: 33.333%;
+  }
+
+  .xl\:w-2\/3 {
+    width: 66.666%;
+  }
+
+  .xl\:p-lg {
+    padding: 16px;
+  }
+
+  .xl\:p-xl {
+    padding: 24px;
+  }
+
+  .xl\:m-lg {
+    margin: 16px;
+  }
+
+  .xl\:m-xl {
+    margin: 24px;
+  }
+
+  .xl\:gap-lg {
+    gap: 16px;
+  }
+
+  .xl\:gap-xl {
+    gap: 24px;
+  }
+}
+
+/* Mobile Spacing Reduction (< 640px) */
+
+@media (max-width: 639px) {
+  .mobile\:p-sm {
+    padding: 8px;
+  }
+
+  .mobile\:p-md {
+    padding: 12px;
+  }
+
+  .mobile\:m-sm {
+    margin: 8px;
+  }
+
+  .mobile\:m-md {
+    margin: 12px;
+  }
+
+  .mobile\:gap-sm {
+    gap: 8px;
+  }
+
+  .mobile\:gap-md {
+    gap: 12px;
+  }
+}

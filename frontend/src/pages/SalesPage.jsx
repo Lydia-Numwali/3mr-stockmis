@@ -4,6 +4,12 @@ import { salesApi, productsApi } from '../services/api';
 import { Plus, X, ShoppingCart } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
+import Button from '../components/Button/Button';
+import Input from '../components/Input/Input';
+import Card from '../components/Card/Card';
+import Modal from '../components/Modal/Modal';
+import Badge from '../components/Badge/Badge';
+import Alert from '../components/Alert/Alert';
 
 function RecordSaleModal({ onClose }) {
   const [form, setForm] = useState({ productId: '', quantitySold: 1, saleType: 'RETAIL', priceUsed: '', customerType: 'INDIVIDUAL', notes: '' });
@@ -32,37 +38,49 @@ function RecordSaleModal({ onClose }) {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-header"><h2 className="modal-title">Record Sale</h2><button className="modal-close" onClick={onClose}><X size={18}/></button></div>
-        <form onSubmit={e => { e.preventDefault(); mutation.mutate(form); }}>
-          <div className="form-group"><label className="form-label">Product *</label>
-            <select className="form-control" value={form.productId} onChange={e=>handleProductChange(e.target.value)} required>
-              <option value="">Select product</option>
-              {products.map(p => <option key={p.id} value={p.id}>{p.name} (Stock: {p.quantity})</option>)}
+    <Modal isOpen={true} onClose={onClose} title="Record Sale">
+      <form onSubmit={e => { e.preventDefault(); mutation.mutate(form); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div>
+          <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>Product *</label>
+          <select style={{ width: '100%', padding: '10px 12px', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '14px', fontFamily: 'inherit' }} value={form.productId} onChange={e=>handleProductChange(e.target.value)} required>
+            <option value="">Select product</option>
+            {products.map(p => <option key={p.id} value={p.id}>{p.name} (Stock: {p.quantity})</option>)}
+          </select>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>Sale Type</label>
+            <select style={{ width: '100%', padding: '10px 12px', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '14px', fontFamily: 'inherit' }} value={form.saleType} onChange={e=>handleSaleTypeChange(e.target.value)}>
+              <option value="RETAIL">Retail</option><option value="WHOLESALE">Wholesale</option>
             </select>
           </div>
-          <div className="grid-2">
-            <div className="form-group"><label className="form-label">Sale Type</label>
-              <select className="form-control" value={form.saleType} onChange={e=>handleSaleTypeChange(e.target.value)}>
-                <option value="RETAIL">Retail</option><option value="WHOLESALE">Wholesale</option>
-              </select>
-            </div>
-            <div className="form-group"><label className="form-label">Customer Type</label>
-              <select className="form-control" value={form.customerType} onChange={e=>set('customerType',e.target.value)}>
-                <option value="INDIVIDUAL">Individual</option><option value="SHOP_OWNER">Shop Owner</option>
-              </select>
-            </div>
-            <div className="form-group"><label className="form-label">Quantity *</label><input className="form-control" type="number" min="1" value={form.quantitySold} onChange={e=>set('quantitySold',e.target.value)} required /></div>
-            <div className="form-group"><label className="form-label">Price (KES) *</label><input className="form-control" type="number" min="0" value={form.priceUsed} onChange={e=>set('priceUsed',e.target.value)} required /></div>
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>Customer Type</label>
+            <select style={{ width: '100%', padding: '10px 12px', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '14px', fontFamily: 'inherit' }} value={form.customerType} onChange={e=>set('customerType',e.target.value)}>
+              <option value="INDIVIDUAL">Individual</option><option value="SHOP_OWNER">Shop Owner</option>
+            </select>
           </div>
-          {total > 0 && <div className="alert alert-success" style={{marginBottom:16}}>Total Sale Value: <strong>KES {total.toLocaleString()}</strong></div>}
-          {selectedProduct && selectedProduct.quantity < form.quantitySold && <div className="alert alert-danger">Insufficient stock! Available: {selectedProduct.quantity}</div>}
-          <div className="form-group"><label className="form-label">Notes</label><textarea className="form-control" value={form.notes} onChange={e=>set('notes',e.target.value)} rows={2}/></div>
-          <div className="modal-footer"><button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button><button className="btn btn-primary" disabled={mutation.isPending}>{mutation.isPending ? 'Recording...' : 'Record Sale'}</button></div>
-        </form>
-      </div>
-    </div>
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>Quantity *</label>
+            <Input type="number" min="1" value={form.quantitySold} onChange={e=>set('quantitySold',e.target.value)} required />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>Price (KES) *</label>
+            <Input type="number" min="0" value={form.priceUsed} onChange={e=>set('priceUsed',e.target.value)} required />
+          </div>
+        </div>
+        {total > 0 && <Alert variant="success" title="Total Sale Value" message={`KES ${total.toLocaleString()}`} />}
+        {selectedProduct && selectedProduct.quantity < form.quantitySold && <Alert variant="error" title="Insufficient stock" message={`Available: ${selectedProduct.quantity}`} />}
+        <div>
+          <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>Notes</label>
+          <textarea style={{ width: '100%', padding: '10px 12px', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '14px', fontFamily: 'inherit', resize: 'vertical' }} value={form.notes} onChange={e=>set('notes',e.target.value)} rows={2}/>
+        </div>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="primary" disabled={mutation.isPending}>{mutation.isPending ? 'Recording...' : 'Record Sale'}</Button>
+        </div>
+      </form>
+    </Modal>
   );
 }
 
@@ -86,45 +104,76 @@ export default function SalesPage() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <div><h1 className="page-title">Sales Records</h1><p className="page-subtitle">{total} sales recorded</p></div>
-        <button className="btn btn-primary" onClick={() => setShowAdd(true)}><Plus size={16}/>Record Sale</button>
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <div>
+            <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>Sales Records</h1>
+            <p style={{ fontSize: '14px', color: '#6B7280' }}>{total} sales recorded</p>
+          </div>
+          <Button variant="primary" onClick={() => setShowAdd(true)}><Plus size={16}/>Record Sale</Button>
+        </div>
       </div>
 
-      <div className="filters-bar">
-        <div className="form-group" style={{margin:0,flex:0}}><label className="form-label" style={{marginBottom:4}}>From</label><input className="form-control" type="date" value={from} onChange={e=>{setFrom(e.target.value);setPage(1);}}/></div>
-        <div className="form-group" style={{margin:0,flex:0}}><label className="form-label" style={{marginBottom:4}}>To</label><input className="form-control" type="date" value={to} onChange={e=>{setTo(e.target.value);setPage(1);}}/></div>
-        <select className="form-control" style={{width:150,alignSelf:'flex-end'}} value={saleType} onChange={e=>{setSaleType(e.target.value);setPage(1);}}>
+      <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        <div>
+          <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>From</label>
+          <Input type="date" value={from} onChange={e=>{setFrom(e.target.value);setPage(1);}} style={{ width: '150px' }} />
+        </div>
+        <div>
+          <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#374151', marginBottom: '6px' }}>To</label>
+          <Input type="date" value={to} onChange={e=>{setTo(e.target.value);setPage(1);}} style={{ width: '150px' }} />
+        </div>
+        <select style={{ padding: '10px 12px', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '14px', fontFamily: 'inherit', width: '150px' }} value={saleType} onChange={e=>{setSaleType(e.target.value);setPage(1);}}>
           <option value="">All Types</option><option value="RETAIL">Retail</option><option value="WHOLESALE">Wholesale</option>
         </select>
       </div>
 
       {sales.length > 0 && (
-        <div className="grid-3 mb-4">
-          <div className="stat-card blue card-sm"><div className="stat-label">Total Records</div><div className="stat-value">{total}</div></div>
-          <div className="stat-card green card-sm"><div className="stat-label">Estimated Revenue</div><div className="stat-value" style={{fontSize:18}}>KES {totalRevenue.toLocaleString()}</div></div>
-          <div className="stat-card purple card-sm"><div className="stat-label">Showing</div><div className="stat-value">{sales.length}</div></div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+          <Card variant="default" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 500, color: '#6B7280', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Records</div>
+            <div style={{ fontSize: '28px', fontWeight: 700, color: '#2563EB' }}>{total}</div>
+          </Card>
+          <Card variant="default" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 500, color: '#6B7280', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Estimated Revenue</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#10B981' }}>KES {totalRevenue.toLocaleString()}</div>
+          </Card>
+          <Card variant="default" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 500, color: '#6B7280', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Showing</div>
+            <div style={{ fontSize: '28px', fontWeight: 700, color: '#8B5CF6' }}>{sales.length}</div>
+          </Card>
         </div>
       )}
 
-      <div className="card" style={{padding:0}}>
-        <div className="table-wrap">
-          {isLoading ? <div className="page-loader"><div className="loader spin"/></div> : (
-            <table>
-              <thead><tr><th>#</th><th>Product</th><th>Qty</th><th>Type</th><th>Customer</th><th>Price</th><th>Total</th><th>Date</th></tr></thead>
+      <Card variant="default" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto' }}>
+          {isLoading ? <div style={{ padding: '40px', textAlign: 'center' }}><div style={{ display: 'inline-block', width: '40px', height: '40px', border: '4px solid #E5E7EB', borderTop: '4px solid #2563EB', borderRadius: '50%', animation: 'spin 1s linear infinite' }} /></div> : (
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#F9FAFB', borderBottom: '1px solid #E5E7EB' }}>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>#</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Product</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Qty</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Type</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Customer</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Price</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Total</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '14px', fontWeight: 500, color: '#374151' }}>Date</th>
+                </tr>
+              </thead>
               <tbody>
                 {sales.length === 0 ? (
-                  <tr><td colSpan={8}><div className="empty-state"><ShoppingCart size={40}/><h3>No sales recorded</h3></div></td></tr>
+                  <tr><td colSpan={8} style={{ padding: '40px', textAlign: 'center' }}><div><ShoppingCart size={40} style={{ color: '#D1D5DB', marginBottom: '12px' }}/><h3 style={{ fontSize: '16px', fontWeight: 600, color: '#6B7280' }}>No sales recorded</h3></div></td></tr>
                 ) : sales.map(s => (
-                  <tr key={s.id}>
-                    <td style={{color:'var(--text-muted)',fontSize:12}}>{s.id}</td>
-                    <td style={{fontWeight:500}}>{s.product?.name}</td>
-                    <td style={{fontWeight:600}}>{s.quantitySold}</td>
-                    <td><span className={`badge ${s.saleType === 'RETAIL' ? 'badge-blue' : 'badge-orange'}`}>{s.saleType}</span></td>
-                    <td><span className="badge badge-gray">{s.customerType || '—'}</span></td>
-                    <td>KES {Number(s.priceUsed).toLocaleString()}</td>
-                    <td style={{fontWeight:600,color:'var(--success)'}}>KES {(s.quantitySold * Number(s.priceUsed)).toLocaleString()}</td>
-                    <td style={{fontSize:12,color:'var(--text-muted)'}}>{format(new Date(s.date), 'dd MMM yyyy HH:mm')}</td>
+                  <tr key={s.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
+                    <td style={{ padding: '12px 16px', color: '#6B7280', fontSize: '12px' }}>{s.id}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 500, color: '#111827' }}>{s.product?.name}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 600, color: '#111827' }}>{s.quantitySold}</td>
+                    <td style={{ padding: '12px 16px' }}><Badge variant={s.saleType === 'RETAIL' ? 'info' : 'warning'}>{s.saleType}</Badge></td>
+                    <td style={{ padding: '12px 16px' }}><Badge variant="secondary">{s.customerType || '—'}</Badge></td>
+                    <td style={{ padding: '12px 16px', color: '#111827' }}>KES {Number(s.priceUsed).toLocaleString()}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 600, color: '#10B981' }}>KES {(s.quantitySold * Number(s.priceUsed)).toLocaleString()}</td>
+                    <td style={{ padding: '12px 16px', fontSize: '12px', color: '#6B7280' }}>{format(new Date(s.date), 'dd MMM yyyy HH:mm')}</td>
                   </tr>
                 ))}
               </tbody>
@@ -132,13 +181,15 @@ export default function SalesPage() {
           )}
         </div>
         {totalPages > 1 && (
-          <div className="pagination" style={{padding:'12px 16px'}}>
-            <span className="pagination-info">Page {page} of {totalPages}</span>
-            <button className="pagination-btn" disabled={page===1} onClick={()=>setPage(p=>p-1)}>Prev</button>
-            <button className="pagination-btn" disabled={page===totalPages} onClick={()=>setPage(p=>p+1)}>Next</button>
+          <div style={{ padding: '12px 16px', borderTop: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '14px', color: '#6B7280' }}>Page {page} of {totalPages}</span>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <Button variant="secondary" size="small" disabled={page===1} onClick={()=>setPage(p=>p-1)}>Prev</Button>
+              <Button variant="secondary" size="small" disabled={page===totalPages} onClick={()=>setPage(p=>p+1)}>Next</Button>
+            </div>
           </div>
         )}
-      </div>
+      </Card>
       {showAdd && <RecordSaleModal onClose={() => setShowAdd(false)} />}
     </div>
   );

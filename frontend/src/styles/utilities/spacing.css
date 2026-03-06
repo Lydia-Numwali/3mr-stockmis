@@ -1,0 +1,223 @@
+/* Spacing Utility Classes */
+
+/* Padding Utilities */
+
+.p-xs {
+  padding: 4px;
+}
+
+.p-sm {
+  padding: 8px;
+}
+
+.p-md {
+  padding: 12px;
+}
+
+.p-lg {
+  padding: 16px;
+}
+
+.p-xl {
+  padding: 24px;
+}
+
+.p-2xl {
+  padding: 32px;
+}
+
+.p-3xl {
+  padding: 48px;
+}
+
+.p-4xl {
+  padding: 64px;
+}
+
+/* Padding X (horizontal) */
+
+.px-xs {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.px-sm {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.px-md {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.px-lg {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.px-xl {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.px-2xl {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+/* Padding Y (vertical) */
+
+.py-xs {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.py-sm {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.py-md {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.py-lg {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.py-xl {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.py-2xl {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+/* Margin Utilities */
+
+.m-xs {
+  margin: 4px;
+}
+
+.m-sm {
+  margin: 8px;
+}
+
+.m-md {
+  margin: 12px;
+}
+
+.m-lg {
+  margin: 16px;
+}
+
+.m-xl {
+  margin: 24px;
+}
+
+.m-2xl {
+  margin: 32px;
+}
+
+.m-3xl {
+  margin: 48px;
+}
+
+.m-4xl {
+  margin: 64px;
+}
+
+/* Margin X (horizontal) */
+
+.mx-xs {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.mx-sm {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.mx-md {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.mx-lg {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.mx-xl {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.mx-2xl {
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+/* Margin Y (vertical) */
+
+.my-xs {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.my-sm {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.my-md {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.my-lg {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.my-xl {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.my-2xl {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+/* Gap Utilities (for flexbox/grid) */
+
+.gap-xs {
+  gap: 4px;
+}
+
+.gap-sm {
+  gap: 8px;
+}
+
+.gap-md {
+  gap: 12px;
+}
+
+.gap-lg {
+  gap: 16px;
+}
+
+.gap-xl {
+  gap: 24px;
+}
+
+.gap-2xl {
+  gap: 32px;
+}

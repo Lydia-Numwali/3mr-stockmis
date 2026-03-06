@@ -1,0 +1,36 @@
+/* Design Tokens: Color Palette */
+
+:root {
+  /* Primary Colors */
+  --color-primary-blue: #2563EB;
+  --color-primary-blue-hover: #1D4ED8;
+  --color-primary-blue-active: #1E40AF;
+
+  /* Secondary Colors */
+  --color-secondary-teal: #14B8A6;
+  --color-secondary-teal-hover: #0D9488;
+  --color-secondary-amber: #F59E0B;
+
+  /* Neutral Colors (Grays) */
+  --color-neutral-50: #F9FAFB;
+  --color-neutral-100: #F3F4F6;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-300: #D1D5DB;
+  --color-neutral-400: #9CA3AF;
+  --color-neutral-500: #6B7280;
+  --color-neutral-600: #4B5563;
+  --color-neutral-700: #374151;
+  --color-neutral-900: #111827;
+
+  /* Semantic Colors */
+  --color-semantic-success: #10B981;
+  --color-semantic-success-hover: #059669;
+  --color-semantic-error: #EF4444;
+  --color-semantic-error-hover: #DC2626;
+  --color-semantic-warning: #F59E0B;
+  --color-semantic-info: #3B82F6;
+
+  /* Utility Colors */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+}
