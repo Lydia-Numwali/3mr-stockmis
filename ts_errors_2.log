@@ -1,0 +1,685 @@
+app/[locale]/(auth)/login/page.tsx(5,26): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+app/[locale]/(auth)/new-password/page.tsx(22,34): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+app/[locale]/(auth)/reset-password/page.tsx(18,41): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+app/[locale]/(auth)/two-factor-auth/page.tsx(22,40): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+app/[locale]/(auth)/two-factor-auth/page.tsx(52,21): error TS7006: Parameter 'response' implicitly has an 'any' type.
+app/[locale]/(auth)/two-factor-auth/page.tsx(65,19): error TS7006: Parameter 'error' implicitly has an 'any' type.
+app/[locale]/(auth)/verify-email/page.tsx(25,60): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+app/[locale]/(protected)/layout.tsx(9,31): error TS2307: Cannot find module '@/hooks/use-auto-logout' or its corresponding type declarations.
+app/[locale]/(protected)/settings/two-factor-auth/page.tsx(1,36): error TS2307: Cannot find module '@/components/containers/settings/two-2fa-auth/two-fa-auth-container' or its corresponding type declarations.
+app/[locale]/(protected)/settings/two-factor-auth/setup/authenticator/page.tsx(1,41): error TS2307: Cannot find module '@/components/containers/settings/setup/SetupAuthenticatorContainer' or its corresponding type declarations.
+backend/src/app.controller.spec.ts(5,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+backend/src/app.controller.spec.ts(8,3): error TS2304: Cannot find name 'beforeEach'.
+backend/src/app.controller.spec.ts(17,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+backend/src/app.controller.spec.ts(18,5): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+backend/src/app.controller.spec.ts(19,7): error TS2304: Cannot find name 'expect'.
+backend/src/app.controller.ts(8,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/app.controller.ts(8,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => string)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => string)'.
+backend/src/auth/auth.controller.ts(6,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/auth/auth.controller.ts(6,15): error TS2564: Property 'username' has no initializer and is not definitely assigned in the constructor.
+backend/src/auth/auth.controller.ts(7,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/auth/auth.controller.ts(7,15): error TS2564: Property 'password' has no initializer and is not definitely assigned in the constructor.
+backend/src/auth/auth.controller.ts(14,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/auth/auth.controller.ts(14,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: LoginDto) => Promise<{ access_token: string; user: { id: number; username: string; role: string; }; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: LoginDto) => Promise<{ access_token: string; user: { id: number; username: string; role: string; }; }>)'.
+backend/src/auth/auth.controller.ts(15,9): error TS1206: Decorators are not valid here.
+backend/src/auth/auth.service.ts(11,5): error TS1206: Decorators are not valid here.
+backend/src/dashboard/dashboard.controller.ts(10,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/dashboard/dashboard.controller.ts(10,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<{ totalProducts: number; totalStock: number; lowStockCount: number; lowStockProducts: Product[]; productsLentOut: number; soldToday: number; revenueToday: number; revenueThisMonth: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<{ totalProducts: number; totalStock: number; lowStockCount: number; lowStockProducts: Product[]; productsLentOut: number; soldToday: number; revenueToday: number; revenueThisMonth: number; }>)'.
+backend/src/dashboard/dashboard.controller.ts(13,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/dashboard/dashboard.controller.ts(13,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<any[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<any[]>)'.
+backend/src/dashboard/dashboard.controller.ts(16,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/dashboard/dashboard.controller.ts(16,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<any[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<any[]>)'.
+backend/src/dashboard/dashboard.controller.ts(19,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/dashboard/dashboard.controller.ts(19,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Product[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Product[]>)'.
+backend/src/dashboard/dashboard.service.ts(11,5): error TS1206: Decorators are not valid here.
+backend/src/dashboard/dashboard.service.ts(12,5): error TS1206: Decorators are not valid here.
+backend/src/dashboard/dashboard.service.ts(13,5): error TS1206: Decorators are not valid here.
+backend/src/entities/lending.entity.ts(13,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(14,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(16,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(17,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(18,3): error TS2564: Property 'product' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(20,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(21,3): error TS2564: Property 'productId' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(23,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(24,3): error TS2564: Property 'quantityLent' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(26,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(27,3): error TS2564: Property 'quantityReturned' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(29,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(30,3): error TS2564: Property 'borrowerShop' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(32,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(33,3): error TS2564: Property 'borrowerContact' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(35,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(36,3): error TS2564: Property 'dateLent' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(38,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(39,3): error TS2564: Property 'expectedReturnDate' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(41,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(42,3): error TS2564: Property 'returnDate' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(44,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(45,3): error TS2564: Property 'status' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(47,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(48,3): error TS2564: Property 'notes' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/lending.entity.ts(50,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/lending.entity.ts(51,3): error TS2564: Property 'createdAt' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(18,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(19,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(21,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(22,3): error TS2564: Property 'name' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(24,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(25,3): error TS2564: Property 'category' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(27,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(28,3): error TS2564: Property 'brand' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(30,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(31,3): error TS2564: Property 'model' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(33,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(34,3): error TS2564: Property 'partType' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(36,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(37,3): error TS2564: Property 'wholesalePrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(39,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(40,3): error TS2564: Property 'retailPrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(42,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(43,3): error TS2564: Property 'costPrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(45,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(46,3): error TS2564: Property 'quantity' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(48,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(49,3): error TS2564: Property 'lowStockThreshold' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(51,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(52,3): error TS2564: Property 'supplier' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(54,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(55,3): error TS2564: Property 'storageLocation' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(57,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(58,3): error TS2564: Property 'notes' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(60,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(61,3): error TS2564: Property 'dateRecorded' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(63,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(64,3): error TS2564: Property 'updatedAt' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(66,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(67,3): error TS2564: Property 'sales' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(69,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(70,3): error TS2564: Property 'movements' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/product.entity.ts(72,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/product.entity.ts(73,3): error TS2564: Property 'lendings' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(16,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(17,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(19,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(20,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(21,3): error TS2564: Property 'product' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(23,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(24,3): error TS2564: Property 'productId' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(26,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(27,3): error TS2564: Property 'quantitySold' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(29,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(30,3): error TS2564: Property 'saleType' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(32,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(33,3): error TS2564: Property 'priceUsed' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(35,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(36,3): error TS2564: Property 'customerType' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(38,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(39,3): error TS2564: Property 'notes' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(41,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(42,3): error TS2564: Property 'totalValue' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/sale.entity.ts(44,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/sale.entity.ts(45,3): error TS2564: Property 'date' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(13,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(14,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(16,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(17,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(18,3): error TS2564: Property 'product' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(20,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(21,3): error TS2564: Property 'productId' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(23,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(24,3): error TS2564: Property 'type' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(26,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(27,3): error TS2564: Property 'quantity' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(29,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(30,3): error TS2564: Property 'supplier' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(32,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(33,3): error TS2564: Property 'purchasePrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(35,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(36,3): error TS2564: Property 'notes' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/stock-movement.entity.ts(38,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/stock-movement.entity.ts(39,3): error TS2564: Property 'date' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/user.entity.ts(5,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/user.entity.ts(6,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/user.entity.ts(8,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/user.entity.ts(9,3): error TS2564: Property 'username' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/user.entity.ts(11,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/user.entity.ts(12,3): error TS2564: Property 'passwordHash' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/user.entity.ts(14,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/user.entity.ts(15,3): error TS2564: Property 'role' has no initializer and is not definitely assigned in the constructor.
+backend/src/entities/user.entity.ts(17,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/entities/user.entity.ts(18,3): error TS2564: Property 'createdAt' has no initializer and is not definitely assigned in the constructor.
+backend/src/lending/lending.controller.ts(10,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/lending/lending.controller.ts(10,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: CreateLendingDto) => Promise<Lending>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: CreateLendingDto) => Promise<Lending>)'.
+backend/src/lending/lending.controller.ts(11,10): error TS1206: Decorators are not valid here.
+backend/src/lending/lending.controller.ts(15,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/lending/lending.controller.ts(15,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number, dto: ReturnLendingDto) => Promise<Lending>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number, dto: ReturnLendingDto) => Promise<Lending>)'.
+backend/src/lending/lending.controller.ts(16,17): error TS1206: Decorators are not valid here.
+backend/src/lending/lending.controller.ts(16,42): error TS1206: Decorators are not valid here.
+backend/src/lending/lending.controller.ts(20,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/lending/lending.controller.ts(20,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: Lending[]; total: number; page: number; limit: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: Lending[]; total: number; page: number; limit: number; }>)'.
+backend/src/lending/lending.controller.ts(21,11): error TS1206: Decorators are not valid here.
+backend/src/lending/lending.controller.ts(25,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/lending/lending.controller.ts(25,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Lending[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Lending[]>)'.
+backend/src/lending/lending.service.ts(11,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(11,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(11,35): error TS2564: Property 'productId' has no initializer and is not definitely assigned in the constructor.
+backend/src/lending/lending.service.ts(12,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(12,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(12,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(12,43): error TS2564: Property 'quantityLent' has no initializer and is not definitely assigned in the constructor.
+backend/src/lending/lending.service.ts(13,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(13,15): error TS2564: Property 'borrowerShop' has no initializer and is not definitely assigned in the constructor.
+backend/src/lending/lending.service.ts(14,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(14,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(15,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(15,15): error TS2564: Property 'dateLent' has no initializer and is not definitely assigned in the constructor.
+backend/src/lending/lending.service.ts(16,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(16,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(17,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(17,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(21,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(21,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(21,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(21,43): error TS2564: Property 'quantityReturned' has no initializer and is not definitely assigned in the constructor.
+backend/src/lending/lending.service.ts(22,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(22,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(23,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(23,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/lending/lending.service.ts(29,5): error TS1206: Decorators are not valid here.
+backend/src/lending/lending.service.ts(30,5): error TS1206: Decorators are not valid here.
+backend/src/lending/lending.service.ts(31,5): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(10,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/products/products.controller.ts(10,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: Product[]; total: number; page: number; limit: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: Product[]; total: number; page: number; limit: number; }>)'.
+backend/src/products/products.controller.ts(11,11): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(15,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/products/products.controller.ts(15,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((limit: number) => Promise<any[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((limit: number) => Promise<any[]>)'.
+backend/src/products/products.controller.ts(16,15): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(20,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/products/products.controller.ts(20,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number) => Promise<Product>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number) => Promise<Product>)'.
+backend/src/products/products.controller.ts(21,11): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(25,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/products/products.controller.ts(25,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: CreateProductDto) => Promise<Product>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: CreateProductDto) => Promise<Product>)'.
+backend/src/products/products.controller.ts(26,10): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(30,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/products/products.controller.ts(30,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number, dto: Partial<CreateProductDto>) => Promise<Product>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number, dto: Partial<CreateProductDto>) => Promise<Product>)'.
+backend/src/products/products.controller.ts(31,10): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(31,35): error TS1206: Decorators are not valid here.
+backend/src/products/products.controller.ts(35,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/products/products.controller.ts(35,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number) => Promise<Product>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((id: number) => Promise<Product>)'.
+backend/src/products/products.controller.ts(36,10): error TS1206: Decorators are not valid here.
+backend/src/products/products.service.ts(10,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(10,15): error TS2564: Property 'name' has no initializer and is not definitely assigned in the constructor.
+backend/src/products/products.service.ts(11,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(11,28): error TS2564: Property 'category' has no initializer and is not definitely assigned in the constructor.
+backend/src/products/products.service.ts(12,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(12,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(13,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(13,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(14,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(14,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(15,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(15,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(15,35): error TS2564: Property 'wholesalePrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/products/products.service.ts(16,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(16,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(16,35): error TS2564: Property 'retailPrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/products/products.service.ts(17,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(17,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(17,35): error TS2564: Property 'costPrice' has no initializer and is not definitely assigned in the constructor.
+backend/src/products/products.service.ts(18,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(18,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(18,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(18,43): error TS2564: Property 'quantity' has no initializer and is not definitely assigned in the constructor.
+backend/src/products/products.service.ts(19,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(19,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(19,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(19,44): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(20,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(20,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(21,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(21,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(22,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(22,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/products/products.service.ts(27,15): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.controller.ts(11,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(11,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ sales: Sale[]; totalRevenue: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ sales: Sale[]; totalRevenue: number; }>)'.
+backend/src/reports/reports.controller.ts(12,12): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.controller.ts(14,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(14,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Product[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Product[]>)'.
+backend/src/reports/reports.controller.ts(17,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(17,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Lending[]>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<Lending[]>)'.
+backend/src/reports/reports.controller.ts(20,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(20,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<{ dailyIncome: number; weeklyIncome: number; monthlyIncome: number; topSelling: any[]; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<{ dailyIncome: number; weeklyIncome: number; monthlyIncome: number; topSelling: any[]; }>)'.
+backend/src/reports/reports.controller.ts(23,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(23,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any, res: Response<any, Record<string, any>>) => Promise<void>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any, res: Response<any, Record<string, any>>) => Promise<void>)'.
+backend/src/reports/reports.controller.ts(24,21): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.controller.ts(24,42): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.controller.ts(30,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(30,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((res: Response<any, Record<string, any>>) => Promise<void>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((res: Response<any, Record<string, any>>) => Promise<void>)'.
+backend/src/reports/reports.controller.ts(31,21): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.controller.ts(37,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/reports/reports.controller.ts(37,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((res: Response<any, Record<string, any>>) => Promise<void>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((res: Response<any, Record<string, any>>) => Promise<void>)'.
+backend/src/reports/reports.controller.ts(38,23): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.service.ts(12,5): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.service.ts(13,5): error TS1206: Decorators are not valid here.
+backend/src/reports/reports.service.ts(14,5): error TS1206: Decorators are not valid here.
+backend/src/sales/sales.controller.ts(10,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/sales/sales.controller.ts(10,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: CreateSaleDto) => Promise<Sale>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: CreateSaleDto) => Promise<Sale>)'.
+backend/src/sales/sales.controller.ts(11,10): error TS1206: Decorators are not valid here.
+backend/src/sales/sales.controller.ts(15,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/sales/sales.controller.ts(15,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: Sale[]; total: number; page: number; limit: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: Sale[]; total: number; page: number; limit: number; }>)'.
+backend/src/sales/sales.controller.ts(16,11): error TS1206: Decorators are not valid here.
+backend/src/sales/sales.controller.ts(20,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/sales/sales.controller.ts(20,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<{ dailyRevenue: number; weeklyRevenue: number; monthlyRevenue: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | (() => Promise<{ dailyRevenue: number; weeklyRevenue: number; monthlyRevenue: number; }>)'.
+backend/src/sales/sales.service.ts(11,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(11,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(11,35): error TS2564: Property 'productId' has no initializer and is not definitely assigned in the constructor.
+backend/src/sales/sales.service.ts(12,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(12,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(12,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(12,43): error TS2564: Property 'quantitySold' has no initializer and is not definitely assigned in the constructor.
+backend/src/sales/sales.service.ts(13,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(13,21): error TS2564: Property 'saleType' has no initializer and is not definitely assigned in the constructor.
+backend/src/sales/sales.service.ts(14,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(14,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(14,35): error TS2564: Property 'priceUsed' has no initializer and is not definitely assigned in the constructor.
+backend/src/sales/sales.service.ts(15,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(15,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(16,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(16,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/sales/sales.service.ts(22,5): error TS1206: Decorators are not valid here.
+backend/src/sales/sales.service.ts(23,5): error TS1206: Decorators are not valid here.
+backend/src/sales/sales.service.ts(24,5): error TS1206: Decorators are not valid here.
+backend/src/stock/stock.controller.ts(10,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/stock/stock.controller.ts(10,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: AddStockDto) => Promise<StockMovement>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((dto: AddStockDto) => Promise<StockMovement>)'.
+backend/src/stock/stock.controller.ts(11,12): error TS1206: Decorators are not valid here.
+backend/src/stock/stock.controller.ts(15,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+backend/src/stock/stock.controller.ts(15,4): error TS1270: Decorator function return type 'void | TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: StockMovement[]; total: number; page: number; limit: number; }>)'.
+  Type 'TypedPropertyDescriptor<unknown>' is not assignable to type 'void | ((query: any) => Promise<{ items: StockMovement[]; total: number; page: number; limit: number; }>)'.
+backend/src/stock/stock.controller.ts(16,16): error TS1206: Decorators are not valid here.
+backend/src/stock/stock.service.ts(10,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(10,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(10,35): error TS2564: Property 'productId' has no initializer and is not definitely assigned in the constructor.
+backend/src/stock/stock.service.ts(11,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(11,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(11,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(11,43): error TS2564: Property 'quantity' has no initializer and is not definitely assigned in the constructor.
+backend/src/stock/stock.service.ts(12,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(12,24): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(12,36): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(13,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(13,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(14,4): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(14,18): error TS1240: Unable to resolve signature of property decorator when called as an expression.
+  Argument of type 'undefined' is not assignable to parameter of type 'Object'.
+backend/src/stock/stock.service.ts(20,5): error TS1206: Decorators are not valid here.
+backend/src/stock/stock.service.ts(21,5): error TS1206: Decorators are not valid here.
+backend/test/app.e2e-spec.ts(7,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+backend/test/app.e2e-spec.ts(10,3): error TS2304: Cannot find name 'beforeEach'.
+backend/test/app.e2e-spec.ts(19,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+components/charts/AttendanceComparisonChart.tsx(15,35): error TS2307: Cannot find module '@/hooks/useLeaves' or its corresponding type declarations.
+components/charts/AttendanceComparisonChart.tsx(70,34): error TS7006: Parameter 'item' implicitly has an 'any' type.
+components/charts/super-operator/LineChart.tsx(28,34): error TS2307: Cannot find module '@/hooks/useOperatorDashboard' or its corresponding type declarations.
+components/common/AdminOverview.tsx(2,10): error TS2305: Module '"@/hooks/useDashboard"' has no exported member 'useAdminOverview'.
+components/common/AttendanceTable.tsx(39,39): error TS2307: Cannot find module '@/hooks/useAttendance' or its corresponding type declarations.
+components/common/AttendanceTable.tsx(40,37): error TS2307: Cannot find module '@/hooks/use-export' or its corresponding type declarations.
+components/common/change-language.tsx(20,6): error TS7006: Parameter 'language' implicitly has an 'any' type.
+components/common/change-language.tsx(45,27): error TS7006: Parameter 'language' implicitly has an 'any' type.
+components/common/CustomFilter.tsx(14,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/dynamic-institution-select-dashboard.tsx(8,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/dynamic-institution-select.tsx(8,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/employee-select-command.tsx(17,29): error TS2307: Cannot find module '@/hooks/use-users' or its corresponding type declarations.
+components/common/employee-select-command.tsx(18,33): error TS2307: Cannot find module '@/hooks/useEmployee' or its corresponding type declarations.
+components/common/employee-select-command.tsx(53,30): error TS2304: Cannot find name 'GetEmployeesResponse'.
+components/common/employee-select-command.tsx(55,60): error TS2304: Cannot find name 'Employee'.
+components/common/employee-select-command.tsx(61,40): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/employee-select-command.tsx(118,35): error TS7006: Parameter 'employee' implicitly has an 'any' type.
+components/common/employee-select-command.tsx(118,45): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/FilterPopover.tsx(16,17): error TS2304: Cannot find name 'IFilterOption'.
+components/common/FilterPopover.tsx(17,56): error TS2304: Cannot find name 'IFilterOption'.
+components/common/FilterPopover.tsx(22,20): error TS2304: Cannot find name 'IFilterOption'.
+components/common/FilterPopover.tsx(50,32): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+components/common/FilterPopover.tsx(62,32): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+components/common/FilterPopover.tsx(74,32): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+components/common/FilterPopover.tsx(114,30): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+components/common/heading.tsx(40,37): error TS2307: Cannot find module '@/hooks/useNotifications' or its corresponding type declarations.
+components/common/heading.tsx(151,45): error TS7006: Parameter 'institution' implicitly has an 'any' type.
+components/common/heading.tsx(179,56): error TS7006: Parameter 'branch' implicitly has an 'any' type.
+components/common/IndividualBlackListDialog.tsx(11,37): error TS2307: Cannot find module '../forms/blacklist/IndividualBlacklistForm' or its corresponding type declarations.
+components/common/IndividualBlackListDialog.tsx(12,54): error TS2307: Cannot find module '@/hooks/use-black-list' or its corresponding type declarations.
+components/common/IndividualBlackListDialog.tsx(16,29): error TS2307: Cannot find module '@/types/permissions' or its corresponding type declarations.
+components/common/IndividualBlackListDialog.tsx(17,32): error TS2307: Cannot find module '@/hooks/usePermissions' or its corresponding type declarations.
+components/common/IndividualBlackListDialog.tsx(18,35): error TS2307: Cannot find module '../containers/blacklist/delete-blacklist-modal' or its corresponding type declarations.
+components/common/IndividualBlackListDialog.tsx(19,28): error TS2307: Cannot find module '@/services/blacklist.service' or its corresponding type declarations.
+components/common/IndividualBlackListDialog.tsx(56,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+components/common/institution-select.tsx(8,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/institutionSelector.tsx(13,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/institutionSelector.tsx(37,33): error TS2304: Cannot find name 'GetAllInstitutionResponse'.
+components/common/institutionSelector.tsx(61,32): error TS7006: Parameter 'institution' implicitly has an 'any' type.
+components/common/location-selection/CoordinatesTab.tsx(5,19): error TS2307: Cannot find module '@/components/containers/visits/Input' or its corresponding type declarations.
+components/common/location-selection/CoordinatesTab.tsx(67,22): error TS7006: Parameter 'e' implicitly has an 'any' type.
+components/common/location-selection/CoordinatesTab.tsx(80,22): error TS7006: Parameter 'e' implicitly has an 'any' type.
+components/common/location-selection/GoogleMapsTab.tsx(4,19): error TS2307: Cannot find module '@/components/containers/visits/Input' or its corresponding type declarations.
+components/common/location-selection/GoogleMapsTab.tsx(24,20): error TS7006: Parameter 'e' implicitly has an 'any' type.
+components/common/location-selection/MapTab.tsx(6,24): error TS2307: Cannot find module '@/hooks/useMap' or its corresponding type declarations.
+components/common/manage-action-type.tsx(18,39): error TS2307: Cannot find module '@/hooks/use-logs' or its corresponding type declarations.
+components/common/manage-action-type.tsx(69,37): error TS7006: Parameter 'action' implicitly has an 'any' type.
+components/common/manage-action-type.tsx(69,45): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-badge.tsx(15,58): error TS2307: Cannot find module '@/hooks/use-badges' or its corresponding type declarations.
+components/common/manage-badge.tsx(16,29): error TS2307: Cannot find module '@/hooks/useOperator' or its corresponding type declarations.
+components/common/manage-badge.tsx(18,23): error TS2307: Cannot find module '@/types/badge' or its corresponding type declarations.
+components/common/manage-badge.tsx(61,34): error TS7006: Parameter 'r' implicitly has an 'any' type.
+components/common/manage-badge.tsx(113,32): error TS7006: Parameter 'badge' implicitly has an 'any' type.
+components/common/manage-badge.tsx(113,39): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-branches.tsx(15,32): error TS2307: Cannot find module '@/hooks/use-branches' or its corresponding type declarations.
+components/common/manage-branches.tsx(60,29): error TS2304: Cannot find name 'GetBranchesResponse'.
+components/common/manage-branches.tsx(62,56): error TS2304: Cannot find name 'IBranch'.
+components/common/manage-branches.tsx(68,39): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/manage-branches.tsx(153,34): error TS7006: Parameter 'branch' implicitly has an 'any' type.
+components/common/manage-branches.tsx(153,42): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-dep-categories.tsx(15,37): error TS2307: Cannot find module '@/hooks/use-dep-category' or its corresponding type declarations.
+components/common/manage-dep-categories.tsx(55,60): error TS2304: Cannot find name 'IDepCategory'.
+components/common/manage-dep-categories.tsx(63,43): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/manage-dep-categories.tsx(146,36): error TS7006: Parameter 'category' implicitly has an 'any' type.
+components/common/manage-dep-categories.tsx(146,46): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-departments.tsx(15,32): error TS2307: Cannot find module '@/hooks/use-branches' or its corresponding type declarations.
+components/common/manage-departments.tsx(16,35): error TS2307: Cannot find module '@/hooks/use-departments' or its corresponding type declarations.
+components/common/manage-departments.tsx(62,32): error TS2304: Cannot find name 'GetDepartmentsResponse'.
+components/common/manage-departments.tsx(65,14): error TS2304: Cannot find name 'IDepartment'.
+components/common/manage-departments.tsx(71,46): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/manage-departments.tsx(134,37): error TS7006: Parameter 'department' implicitly has an 'any' type.
+components/common/manage-departments.tsx(134,49): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-institutions-command.tsx(15,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/manage-institutions-command.tsx(58,33): error TS2304: Cannot find name 'GetAllInstitutionResponse'.
+components/common/manage-institutions-command.tsx(61,14): error TS2304: Cannot find name 'IInstitution'.
+components/common/manage-institutions-command.tsx(67,48): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/manage-institutions-command.tsx(150,38): error TS7006: Parameter 'institution' implicitly has an 'any' type.
+components/common/manage-institutions-command.tsx(150,51): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-position.tsx(15,33): error TS2307: Cannot find module '@/hooks/use-positions' or its corresponding type declarations.
+components/common/manage-position.tsx(58,30): error TS2304: Cannot find name 'GetPositionsResponse'.
+components/common/manage-position.tsx(60,60): error TS2304: Cannot find name 'IPosition'.
+components/common/manage-position.tsx(68,42): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/manage-position.tsx(131,35): error TS7006: Parameter 'position' implicitly has an 'any' type.
+components/common/manage-position.tsx(131,45): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/manage-users-command.tsx(15,29): error TS2307: Cannot find module '@/hooks/use-users' or its corresponding type declarations.
+components/common/manage-users-command.tsx(39,26): error TS2304: Cannot find name 'GetAllUsersResponse'.
+components/common/manage-users-command.tsx(41,52): error TS2304: Cannot find name 'IUser'.
+components/common/manage-users-command.tsx(45,32): error TS7006: Parameter 'u' implicitly has an 'any' type.
+components/common/manage-users-command.tsx(96,31): error TS7006: Parameter 'user' implicitly has an 'any' type.
+components/common/manage-users-command.tsx(96,37): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/common/MixedFilter.tsx(14,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/MixedFilter.tsx(15,29): error TS2307: Cannot find module '@/hooks/useOperator' or its corresponding type declarations.
+components/common/NidaInput.tsx(3,32): error TS2307: Cannot find module '@/hooks/useNida' or its corresponding type declarations.
+components/common/NidaPreview.tsx(2,26): error TS2307: Cannot find module '@/types/appointments' or its corresponding type declarations.
+components/common/notifications-sheet.tsx(13,8): error TS2307: Cannot find module '@/hooks/useNotifications' or its corresponding type declarations.
+components/common/notifications-sheet.tsx(14,31): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+components/common/operator-overview.tsx(2,10): error TS2305: Module '"@/hooks/useDashboard"' has no exported member 'useOperatorOverview'.
+components/common/operator-overview.tsx(7,29): error TS2307: Cannot find module '@/types/permissions' or its corresponding type declarations.
+components/common/operator-overview.tsx(10,32): error TS2307: Cannot find module '@/hooks/usePermissions' or its corresponding type declarations.
+components/common/operator-overview.tsx(11,34): error TS2307: Cannot find module '@/hooks/use-black-list' or its corresponding type declarations.
+components/common/OverViewCard.tsx(8,9): error TS2304: Cannot find name 'ViewData'.
+components/common/permissionSelector.tsx(13,35): error TS2307: Cannot find module '@/hooks/useOperator' or its corresponding type declarations.
+components/common/permissionSelector.tsx(33,52): error TS7006: Parameter 'permission' implicitly has an 'any' type.
+components/common/permissionSelector.tsx(64,39): error TS7006: Parameter 'permission' implicitly has an 'any' type.
+components/common/ProfileDialog.tsx(14,34): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+components/common/RequestLeaveModal.tsx(24,8): error TS2307: Cannot find module '@/hooks/useLeaves' or its corresponding type declarations.
+components/common/RequestLeaveModal.tsx(29,36): error TS2307: Cannot find module '@/hooks/useCurrentEmployee' or its corresponding type declarations.
+components/common/RequestLeaveModal.tsx(74,14): error TS2304: Cannot find name 'ILeaveType'.
+components/common/RequestLeaveModal.tsx(108,31): error TS7006: Parameter 'type' implicitly has an 'any' type.
+components/common/RequestLeaveModal.tsx(313,50): error TS7006: Parameter 'type' implicitly has an 'any' type.
+components/common/SelectInstitutionDropdown.tsx(2,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/sidebar.tsx(10,28): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+components/common/sidebar.tsx(12,32): error TS2307: Cannot find module '@/hooks/usePermissions' or its corresponding type declarations.
+components/common/user-details-container.tsx(6,9): error TS2304: Cannot find name 'IUser'.
+components/common/VisitorsDemographic.tsx(20,46): error TS2307: Cannot find module '@/hooks/dashboard-appointment/use-appointments-dashboard' or its corresponding type declarations.
+components/common/VisitorsDemographic.tsx(52,43): error TS7006: Parameter 'item' implicitly has an 'any' type.
+components/common/VisitorsDemographic.tsx(54,10): error TS7006: Parameter 'v' implicitly has an 'any' type.
+components/common/withPermission.tsx(5,33): error TS2307: Cannot find module '@/types/permissions' or its corresponding type declarations.
+components/common/withPermission.tsx(7,32): error TS2307: Cannot find module '@/hooks/usePermissions' or its corresponding type declarations.
+components/containers/lending/lending-dialog.tsx(69,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/products/products-dialog.tsx(10,19): error TS2305: Module '"@/types/stock"' has no exported member 'ProductCategory'.
+components/containers/products/products-dialog.tsx(57,32): error TS2339: Property 'brand' does not exist on type 'Product'.
+components/containers/products/products-dialog.tsx(58,32): error TS2339: Property 'model' does not exist on type 'Product'.
+components/containers/products/products-dialog.tsx(59,35): error TS2339: Property 'partType' does not exist on type 'Product'.
+components/containers/products/products-dialog.tsx(62,36): error TS2339: Property 'costPrice' does not exist on type 'Product'.
+components/containers/products/products-dialog.tsx(64,44): error TS2339: Property 'lowStockThreshold' does not exist on type 'Product'.
+components/containers/products/products-dialog.tsx(66,42): error TS2339: Property 'storageLocation' does not exist on type 'Product'.
+components/containers/products/products-dialog.tsx(88,64): error TS2322: Type '{ [x: string]: any; name?: unknown; category?: unknown; brand?: unknown; model?: unknown; partType?: unknown; wholesalePrice?: unknown; retailPrice?: unknown; costPrice?: unknown; quantity?: unknown; lowStockThreshold?: unknown; supplier?: unknown; storageLocation?: unknown; }' is not assignable to type 'Partial<CreateProductDto>'.
+  Types of property 'name' are incompatible.
+    Type 'unknown' is not assignable to type 'string | undefined'.
+components/containers/products/products-dialog.tsx(116,57): error TS2322: Type 'unknown' is not assignable to type 'string'.
+components/containers/products/products-dialog.tsx(116,67): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+components/containers/sales/sales-container.tsx(6,10): error TS2305: Module '"@/hooks/useSales"' has no exported member 'useSales'.
+components/containers/sales/sales-dialog.tsx(13,10): error TS2305: Module '"@/types/stock"' has no exported member 'SaleType'.
+components/containers/sales/sales-dialog.tsx(13,20): error TS2305: Module '"@/types/stock"' has no exported member 'CustomerType'.
+components/containers/sales/sales-dialog.tsx(48,37): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(48,46): error TS7031: Binding element 'name' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(53,59): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(71,46): error TS2345: Argument of type '{ [x: string]: any; productId?: unknown; quantitySold?: unknown; saleType?: unknown; priceUsed?: unknown; customerType?: unknown; notes?: unknown; }' is not assignable to parameter of type 'CreateSaleDto'.
+  Property 'price' is missing in type '{ [x: string]: any; productId?: unknown; quantitySold?: unknown; saleType?: unknown; priceUsed?: unknown; customerType?: unknown; notes?: unknown; }' but required in type 'CreateSaleDto'.
+components/containers/sales/sales-dialog.tsx(92,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/stock/stock-container.tsx(6,10): error TS2305: Module '"@/hooks/useStock"' has no exported member 'useStockMovements'.
+components/containers/stock/stock-dialog.tsx(49,44): error TS2345: Argument of type '{ productId: number; quantity: number; notes?: string | undefined; supplier?: string | undefined; purchasePrice?: number | undefined; }' is not assignable to parameter of type 'AddStockDto'.
+  Types of property 'purchasePrice' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+components/containers/stock/stock-dialog.tsx(68,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/signup/page.tsx(9,29): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+components/table/columnsDef/productColumns.tsx(31,47): error TS2339: Property 'lowStockThreshold' does not exist on type 'Product'.
+components/table/columnsDef/salesColumns.tsx(26,57): error TS2339: Property 'priceUsed' does not exist on type 'Sale'.
+components/table/columnsDef/salesColumns.tsx(33,75): error TS2339: Property 'priceUsed' does not exist on type 'Sale'.
+components/table/columnsDef/stockColumns.tsx(26,21): error TS2367: This comparison appears to be unintentional because the types '"IN" | "OUT"' and '"LEND"' have no overlap.
+components/table/columnsDef/stockColumns.tsx(27,21): error TS2367: This comparison appears to be unintentional because the types '"IN" | "OUT"' and '"RETURN"' have no overlap.
+components/table/columnsDef/stockColumns.tsx(37,47): error TS2367: This comparison appears to be unintentional because the types '"OUT"' and '"RETURN"' have no overlap.
+components/ui/sidebar.tsx(8,29): error TS2307: Cannot find module '@/hooks/use-mobile' or its corresponding type declarations.
+context/auth/auth-context.ts(4,9): error TS2304: Cannot find name 'IUser'.
+context/auth/auth-context.ts(7,19): error TS2304: Cannot find name 'IUser'.
+context/auth/auth-provider.tsx(3,31): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+context/auth/auth-provider.tsx(19,36): error TS2304: Cannot find name 'IUser'.
+context/auth/auth-provider.tsx(33,20): error TS2339: Property 'handleUnauthorized' does not exist on type 'UtilsService'.
+context/auth/auth-provider.tsx(39,20): error TS2339: Property 'handleUnauthorized' does not exist on type 'UtilsService'.
+context/InstitutionContext.tsx(6,24): error TS2304: Cannot find name 'InstitutionWithBranches'.
+context/InstitutionContext.tsx(7,41): error TS2304: Cannot find name 'InstitutionWithBranches'.
+context/InstitutionContext.tsx(8,19): error TS2304: Cannot find name 'BranchWithPermissions'.
+context/InstitutionContext.tsx(9,31): error TS2304: Cannot find name 'BranchWithPermissions'.
+context/InstitutionContext.tsx(18,14): error TS2304: Cannot find name 'InstitutionWithBranches'.
+context/InstitutionContext.tsx(20,14): error TS2304: Cannot find name 'BranchWithPermissions'.
+utils/constants.ts(1,25): error TS2304: Cannot find name 'LanguagesDto'.
+utils/constants.ts(81,21): error TS2304: Cannot find name 'RoleDto'.
+utils/constants.ts(133,20): error TS2304: Cannot find name 'LogsDto'.
+utils/dummy-data.ts(19,33): error TS2304: Cannot find name 'ReportDto'.
+utils/dummy-data.ts(37,53): error TS2304: Cannot find name 'ReportDto'.
+utils/employee-reports-data.ts(17,34): error TS2304: Cannot find name 'ReportDto'.
+utils/employee-reports-data.ts(35,5): error TS2353: Object literal may only specify known properties, and 'fileName' does not exist in type 'EmployeeReport'.
+utils/employee-reports-data.ts(65,7): error TS2353: Object literal may only specify known properties, and 'fileName' does not exist in type 'EmployeeReport'.
+utils/exportHelpers.ts(5,30): error TS2307: Cannot find module '@/types/report-models' or its corresponding type declarations.
+utils/exportHelpers.ts(11,21): error TS7006: Parameter 'f' implicitly has an 'any' type.
+utils/getMenuByRole.tsx(3,28): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+utils/getMenuByRole.tsx(4,46): error TS2307: Cannot find module '@/types/permissions' or its corresponding type declarations.

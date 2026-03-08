@@ -5,11 +5,11 @@ export declare class AuthService {
     private userRepo;
     private jwtService;
     constructor(userRepo: Repository<User>, jwtService: JwtService);
-    login(username: string, password: string): Promise<{
+    login(email: string, password: string): Promise<{
         access_token: string;
         user: {
             id: number;
-            username: string;
+            email: string;
             role: string;
         };
     }>;

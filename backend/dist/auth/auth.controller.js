@@ -16,25 +16,34 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const class_validator_1 = require("class-validator");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const user_entity_1 = require("../entities/user.entity");
 class LoginDto {
-    username;
+    email;
     password;
 }
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], LoginDto.prototype, "username", void 0);
+], LoginDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], LoginDto.prototype, "password", void 0);
 let AuthController = class AuthController {
     authService;
-    constructor(authService) {
+    userRepo;
+    constructor(authService, userRepo) {
         this.authService = authService;
+        this.userRepo = userRepo;
     }
     login(dto) {
-        return this.authService.login(dto.username, dto.password);
+        return this.authService.login(dto.email, dto.password);
+    }
+    async debugUsers() {
+        const users = await this.userRepo.find();
+        return { count: users.length, users: users.map(u => ({ id: u.id, email: u.email, role: u.role })) };
     }
 };
 exports.AuthController = AuthController;
@@ -45,8 +54,16 @@ __decorate([
     __metadata("design:paramtypes", [LoginDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Get)('debug/users'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "debugUsers", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        typeorm_2.Repository])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

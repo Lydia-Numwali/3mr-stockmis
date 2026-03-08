@@ -1,0 +1,276 @@
+{
+  "notFound": {
+    "title": "404",
+    "message": "Yoo! Urupapuro ushakisha ntiruboneka.",
+    "button": "Subira ahabanza"
+  },
+  "sidebar": {
+    "quick_access": "Uburyo bwihuse bwo kugera",
+    "Dashboard": "Urupapuro rw’ibanze",
+    "Operators": "Abayobozi",
+    "Institutions": "Ibigo",
+    "all_institutions": "Institutions",
+    "department_categories": "Department Categories",
+    "System Logs": "Ibyanditswe by’umurongo wa sisitemu"
+  },
+  "auth_pages": {
+    "carousel_title": "Streamline visitor check-ins with ease! Our smart visitor management system ensures security, efficiency, and a seamless guest experience—because first impressions matter.",
+    "Login": {
+      "welcome_title": "Murakaza neza kuri QT VMS",
+      "login_title": "Injira muri konti yawe",
+      "forgot_password": "Wibagiwe ijambobanga?",
+      "login_button": "Injira",
+      "password": "Ijambobanga",
+      "email": "Imeyili",
+      "please_wait": "Tegereza gato...",
+      "signup_cta": "Nta konti ufite?",
+      "signup_cta_button": "Iyandikishe"
+    },
+    "auth_form": {
+      "firstname": "Izina rya mbere",
+      "lastname": "Izina rya nyuma",
+      "email": "Imeli",
+      "nationalId": "Indangamuntu (u Rwanda)",
+      "password": "Ijambo ry’ibanga",
+      "select_country": "Hitamo igihugu",
+      "confirm_password": "Emeza ijambo ry’ibanga",
+      "login_email_tooltip": "Koresha imeli wakoresheje wiyandikisha",
+      "firstname_tooltip": "Menya neza ko izina ryawe ryanditse neza",
+      "lastname_tooltip": "Menya neza ko izina rya nyuma ryanditse neza",
+      "nationalId_tooltip": "Indangamuntu izakoreshwa mu kukwemeza",
+      "register_email_tooltip": "Imeli izakoreshwa mu kukuvugisha"
+    },
+    "Register": {
+      "welcome_title": "Fungura Konti yawe ya QT VMS",
+      "register_title": "Fungura konti yawe",
+      "register_button": "Iyandikishe",
+      "login_cta": "Ufite konti?",
+      "login_cta_button": "Injira",
+      "please_wait": "Tegereza gato...",
+      "image_words": "Korohereza kwinjira ku bashyitsi! Sisitemu yacu y’ubuyobozi bw’abashyitsi yizewe, yihuta kandi yoroheje—kuko uburyo umuntu yinjira bubara byinshi."
+    },
+    "reset_password": {
+      "welcome_title": "Hindura ijambobanga",
+      "email": "Imeyili",
+      "submit_button": "Ohereza code yo guhindura",
+      "login_cta": "Wibutse ijambobanga?",
+      "login_cta_button": "Injira",
+      "send_code": "Ohereza ihuriro ryo kongera ijambobanga",
+      "sending_code": "Birimo koherezwa...",
+      "reset_title": "Reba Imeyili yawe",
+      "reset_description": "Niba konti ifite iyo email ibaho, twohereje ubutumwa bwo guhindura ijambo ry’ibanga.",
+      "description": "Andika imeyili yawe kugira ngo wohererezwe code yo guhindura ijambobanga.",
+      "no_email_cta": "Ntiwabonye imeyili? Reba mu butumwa bwa spam cyangwa wongere ugerageze.",
+      "try_again_cta": "Gerageza indi imeyili",
+      "back_to_login_cta": "Subira ku kwinjira",
+      "account_exists": "Niba konti ifite iyo imeri ibaho, twakoherejeho umurongo wo gusubirizaho ijambo ry'ibanga."
+    },
+    "two_factor_auth": {
+      "two_factor_title": "Uburyo bwo kwinjira burenze bumwe",
+      "description": "Andika kode ubonye muri porogaramu yawe yo kwemeza.",
+      "submit_cta": "Ohereza",
+      "new_password_tooltip": "Menya neza ko ijambobanga ryawe rishya rikomeye kandi ryizewe",
+      "resend_code": "Ntiwabonye kode?",
+      "resend_code_cta": "Ohereza indi"
+    },
+    "new_password": {
+      "new_password_title": "Ijambobanga rishya",
+      "description": "Andika ijambobanga rishya kugira ngo urinde konti yawe.",
+      "submit_cta": "Siba"
+    }
+  },
+  "dashboards": {
+    "vs_last_year": "vs umwaka ushize",
+    "months": {
+      "january": "Mutarama",
+      "february": "Gashyantare",
+      "march": "Werurwe",
+      "april": "Mata",
+      "may": "Gicuransi",
+      "june": "Kamena",
+      "july": "Nyakanga",
+      "august": "Kanama",
+      "september": "Nzeli",
+      "october": "Ukwakira",
+      "november": "Ugushyingo",
+      "december": "Ukuboza"
+    },
+    "month_abbreviations": {
+      "jan": "Mut",
+      "feb": "Gas",
+      "mar": "Wer",
+      "apr": "Mat",
+      "may": "Gic",
+      "jun": "Kam",
+      "jul": "Nya",
+      "aug": "Kan",
+      "sep": "Nze",
+      "oct": "Ukw",
+      "nov": "Ugu",
+      "dec": "Ukb"
+    },
+    "days": {
+      "sun": "KWE",
+      "mon": "MWE",
+      "tue": "KWA",
+      "wed": "KUG",
+      "thu": "KAN",
+      "fri": "GND",
+      "sat": "GIC"
+    },
+    "admin_dashboard": {
+      "title": "Ikibaho",
+      "Roles": "Inshingano",
+      "overview": "Incamake",
+      "Institutions": "Ibigo",
+      "all_institutions": "Institutions",
+      "department_categories": "Department Categories",
+      "Operators": "Abayobozi",
+      "Employees": "Abakozi",
+      "Visitors": "Abashyitsi",
+      "ALL Badges": "Amakarita yose",
+      "all_employees": "Abakozi Bose",
+      "attendance": "Kwitabira",
+      "request": "Ubwishingizi/Ubusabe",
+      "emp_categories":"Categories",
+      "all_requests": "Ubusabe Bwose",
+      "my_requests": "Ubusabe Bwange",
+      "leave_type": "Ubwoko bw’ikiruhuko",
+      "my_appointments": "Abansanga",
+      "my_attendance": "Ubwitabire bwange",
+      "my_badge": "Ikarita yange",
+      "badges": "Ikarita/Amakarita",
+      "document": "Inyandiko",
+      "scan": "Soma",
+      "leave_types": "Ubwoko bw’ikiruhuko",
+      "customise_badges": "Hindura Amakarita",
+      "Visits": "Urugendo",
+      "system_logs": "Ibyinjijwe mu Systemu",
+      "reports": "Raporo",
+      "visitor_check_ins": "Kwinjira kw’Abashyitsi",
+      "gender_statistics": "Imibare y’igitsina",
+      "failed_to_get_stats": "Ntibyashobotse kubona imibare y’Ikibaho",
+      "visits": "Urugendo",
+      "Blacklist": "Urutonde rw’Ababujijwe",
+      "browse": "Reba Ibigo",
+      "Structure": "Imiterere",
+      "select_period": "Hitamo igihe",
+      "no_visitor_data_available": "Nta makuru y’abashyitsi ahari",
+      "showing_visitor_check_ins_from": "Kwerekana uko abashyitsi binjiye kuva",
+      "to": "kugeza",
+      "total_check_ins": "Abinjiye bose",
+      "visitors": "Abashyitsi",
+      "custom": "Abasanzwe",
+      "gender_distribution": "Itandukanyirizo ry’igitsina",
+      "visitor_gender_breakdown": "Itandukanyirizo ry’abashyitsi mu by’igitsina",
+      "loading": "Birimo gufungura...",
+      "no_gender_data_available": "Nta makuru y’igitsina ahari",
+      "total_visitors": "Abashyitsi bose",
+      "visitors_demographic":"Imibare y'abashyitsi ugendeye ku bwenegihugu",
+      "visitors_based_on_country":"Abashyitsi baturutse mu bihugu bitandukanye",
+      "filter_options": {
+        "today": "Uyu munsi",
+        "this_week": "Icyumweru Iki",
+        "last_30_days": "Iminsi 30 Ishize",
+        "last_3_months": "Amezi 3 Ashize",
+        "last_6_months": "Amezi 6 Ashize",
+        "last_year": "Umwaka Ushize",
+        "all_time": "Igihe cyose"
+      },
+      "group_by_options": {
+        "by_day": "Ku munsi",
+        "by_week": "Ku cyumweru",
+        "by_month": "Ku kwezi"
+      }
+    },
+    "visitor_dashboard": {
+      "title": "Dashboard",
+      "overview": "Inshamake",
+      "total_visits": "Abasabye gusura bose",
+      "pending_visits": "Ubusabe butaremerwa",
+      "confirmed_visits": "Ubusabe bwemewe",
+      "rejected_visits": "Ubusabe bwanzwe",
+      "failed_to_get_stats": "Ntibyashoboye kubona amakuru!",
+      "attendance_comparison_chart": "Ishusho yo kugenzura uko abakozi baje",
+      "daily": "Ku munsi",
+      "weekly": "Ku cyumweru",
+      "monthly": "Ku kwezi",
+      "date": "Itariki",
+      "attendance": "Uko abantu baje",
+      "realtime_insight": "Kwerekana uko biri",
+      "today": "Uyu munsi",
+      "view_requests":"Reba ubusabe"
+
+    },
+    "employee_dashboard": {
+      "title": "Dashboard",
+      "overview": "Inshamake",
+      "request_for_leave": "Gusaba ikiruhuko",
+      "employee_info_not_found": "Amakuru y'umukozi ntaboneka",
+      "late_arrivals": "Iminsi wakererewe",
+      "earned_leaves": "Ubusabe bwemewe",
+      "total_leaves": "Ubusabe bwose",
+      "total_visits": "Abasuye bose",
+      "approved": "Byemewe",
+      "failed_to_get_stats": "Ntibyashobotse kubona amakuru!"
+    },
+    "common": {
+      "charts": "Ibishushanyo",
+      "select_institution": "Hitamo ikigo",
+      "all_institutions": "Nta na kimwe (Ibigo byose)",
+      "this_month": "Uku kwezi",
+      "tables": {
+        "common": {
+          "select_institution": "Hitamo ikigo",
+          "all_institutions": "Nta na kimwe (Ibigo byose)",
+          "search": "Shakisha"
+        }
+      }
+    },
+    "operator_dashboard": {
+      "title": "Dashboard",
+      "overview": "Inshamake",
+      "total_visitors": "Abashyitsi bose",
+      "total_visits": "Abasabye gusura bose",
+      "pending_visits": "Ubusabe butaremerwa",
+      "confirmed_visits": "Abemerewe gusura",
+      "rejected_visits": "Ubusabe bwanzwe",
+      "failed_to_get_stats": "Ntibyashobotse kubona amakuru!",
+      "visits": "Abasuye",
+      "visitor_check_ins": "Abashyitsi binjiye mu kigo",
+      "select_period": "Hitamo igihe",
+      "no_visitor_data_available": "Nta makuru y'abashyitsi aboneka!",
+      "showing_visitor_check_ins_from": "Kwerekana abisuye ikigo kuva",
+      "to": "kugeza",
+      "total_check_ins": "Abasuye ikigo bose",
+      "visitors": "Abashyitsi",
+      "gender_distribution": "Imiterere y'abashyitsi",
+      "visitor_gender_breakdown": "Imiterere y'abashyitsi",
+      "loading": "Loading...",
+      "no_gender_data_available": "Nta makuru y'imiterere y'abashyitsi aboneka!",
+      "filter_options": {
+        "today": "Uyu munsi",
+        "this_week": "Iyi cyumweru",
+        "last_30_days": "Iminsi 30 ishize",
+        "last_3_months": "Amezi 3 yashize",
+        "last_6_months": "Amezi 6 yashize",
+        "last_year": "Umwaka ushize",
+        "all_time": "Igihe cyose"
+      },
+      "group_by_options": {
+        "by_day": "Ku munsi",
+        "by_week": "Ku cyumweru",
+        "by_month": "Ku kwezi"
+      }
+    },
+    "notices": {
+      "no_data": "Nta makuru y'abashyitsi aboneka!",
+      "no_gender_data": "Nta makuru y'imiterere y'abashyitsi aboneka!"
+    }
+  },
+  "heading":{
+  "my_account":"Konti yanjye",  
+  "logout":"Sohoka"
+}
+
+}

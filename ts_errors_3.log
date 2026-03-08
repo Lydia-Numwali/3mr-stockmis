@@ -1,0 +1,79 @@
+app/[locale]/(auth)/login/page.tsx(5,26): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+app/[locale]/(protected)/layout.tsx(9,31): error TS2307: Cannot find module '@/hooks/use-auto-logout' or its corresponding type declarations.
+components/common/AdminOverview.tsx(2,10): error TS2305: Module '"@/hooks/useDashboard"' has no exported member 'useAdminOverview'.
+components/common/CustomFilter.tsx(14,36): error TS2307: Cannot find module '@/hooks/use-institutions' or its corresponding type declarations.
+components/common/EmployeeChart.tsx(4,39): error TS2307: Cannot find module '../charts/AttendanceComparisonChart' or its corresponding type declarations.
+components/common/heading.tsx(31,27): error TS2307: Cannot find module './ProfileDialog' or its corresponding type declarations.
+components/common/heading.tsx(33,33): error TS2307: Cannot find module './notifications-sheet' or its corresponding type declarations.
+components/common/heading.tsx(34,28): error TS2307: Cannot find module './change-language' or its corresponding type declarations.
+components/common/heading.tsx(40,37): error TS2307: Cannot find module '@/hooks/useNotifications' or its corresponding type declarations.
+components/common/heading.tsx(151,45): error TS7006: Parameter 'institution' implicitly has an 'any' type.
+components/common/heading.tsx(179,56): error TS7006: Parameter 'branch' implicitly has an 'any' type.
+components/common/LocationSelectionModal.tsx(14,20): error TS2307: Cannot find module './location-selection/MapTab' or its corresponding type declarations.
+components/common/LocationSelectionModal.tsx(15,27): error TS2307: Cannot find module './location-selection/GoogleMapsTab' or its corresponding type declarations.
+components/common/LocationSelectionModal.tsx(16,28): error TS2307: Cannot find module './location-selection/CoordinatesTab' or its corresponding type declarations.
+components/common/LocationSelectionModal.tsx(22,8): error TS2307: Cannot find module './location-selection/types' or its corresponding type declarations.
+components/common/LocationSelectionModal.tsx(23,66): error TS2307: Cannot find module './location-selection/utils' or its corresponding type declarations.
+components/common/LocationSelectionModal.tsx(115,17): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+components/common/OverViewCard.tsx(8,9): error TS2304: Cannot find name 'ViewData'.
+components/common/sidebar.tsx(10,28): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+components/common/sidebar.tsx(12,32): error TS2307: Cannot find module '@/hooks/usePermissions' or its corresponding type declarations.
+components/containers/lending/lending-dialog.tsx(69,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/products/products-dialog.tsx(16,28): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(46,23): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(71,27): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(88,64): error TS2322: Type '{ [x: string]: any; name?: unknown; category?: unknown; brand?: unknown; model?: unknown; partType?: unknown; wholesalePrice?: unknown; retailPrice?: unknown; costPrice?: unknown; quantity?: unknown; lowStockThreshold?: unknown; supplier?: unknown; storageLocation?: unknown; }' is not assignable to type 'Partial<CreateProductDto>'.
+  Types of property 'name' are incompatible.
+    Type 'unknown' is not assignable to type 'string | undefined'.
+components/containers/products/products-dialog.tsx(110,138): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(115,49): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(116,57): error TS2322: Type 'unknown' is not assignable to type 'string'.
+components/containers/products/products-dialog.tsx(116,67): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+components/containers/sales/sales-dialog.tsx(18,28): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(20,32): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(39,53): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(48,37): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(48,46): error TS7031: Binding element 'name' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(53,59): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(55,57): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(66,48): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(66,104): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(71,46): error TS2345: Argument of type '{ [x: string]: any; productId?: unknown; quantitySold?: unknown; saleType?: unknown; priceUsed?: unknown; customerType?: unknown; notes?: unknown; }' is not assignable to parameter of type 'CreateSaleDto'.
+  Property 'price' is missing in type '{ [x: string]: any; productId?: unknown; quantitySold?: unknown; saleType?: unknown; priceUsed?: unknown; customerType?: unknown; notes?: unknown; }' but required in type 'CreateSaleDto'.
+components/containers/sales/sales-dialog.tsx(92,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(105,114): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(110,56): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(111,56): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(119,122): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(124,56): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(125,56): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/stock/stock-dialog.tsx(49,44): error TS2345: Argument of type '{ productId: number; quantity: number; purchasePrice?: number | undefined; supplier?: string | undefined; notes?: string | undefined; }' is not assignable to parameter of type 'AddStockDto'.
+  Types of property 'purchasePrice' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+components/containers/stock/stock-dialog.tsx(68,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/ui/sidebar.tsx(8,29): error TS2307: Cannot find module '@/hooks/use-mobile' or its corresponding type declarations.
+context/auth/auth-context.ts(4,9): error TS2304: Cannot find name 'IUser'.
+context/auth/auth-context.ts(7,19): error TS2304: Cannot find name 'IUser'.
+context/auth/auth-provider.tsx(3,31): error TS2307: Cannot find module '@/hooks/useAuth' or its corresponding type declarations.
+context/auth/auth-provider.tsx(19,36): error TS2304: Cannot find name 'IUser'.
+context/auth/auth-provider.tsx(33,20): error TS2339: Property 'handleUnauthorized' does not exist on type 'UtilsService'.
+context/auth/auth-provider.tsx(39,20): error TS2339: Property 'handleUnauthorized' does not exist on type 'UtilsService'.
+context/InstitutionContext.tsx(6,24): error TS2304: Cannot find name 'InstitutionWithBranches'.
+context/InstitutionContext.tsx(7,41): error TS2304: Cannot find name 'InstitutionWithBranches'.
+context/InstitutionContext.tsx(8,19): error TS2304: Cannot find name 'BranchWithPermissions'.
+context/InstitutionContext.tsx(9,31): error TS2304: Cannot find name 'BranchWithPermissions'.
+context/InstitutionContext.tsx(18,14): error TS2304: Cannot find name 'InstitutionWithBranches'.
+context/InstitutionContext.tsx(20,14): error TS2304: Cannot find name 'BranchWithPermissions'.
+utils/constants.ts(1,25): error TS2304: Cannot find name 'LanguagesDto'.
+utils/constants.ts(81,21): error TS2304: Cannot find name 'RoleDto'.
+utils/constants.ts(133,20): error TS2304: Cannot find name 'LogsDto'.
+utils/dummy-data.ts(19,33): error TS2304: Cannot find name 'ReportDto'.
+utils/dummy-data.ts(37,53): error TS2304: Cannot find name 'ReportDto'.
+utils/employee-reports-data.ts(17,34): error TS2304: Cannot find name 'ReportDto'.
+utils/employee-reports-data.ts(35,5): error TS2353: Object literal may only specify known properties, and 'fileName' does not exist in type 'EmployeeReport'.
+utils/employee-reports-data.ts(65,7): error TS2353: Object literal may only specify known properties, and 'fileName' does not exist in type 'EmployeeReport'.
+utils/exportHelpers.ts(5,30): error TS2307: Cannot find module '@/types/report-models' or its corresponding type declarations.
+utils/exportHelpers.ts(11,21): error TS7006: Parameter 'f' implicitly has an 'any' type.
+utils/getMenuByRole.tsx(3,28): error TS2307: Cannot find module '@/types' or its corresponding type declarations.
+utils/getMenuByRole.tsx(4,46): error TS2307: Cannot find module '@/types/permissions' or its corresponding type declarations.

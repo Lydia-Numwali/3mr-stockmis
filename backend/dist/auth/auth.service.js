@@ -59,15 +59,22 @@ let AuthService = class AuthService {
         this.userRepo = userRepo;
         this.jwtService = jwtService;
     }
-    async login(username, password) {
-        const user = await this.userRepo.findOne({ where: { username } });
-        if (!user)
+    async login(email, password) {
+        console.log(`🔍 Login attempt for email: ${email}`);
+        const user = await this.userRepo.findOne({ where: { email } });
+        if (!user) {
+            console.log(`❌ User not found: ${email}`);
             throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        console.log(`✅ User found: ${email}`);
         const valid = await bcrypt.compare(password, user.passwordHash);
-        if (!valid)
+        if (!valid) {
+            console.log(`❌ Password mismatch for: ${email}`);
             throw new common_1.UnauthorizedException('Invalid credentials');
-        const token = this.jwtService.sign({ sub: user.id, username: user.username, role: user.role });
-        return { access_token: token, user: { id: user.id, username: user.username, role: user.role } };
+        }
+        console.log(`✅ Password valid for: ${email}`);
+        const token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role });
+        return { access_token: token, user: { id: user.id, email: user.email, role: user.role } };
     }
 };
 exports.AuthService = AuthService;

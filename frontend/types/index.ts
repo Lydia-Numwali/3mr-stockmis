@@ -1,0 +1,8 @@
+export enum EUserRoles {
+    SUPER_ADMIN = "SUPER_ADMIN",
+    ADMIN = "ADMIN",
+    MANAGER = "MANAGER",
+    OPERATOR = "OPERATOR",
+    EMPLOYEE = "EMPLOYEE",
+    VISITOR = "VISITOR"
+}

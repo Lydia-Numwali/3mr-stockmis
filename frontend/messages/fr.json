@@ -1,0 +1,509 @@
+{
+  "notFound": {
+    "title": "404",
+    "message": "Oups! La page que vous recherchez est introuvable.",
+    "button": "Retour à l'accueil"
+  },
+  "auth_pages": {
+    "carousel_title": "Simplifiez les enregistrements des visiteurs ! Notre système intelligent de gestion des visiteurs garantit sécurité, efficacité et une expérience fluide — parce que les premières impressions comptent.",
+    "Login": {
+      "welcome_title": "Bienvenue sur QT VMS",
+      "login_title": "Connectez-vous à votre compte",
+      "forgot_password": "Mot de passe oublié ?",
+      "login_button": "Connexion",
+      "password": "Mot de passe",
+      "email": "Email",
+      "please_wait": "Veuillez patienter...",
+      "signup_cta": "Vous n'avez pas de compte ?",
+      "signup_cta_button": "S'inscrire"
+    },
+    "auth_form": {
+      "firstname": "Prénom",
+      "lastname": "Nom de famille",
+      "email": "E-mail",
+      "nationalId": "Numéro d'identité (Rwanda)",
+      "password": "Mot de passe",
+      "select_country": "Sélectionnez un pays",
+      "confirm_password": "Confirmer le mot de passe",
+      "login_email_tooltip": "Utilisez l’e-mail utilisé lors de la création du compte",
+      "firstname_tooltip": "Assurez-vous que votre prénom est correctement orthographié",
+      "lastname_tooltip": "Assurez-vous que votre nom de famille est correctement orthographié",
+      "nationalId_tooltip": "Le numéro d'identité sera utilisé pour la vérification",
+      "register_email_tooltip": "L’e-mail sera utilisé pour vous contacter"
+    },
+    "Register": {
+      "welcome_title": "Créez votre compte QT VMS",
+      "register_title": "Créer un compte",
+      "register_button": "S'inscrire",
+      "login_cta": "Vous avez déjà un compte ?",
+      "login_cta_button": "Se connecter",
+      "please_wait": "Veuillez patienter...",
+      "image_words": "Simplifiez l’enregistrement des visiteurs ! Notre système intelligent de gestion des visiteurs garantit sécurité, efficacité et une expérience fluide—parce que les premières impressions comptent."
+    },
+    "reset_password": {
+      "welcome_title": "Réinitialisez votre mot de passe",
+      "email": "Email",
+      "reset_description": "Si un compte avec cet e-mail existe, nous vous avons envoyé un lien de réinitialisation du mot de passe.",
+      "submit_button": "Envoyer le lien de réinitialisation",
+      "login_cta": "Vous vous souvenez de votre mot de passe ?",
+      "login_cta_button": "Se connecter",
+      "send_code": "Envoyer le lien de réinitialisation",
+      "sending_code": "Envoi en cours...",
+      "reset_title": "Vérifiez votre email",
+      "description": "Saisissez votre email pour recevoir un lien de réinitialisation de mot de passe.",
+      "no_email_cta": "Vous n'avez pas reçu l'email ? Vérifiez vos spams ou réessayez.",
+      "try_again_cta": "Essayez un autre email",
+      "back_to_login_cta": "Retour à la connexion",
+      "account_exists": "Si un compte avec cet e-mail existe, nous vous avons envoyé un lien de réinitialisation du mot de passe."
+    },
+    "two_factor_auth": {
+      "two_factor_title": "Authentification à deux facteurs",
+      "description": "Saisissez le code de votre application d'authentification.",
+      "submit_cta": "Soumettre",
+      "new_password_tooltip": "Assurez-vous que votre nouveau mot de passe est fort et sécurisé",
+      "resend_code": "Vous n'avez pas reçu le code ?",
+      "resend_code_cta": "Renvoyer"
+    },
+    "new_password": {
+      "new_password_title": "Nouveau mot de passe",
+      "description": "Saisissez votre nouveau mot de passe pour sécuriser votre compte.",
+      "submit_cta": "Réinitialiser"
+    }
+  },
+  "sidebar": {
+    "quick_access": "Accès rapide"
+  },
+
+  "dashboards": {
+    "vs_last_year": "vs l'année dernière",
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    },
+    "month_abbreviations": {
+      "jan": "Jan",
+      "feb": "Fév",
+      "mar": "Mar",
+      "apr": "Avr",
+      "may": "Mai",
+      "jun": "Juin",
+      "jul": "Juil",
+      "aug": "Août",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Déc"
+    },
+    "days": {
+      "sun": "DIM",
+      "mon": "LUN",
+      "tue": "MAR",
+      "wed": "MER",
+      "thu": "JEU",
+      "fri": "VEN",
+      "sat": "SAM"
+    },
+    "admin_dashboard": {
+      "title": "Tableau de bord",
+      "Roles": "Rôles",
+      "overview": "Aperçu",
+      "Institutions": "Institutions",
+      "all_institutions": "Institutions",
+      "department_categories": "Department Categories",
+      "Operators": "Opérateurs",
+      "Employees": "Employés",
+      "Visitors": "Visiteurs",
+      "all_employees": "Tous les employés",
+      "All Badges": "Tous les Badges",
+      "attendance": "Présence",
+      "request": "Demandes",
+      "emp_categories":"Categories",
+      "all_requests": "les demandes",
+      "my_requests": "mes demandes",
+      "leave_type": "Types de congé",
+      "my_appointments": "Mes rendez-vous",
+      "my_attendance": "mon Présence",
+      "my_badge": "Mon badge",
+      "badges": "Badges",
+      "document": "Documents",
+      "leave_types": "Types de congé",
+      "scan": "Scanner",
+      "customise_badges": "Personnaliser",
+      "Visits": "Visites",
+      "Blacklist": "Liste noire",
+      "system_logs": "Journaux du système",
+      "reports": "Rapports",
+      "visitor_check_in": "Enregistrements des visiteurs",
+      "visitor_check_ins": "Enregistrements des visiteurs",
+      "gender_statistics": "Répartition par genre",
+      "failed_to_get_stats": "Échec de la récupération des statistiques du tableau de bord",
+      "visits": "Visites",
+      "Blacklist": "Liste noire",
+      "browse": "Parcourir les institutions",
+      "branch": "Branches",
+      "select_period": "Sélectionner la période",
+      "no_visitor_data_available": "Aucune donnée de visiteur disponible",
+      "showing_visitor_check_ins_from": "Affichage des enregistrements de visiteurs de",
+      "to": "à",
+      "total_check_ins": "Total des enregistrements",
+      "visitors": "visiteurs",
+      "custom": "Personnalisé",
+      "gender_distribution": "Répartition par genre",
+      "visitor_gender_breakdown": "Répartition des visiteurs par genre",
+      "visitors_demographic": "Démographie des visiteurs",
+      "visitors_based_on_country": "Nombre de visiteurs par pays",
+      "no_visitors_registered": "Aucun visiteur enregistré pour un pays.",
+      "loading": "Chargement...",
+      "no_gender_data_available": "Aucune donnée de genre disponible",
+      "total_visitors": "Nombre total de visiteurs",
+      "filter_options": {
+        "today": "Aujourd'hui",
+        "this_week": "Cette semaine",
+        "last_30_days": "30 derniers jours",
+        "last_3_months": "3 derniers mois",
+        "last_6_months": "6 derniers mois",
+        "last_year": "L'année dernière",
+        "all_time": "Tout le temps"
+      },
+      "group_by_options": {
+        "by_day": "Par jour",
+        "by_week": "Par semaine",
+        "by_month": "Par mois"
+      }
+    },
+    "visitor_dashboard": {
+      "title": "Tableau de bord",
+      "overview": "Aperçu",
+      "total_visits": "Total des visites",
+      "pending_visits": "Visites en attente",
+      "confirmed_visits": "Visites confirmées",
+      "rejected_visits": "Visites rejetées",
+      "failed_to_get_stats": "Échec de récupération des statistiques du tableau de bord",
+      "attendance_comparison_chart": "Graphique de comparaison des présences",
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel",
+      "date": "Date",
+      "attendance": "Présence",
+      "realtime_insight": "Aperçu en temps réel",
+      "today": "Aujourd'hui"
+    },
+    "employee_dashboard": {
+      "title": "Tableau de bord",
+      "overview": "Aperçu",
+      "request_for_leave": "Demande de congé",
+      "employee_info_not_found": "Informations de l'employé introuvables. Veuillez contacter l'administrateur.",
+      "late_arrivals": "Retards",
+      "earned_leaves": "Congés acquis",
+      "total_leaves": "Congés totaux",
+      "total_visits": "Visites totales",
+      "approved": "Approuvé",
+      "failed_to_get_stats": "Échec de récupération des statistiques du tableau de bord",
+      "view_requests": "Voir les demandes"
+    },
+    "common": {
+      "charts": "Graphiques",
+      "select_institution": "Sélectionner une institution",
+      "all_institutions": "Aucune (Toutes les institutions)",
+      "this_month": "Ce mois",
+      "tables": {
+        "common": {
+          "select_institution": "Sélectionner une institution",
+          "all_institutions": "Aucune (Toutes les institutions)"
+        }
+      }
+    },
+    "operator_dashboard": {
+      "title": "Tableau de bord",
+      "overview": "Aperçu",
+      "total_visitors": "Total des visiteurs",
+      "total_visits": "Total des visites",
+      "pending_visits": "Visites en attente",
+      "confirmed_visits": "Visites confirmées",
+      "rejected_visits": "Visites rejetées",
+      "failed_to_get_stats": "Échec de récupération des statistiques du tableau de bord",
+      "visits": "Visites",
+      "visitor_check_ins": "Enregistrements des visiteurs",
+      "select_period": "Sélectionner la période",
+      "no_visitor_data_available": "Aucune donnée de visiteur disponible",
+      "showing_visitor_check_ins_from": "Affichage des enregistrements de visiteurs du",
+      "to": "au",
+      "total_check_ins": "Total des enregistrements",
+      "visitors": "visiteurs",
+      "gender_distribution": "Répartition par genre",
+      "visitor_gender_breakdown": "Répartition des visiteurs par genre",
+      "loading": "Chargement...",
+      "no_gender_data_available": "Aucune donnée de genre disponible",
+      "filter_options": {
+        "today": "Aujourd'hui",
+        "this_week": "Cette semaine",
+        "last_30_days": "30 derniers jours",
+        "last_3_months": "3 derniers mois",
+        "last_6_months": "6 derniers mois",
+        "last_year": "Dernière année",
+        "all_time": "Tout le temps"
+      },
+      "group_by_options": {
+        "by_day": "Par jour",
+        "by_week": "Par semaine",
+        "by_month": "Par mois"
+      }
+    },
+    "notices": {
+      "no_data": "Aucune donnée de visiteur disponible",
+      "no_gender_data": "Aucune donnée de genre disponible"
+    }
+  },
+  "heading": {
+    "my_account": "Mon compte",
+    "logout": "Déconnexion"
+  },
+  "tables": {
+    "common": {
+      "status": "Statut",
+      "institution": "Institution",
+      "search": "Rechercher",
+      "filter": "Filtrer",
+      "export": "Exporter",
+      "excel": "Excel",
+      "pdf": "PDF",
+      "print": "Imprimer",
+      "loading": "Chargement...",
+      "no_data": "Aucune donnée disponible",
+      "date_filters": {
+        "this_week": "Cette semaine",
+        "last_week": "La semaine dernière",
+        "this_month": "Ce mois",
+        "last_month": "Le mois dernier",
+        "this_year": "Cette année",
+        "last_year": "L'année dernière"
+      },
+      "filter_labels": {
+        "institutions": "Institutions",
+        "users": "Utilisateurs",
+        "action_type": "Type d'action",
+        "by_date": "Par date",
+        "status": "Statut",
+        "date_range": "Plage de dates",
+        "from_date": "Date de début",
+        "to_date": "Date de fin",
+        "clear_filters": "Effacer les filtres"
+      },
+      "search_placeholders": {
+        "general": "Rechercher...",
+        "visits": "Rechercher des visites",
+        "institution": "Rechercher une institution",
+        "institution_name": "Rechercher par nom d'institution",
+        "badge": "Rechercher un badge par ID",
+        "badge_institution": "Rechercher une institution pour voir les badges",
+        "badge_visitor": "Rechercher par nom, ID de badge, nom du visiteur",
+        "badge_employee": "Rechercher par nom, ID de badge, nom de l'employé",
+        "blacklist": "Rechercher dans la liste noire",
+        "logs": "Rechercher par nom, email ou action",
+        "operators": "Rechercher par nom ou email",
+        "roles": "Rechercher des rôles",
+        "roles_by_name": "Rechercher un rôle par nom",
+        "leave_types": "Rechercher un type de congé par nom",
+        "employees": "Rechercher par nom d'employé",
+        "visitor_institutions": "Rechercher par nom d'institution"
+      }
+    },
+    "institutions": {
+      "institution": "Institution",
+      "contacts": "Contacts",
+      "email": "Adresse e-mail de l'institution",
+      "employees": "Employés",
+      "visitors": "Visiteurs",
+      "operators": "Opérateurs"
+    },
+    "operators": {
+      "names": "Noms",
+      "phone": "Numéro de téléphone",
+      "email": "Adresse e-mail",
+      "institutions": "Institutions"
+    },
+    "employees": {
+      "name": "Nom",
+      "position": "Poste",
+      "contacts": "Contacts",
+      "email": "Adresse e-mail"
+    },
+    "visitors": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "purpose": "Objet",
+      "scheduledAt": "Prévu le"
+    },
+    "badges": {
+      "badgeId": "ID du badge",
+      "validity": "Validité",
+      "issueStatus": "Statut d'émission",
+      "issuedAt": "Délivré le",
+      "visitorName": "Nom du visiteur",
+      "employeeName": "Nom de l'employé"
+    },
+    "documents": {
+      "title": "Titre du document",
+      "fileType": "Type de fichier",
+      "fileSize": "Taille du fichier",
+      "uploadedDate": "Date de téléversement"
+    },
+    "logs": {
+      "performedBy": "Effectué par",
+      "email": "E-mail",
+      "actionType": "Type d'action",
+      "timestamp": "Horodatage"
+    },
+    "accessLogs": {
+      "name": "Nom",
+      "enteredAt": "Entré à",
+      "exitedAt": "Sorti à",
+      "time": "Durée"
+    },
+    "departments": {
+      "department": "Département",
+      "description": "Description"
+    },
+    "leaves": {
+      "name": "Nom du type de congé",
+      "duration": "Durée"
+    },
+    "requests": {
+      "leaveType": "Type de congé",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "actions": "Actions"
+    },
+    "visits": {
+      "meetingPerson": "Personne rencontrée",
+      "visitorType": "Type de visiteur",
+      "visitDate": "Date de visite"
+    },
+    "blacklist": {
+      "firstName": "Prénom",
+      "lastName": "Nom de famille",
+      "nationalId": "ID national",
+      "dateBlacklisted": "Date de mise sur liste noire"
+    },
+    "reports": {
+      "fileName": "Nom du fichier",
+      "fileType": "Type de fichier",
+      "fileSize": "Taille du fichier"
+    },
+    "roles": {
+      "roleName": "Nom du rôle",
+      "users": "Utilisateurs",
+      "description": "Description",
+      "permissions": "Permissions"
+    },
+    "attendance": {
+      "employee": "Employé",
+      "department": "Département"
+    }
+  }
+  ,
+  "modals": {
+    "appointment": {
+      "details_title": "Détails du rendez-vous",
+      "visitor": "Visiteur",
+      "scheduled_for": "Prévu le",
+      "visitor_email": "Email du visiteur",
+      "institution_information": "Informations sur l'institution",
+      "purpose": "Objet",
+      "badge_type": "Type de badge",
+      "your_availability": "Votre disponibilité",
+      "select_availability": "Sélectionner la disponibilité",
+      "available": "Disponible",
+      "not_available": "Indisponible",
+      "comments": "Commentaires",
+      "update_availability": "Mettre à jour la disponibilité",
+      "assign_host": "Assigner un hôte",
+      "reassign_host": "Réassigner l'hôte",
+      "current_host_not_available": "L'hôte actuel est indisponible",
+      "reject_visit": "Rejeter la visite",
+      "reschedule_visit": "Replanifier la visite",
+      "approve_visit": "Approuver la visite",
+      "host": "Hôte",
+      "comment": "Commentaire",
+      "no_comment": "Aucun commentaire fourni.",
+      "edit_title": "Modifier la visite",
+      "edit_description": "Mettez à jour les détails de la visite ci-dessous. Vous ne pouvez modifier que les visites en attente.",
+      "postpone_title": "Reporter la visite"
+    }
+  },
+  "onboarding": {
+    "welcome_title": "Bienvenue sur votre portail !",
+    "welcome_description": "Avant d'accéder à votre portail, ajoutez d'abord la structure de votre organisation",
+    "departments_title": "Départements",
+    "departments_description": "Organiser les équipes de l'institution",
+    "employees_title": "Employés",
+    "employees_description": "Gérer le personnel de l'institution",
+    "roles_title": "Rôles",
+    "roles_description": "Définir les permissions",
+    "add_structure_button": "Ajouter la structure organisationnelle",
+    "help_text": "Cela vous aidera à configurer les départements, les rôles et la hiérarchie organisationnelle"
+  },
+  "common": {
+    "actions": {
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "upload": "Télécharger",
+      "add_color": "Ajouter une couleur",
+      "click_to_select_color": "Cliquez pour sélectionner une couleur",
+      "no_file_chosen": "Aucun fichier sélectionné",
+      "remove_file": "Supprimer le fichier",
+      "back_to_login": "Retour à la connexion",
+      "redirecting": "Redirection...",
+      "invalid_reset_link": "Lien de réinitialisation invalide",
+      "request_new_reset_link": "Demander un nouveau lien de réinitialisation",
+      "invalid_missing_token": "Jeton invalide ou manquant",
+      "expired_link_message": "Le lien de réinitialisation du mot de passe est invalide ou a expiré.",
+      "verify_your_email": "Vérifiez votre email",
+      "verification_sent_message": "Nous avons envoyé un code à 6 chiffres à",
+      "enter_code_below": "Saisissez-le ci-dessous.",
+      "verifying": "Vérification...",
+      "verify": "Vérifier",
+      "didnt_receive_code": "Vous n'avez pas reçu le code ?",
+      "resend": "Renvoyer",
+      "resending": "Renvoi...",
+      "resend_in": "Renvoyer dans"
+    },
+    "form_labels": {
+      "new_password": "Nouveau mot de passe",
+      "confirm_new_password": "Confirmer le nouveau mot de passe",
+      "resetting": "Réinitialisation...",
+      "reset_password": "Réinitialiser le mot de passe",
+      "enter_new_password_below": "Saisissez votre nouveau mot de passe ci-dessous."
+    },
+    "badge_customization": {
+      "title": "Personnalisez les badges de votre institution",
+      "upload_logo_label": "Téléchargez votre logo ici",
+      "required_field": "*",
+      "color_palette_label": "Choisissez votre palette de couleurs",
+      "text_color_label": "Choisissez la couleur de votre texte",
+      "card_background_label": "Choisissez l'arrière-plan de votre carte"
+    },
+    "errors": {
+      "login_failed": "Échec de la connexion. Veuillez réessayer.",
+      "two_factor_success": "L'authentification à deux facteurs est activée. Veuillez compléter la vérification.",
+      "logged_in_successfully": "connecté avec succès",
+      "invalid_reset_token": "Jeton de réinitialisation invalide ou manquant",
+      "please_enter_verification_code": "Veuillez saisir le code de vérification.",
+      "email_verified_successfully": "Email vérifié avec succès !",
+      "verification_failed": "Échec de la vérification.",
+      "verification_code_resent": "Code de vérification renvoyé.",
+      "failed_resend_email": "Échec du renvoi de l'email de vérification."
+    }
+  }
+}
+

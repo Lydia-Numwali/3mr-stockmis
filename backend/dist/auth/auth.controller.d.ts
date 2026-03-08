@@ -1,18 +1,29 @@
 import { AuthService } from './auth.service';
+import { Repository } from 'typeorm';
+import { User } from '../entities/user.entity';
 declare class LoginDto {
-    username: string;
+    email: string;
     password: string;
 }
 export declare class AuthController {
     private authService;
-    constructor(authService: AuthService);
+    private userRepo;
+    constructor(authService: AuthService, userRepo: Repository<User>);
     login(dto: LoginDto): Promise<{
         access_token: string;
         user: {
             id: number;
-            username: string;
+            email: string;
             role: string;
         };
+    }>;
+    debugUsers(): Promise<{
+        count: number;
+        users: {
+            id: number;
+            email: string;
+            role: string;
+        }[];
     }>;
 }
 export {};

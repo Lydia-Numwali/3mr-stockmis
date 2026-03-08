@@ -13,7 +13,7 @@ exports.User = void 0;
 const typeorm_1 = require("typeorm");
 let User = class User {
     id;
-    username;
+    email;
     passwordHash;
     role;
     createdAt;
@@ -26,13 +26,13 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
-], User.prototype, "username", void 0);
+], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "passwordHash", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: 'manager' }),
+    (0, typeorm_1.Column)({ default: 'super-admin' }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([

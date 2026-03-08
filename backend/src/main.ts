@@ -12,16 +12,32 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.setGlobalPrefix('api');
 
-  await app.listen(process.env.PORT || 3001);
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+  console.log(`✅ Server running on port ${port}`);
 
   // Seed admin user
   const dataSource = app.get(DataSource);
   const userRepo = dataSource.getRepository(User);
-  const exists = await userRepo.findOne({ where: { username: 'admin' } });
-  if (!exists) {
-    const hash = await bcrypt.hash('admin123', 10);
-    await userRepo.save({ username: 'admin', passwordHash: hash, role: 'manager' });
-    console.log('✅ Admin seeded: admin / admin123');
+  
+  try {
+    const exists = await userRepo.findOne({ where: { email: 'admin@example.com' } });
+    if (exists) {
+      console.log('✅ Admin user already exists');
+    } else {
+      const hash = await bcrypt.hash('Admin@123456', 10);
+      const admin = await userRepo.save({ 
+        email: 'admin@example.com', 
+        passwordHash: hash, 
+        role: 'super-admin' 
+      });
+      console.log('✅ Admin seeded successfully');
+      console.log(`   Email: admin@example.com`);
+      console.log(`   Password: Admin@123456`);
+      console.log(`   ID: ${admin.id}`);
+    }
+  } catch (error) {
+    console.error('❌ Error seeding admin user:', error);
   }
 }
 bootstrap();

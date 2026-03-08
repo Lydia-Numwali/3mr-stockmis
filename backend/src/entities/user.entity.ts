@@ -6,12 +6,12 @@ export class User {
   id: number;
 
   @Column({ unique: true })
-  username: string;
+  email: string;
 
   @Column()
   passwordHash: string;
 
-  @Column({ default: 'manager' })
+  @Column({ default: 'super-admin' })
   role: string;
 
   @CreateDateColumn()

@@ -1,0 +1,31 @@
+services:
+  app:
+    image: ghcr.io/qt-vms/frontend:latest
+    container_name: frontend
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    expose:
+      - "3000"
+    env_file:
+      - .env
+    networks:
+      - web
+
+  watchtower:
+    image: containrrr/watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--rolling-restart"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - REPO_USER=${GITHUB_USERNAME}
+      - REPO_PASS=${GITHUB_TOKEN}
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

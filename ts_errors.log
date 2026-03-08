@@ -1,0 +1,2 @@
+components/common/DataTable.tsx(270,13): error TS1005: ')' expected.
+components/common/DataTable.tsx(272,10): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?

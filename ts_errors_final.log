@@ -1,0 +1,21 @@
+app/[locale]/(protected)/super-admin/dashboard/page.tsx(3,42): error TS2307: Cannot find module '@/components/containers/super-admin/superAdminDashboardContainer' or its corresponding type declarations.
+components/common/sidebar.tsx(32,54): error TS2339: Property 'VISITOR' does not exist on type 'typeof EUserRoles'.
+components/containers/lending/lending-dialog.tsx(69,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/products/products-dialog.tsx(46,39): error TS2339: Property 'OTHER' does not exist on type 'typeof ProductCategory'.
+components/containers/products/products-dialog.tsx(54,19): error TS2345: Argument of type '{ name: string; category: string; brand: string; model: string; partType: string; wholesalePrice: number; retailPrice: number; costPrice: number; quantity: number; lowStockThreshold: number; supplier: string; storageLocation: string; }' is not assignable to parameter of type '{ name: string; quantity: number; category: ProductCategory; wholesalePrice: number; retailPrice: number; costPrice: number; lowStockThreshold: number; supplier?: string | undefined; brand?: string | undefined; model?: string | undefined; partType?: string | undefined; storageLocation?: string | undefined; } | { ......'.
+  Types of property 'category' are incompatible.
+    Type 'string' is not assignable to type 'ProductCategory | undefined'.
+components/containers/products/products-dialog.tsx(71,43): error TS2339: Property 'OTHER' does not exist on type 'typeof ProductCategory'.
+components/containers/products/products-dialog.tsx(110,154): error TS2339: Property 'OTHER' does not exist on type 'typeof ProductCategory'.
+components/containers/sales/sales-dialog.tsx(53,59): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(66,117): error TS2339: Property 'INDIVIDUAL' does not exist on type 'typeof CustomerType'.
+components/containers/sales/sales-dialog.tsx(71,46): error TS2345: Argument of type '{ productId: number; quantitySold: number; saleType: SaleType; priceUsed: number; notes?: string | undefined; customerType?: CustomerType | undefined; }' is not assignable to parameter of type 'CreateSaleDto'.
+  Property 'price' is missing in type '{ productId: number; quantitySold: number; saleType: SaleType; priceUsed: number; notes?: string | undefined; customerType?: CustomerType | undefined; }' but required in type 'CreateSaleDto'.
+components/containers/sales/sales-dialog.tsx(92,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(119,135): error TS2339: Property 'INDIVIDUAL' does not exist on type 'typeof CustomerType'.
+components/containers/sales/sales-dialog.tsx(124,69): error TS2339: Property 'INDIVIDUAL' does not exist on type 'typeof CustomerType'.
+components/containers/sales/sales-dialog.tsx(125,69): error TS2339: Property 'SHOP_OWNER' does not exist on type 'typeof CustomerType'.
+utils/constants.ts(1,25): error TS2304: Cannot find name 'LanguagesDto'.
+utils/constants.ts(81,21): error TS2304: Cannot find name 'RoleDto'.
+utils/constants.ts(133,20): error TS2304: Cannot find name 'LogsDto'.
+utils/getMenuByRole.tsx(100,17): error TS2339: Property 'VISITOR' does not exist on type 'typeof EUserRoles'.

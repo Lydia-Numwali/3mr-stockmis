@@ -1,0 +1,55 @@
+components/common/EmployeeOverview.tsx(3,26): error TS2307: Cannot find module './OverViewCard' or its corresponding type declarations.
+components/common/sidebar.tsx(12,32): error TS2307: Cannot find module '@/hooks/usePermissions' or its corresponding type declarations.
+components/common/sidebar.tsx(32,25): error TS2551: Property 'Admin' does not exist on type 'typeof EUserRoles'. Did you mean 'ADMIN'?
+components/common/sidebar.tsx(32,54): error TS2339: Property 'Visitor' does not exist on type 'typeof EUserRoles'.
+components/common/sidebar.tsx(112,68): error TS2551: Property 'Operator' does not exist on type 'typeof EUserRoles'. Did you mean 'OPERATOR'?
+components/containers/lending/lending-dialog.tsx(69,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/products/products-dialog.tsx(16,28): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(46,23): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(71,27): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(88,64): error TS2322: Type '{ [x: string]: any; name?: unknown; category?: unknown; brand?: unknown; model?: unknown; partType?: unknown; wholesalePrice?: unknown; retailPrice?: unknown; costPrice?: unknown; quantity?: unknown; lowStockThreshold?: unknown; supplier?: unknown; storageLocation?: unknown; }' is not assignable to type 'Partial<CreateProductDto>'.
+  Types of property 'name' are incompatible.
+    Type 'unknown' is not assignable to type 'string | undefined'.
+components/containers/products/products-dialog.tsx(110,138): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(115,49): error TS2693: 'ProductCategory' only refers to a type, but is being used as a value here.
+components/containers/products/products-dialog.tsx(116,57): error TS2322: Type 'unknown' is not assignable to type 'string'.
+components/containers/products/products-dialog.tsx(116,67): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+components/containers/sales/sales-dialog.tsx(18,28): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(20,32): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(39,53): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(48,37): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(48,46): error TS7031: Binding element 'name' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(53,59): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(55,57): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(66,48): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(66,104): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(71,46): error TS2345: Argument of type '{ [x: string]: any; productId?: unknown; quantitySold?: unknown; saleType?: unknown; priceUsed?: unknown; customerType?: unknown; notes?: unknown; }' is not assignable to parameter of type 'CreateSaleDto'.
+  Property 'price' is missing in type '{ [x: string]: any; productId?: unknown; quantitySold?: unknown; saleType?: unknown; priceUsed?: unknown; customerType?: unknown; notes?: unknown; }' but required in type 'CreateSaleDto'.
+components/containers/sales/sales-dialog.tsx(92,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/sales/sales-dialog.tsx(105,114): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(110,56): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(111,56): error TS2693: 'SaleType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(119,122): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(124,56): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/sales/sales-dialog.tsx(125,56): error TS2693: 'CustomerType' only refers to a type, but is being used as a value here.
+components/containers/stock/stock-dialog.tsx(49,44): error TS2345: Argument of type '{ productId: number; quantity: number; purchasePrice?: number | undefined; supplier?: string | undefined; notes?: string | undefined; }' is not assignable to parameter of type 'AddStockDto'.
+  Types of property 'purchasePrice' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+components/containers/stock/stock-dialog.tsx(68,60): error TS7006: Parameter 'p' implicitly has an 'any' type.
+components/containers/super-admin/superAdminDashboardContainer.tsx(4,27): error TS2307: Cannot find module '@/components/common/AdminOverview' or its corresponding type declarations.
+components/ui/sidebar.tsx(8,29): error TS2307: Cannot find module '@/hooks/use-mobile' or its corresponding type declarations.
+utils/constants.ts(1,25): error TS2304: Cannot find name 'LanguagesDto'.
+utils/constants.ts(81,21): error TS2304: Cannot find name 'RoleDto'.
+utils/constants.ts(133,20): error TS2304: Cannot find name 'LogsDto'.
+utils/dummy-data.ts(19,33): error TS2304: Cannot find name 'ReportDto'.
+utils/dummy-data.ts(37,53): error TS2304: Cannot find name 'ReportDto'.
+utils/employee-reports-data.ts(17,34): error TS2304: Cannot find name 'ReportDto'.
+utils/employee-reports-data.ts(35,5): error TS2353: Object literal may only specify known properties, and 'fileName' does not exist in type 'EmployeeReport'.
+utils/employee-reports-data.ts(65,7): error TS2353: Object literal may only specify known properties, and 'fileName' does not exist in type 'EmployeeReport'.
+utils/exportHelpers.ts(5,30): error TS2307: Cannot find module '@/types/report-models' or its corresponding type declarations.
+utils/exportHelpers.ts(11,21): error TS7006: Parameter 'f' implicitly has an 'any' type.
+utils/getMenuByRole.tsx(97,17): error TS2551: Property 'Admin' does not exist on type 'typeof EUserRoles'. Did you mean 'ADMIN'?
+utils/getMenuByRole.tsx(98,17): error TS2551: Property 'Operator' does not exist on type 'typeof EUserRoles'. Did you mean 'OPERATOR'?
+utils/getMenuByRole.tsx(99,17): error TS2551: Property 'Employee' does not exist on type 'typeof EUserRoles'. Did you mean 'EMPLOYEE'?
+utils/getMenuByRole.tsx(100,17): error TS2339: Property 'Visitor' does not exist on type 'typeof EUserRoles'.

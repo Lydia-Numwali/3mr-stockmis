@@ -1,0 +1,521 @@
+{
+  "notFound": {
+    "title": "404",
+    "message": "Oops! The page you are looking for cannot be found.",
+    "button": "Back to Home"
+  },
+  "auth_pages": {
+    "carousel_title": "Simplify visitor registrations! Our intelligent visitor management system ensures security, efficiency, and a seamless experience — because first impressions matter.",
+    "Login": {
+      "welcome_title": "Welcome to QT VMS",
+      "login_title": "Log in to your account",
+      "forgot_password": "Forgot password?",
+      "login_button": "Login",
+      "password": "Password",
+      "email": "Email",
+      "please_wait": "Please wait...",
+      "signup_cta": "Don't have an account?",
+      "signup_cta_button": "Sign Up"
+    },
+    "auth_form": {
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "email": "Email",
+      "nationalId": "National ID (Rwanda)",
+      "password": "Password",
+      "select_country": "Select a country",
+      "confirm_password": "Confirm Password",
+      "login_email_tooltip": "Use the email provided when creating the account",
+      "firstname_tooltip": "Ensure your first name is correctly spelled",
+      "lastname_tooltip": "Ensure your last name is correctly spelled",
+      "nationalId_tooltip": "The ID number will be used for verification",
+      "register_email_tooltip": "The email will be used to contact you"
+    },
+    "Register": {
+      "welcome_title": "Create your QT VMS account",
+      "register_title": "Create Account",
+      "register_button": "Sign Up",
+      "login_cta": "Already have an account?",
+      "login_cta_button": "Login",
+      "please_wait": "Please wait...",
+      "image_words": "Simplify visitor registration! Our intelligent visitor management system ensures security, efficiency, and a smooth experience—because first impressions matter."
+    },
+    "reset_password": {
+      "welcome_title": "Reset your password",
+      "email": "Email",
+      "reset_description": "If an account with this email exists, we have sent you a password reset link.",
+      "submit_button": "Send Reset Link",
+      "login_cta": "Remember your password?",
+      "login_cta_button": "Login",
+      "send_code": "Send Reset Link",
+      "sending_code": "Sending...",
+      "reset_title": "Check your email",
+      "description": "Enter your email to receive a password reset link.",
+      "no_email_cta": "Didn't receive the email? Check your spam or try again.",
+      "try_again_cta": "Try another email",
+      "back_to_login_cta": "Back to Login",
+      "account_exists":  "If an account with this email exists, we have sent you a password reset link."
+    },
+    "two_factor_auth": {
+      "two_factor_title": "Two-Factor Authentication",
+      "description": "Enter the code from your authentication app.",
+      "submit_cta": "Submit",
+      "new_password_tooltip": "Ensure your new password is strong and secure",
+      "resend_code": "Didn't receive the code?",
+      "resend_code_cta": "Resend"
+    },
+    "new_password": {
+      "new_password_title": "New Password",
+      "description": "Enter your new password to secure your account.",
+      "submit_cta": "Reset"
+    }
+  },
+  "sidebar": {
+    "quick_access": "Quick access",
+    "Dashboard": "Dashboard",
+    "Operators": "Operators",
+    "Institutions": "Institutions",
+    "all_institutions": "All institutions",
+    "department_categories": "Department Categories",
+    "System Logs": "System Logs",
+    "quick_access": "Quick Access"
+  },
+  "dashboards": {
+    "vs_last_year": "vs last year",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "month_abbreviations": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "days": {
+      "sun": "SUN",
+      "mon": "MON",
+      "tue": "TUE",
+      "wed": "WED",
+      "thu": "THU",
+      "fri": "FRI",
+      "sat": "SAT"
+    },
+    "admin_dashboard": {
+      "title": "Dashboard",
+      "Roles": "Roles",
+    "admin_dashboard": {
+      "title": "Dashboard",
+      "Roles": "Roles",
+      "overview": "Overview",
+      "Institutions": "Institutions",
+      "all_institutions": "All institutions",
+      "department_categories": "Department Categories",
+      "Operators": " Operators",
+      "Employees": "Employees",
+      "All Badges": "All badges",
+      "Visitors": "Visitors",
+      "all_employees": "All Employees",
+      "attendance": "Attendance",
+      "request": "Requests",
+      "emp_categories":"Categories",
+      "all_requests": "All Requests",
+      "my_requests": "My Requests",
+      "leave_type": "Leave Types",
+      "my_appointments": "Appointments",
+      "my_attendance": "My Attendance",
+      "my_badge": "My badge",
+      "badges": "Badges",
+      "document": "Documents",
+      "scan": "Scan",
+      "customise_badges": "Customise",
+      "leave_types": "Leave Types",
+      "Visits": "Visits",
+      "system_logs": "System Logs",
+      "reports": "Reports",
+      "visitor_check_in": "Visitor check-ins",
+      "gender_statistics": "Gender Distribution",
+      "failed_to_get_stats": "Failed to get Dashboard Stats",
+      "visits": "Visits",
+      "Blacklist": "Blacklist",
+      "browse": "Browse Institutions",
+      "branch": "Branches",
+      "select_period": "Select period",
+      "select_period": "Select Period",
+      "no_visitor_data_available": "No visitor data available",
+      "showing_visitor_check_ins_from": "Showing visitor check-ins from",
+      "to": "to",
+      "total_check_ins": "Total Check-ins",
+      "visitors": "visitors",
+      "custom": "Custom",
+      "gender_distribution": "Gender Distribution",
+      "visitor_gender_breakdown": "Visitor Gender Breakdown",
+      "visitors_demographic": "Visitor Demographics",
+      "visitors_based_on_country": "Visitors by Country",
+      "no_visitors_registered": "No visitors registered for a country.",
+      "loading": "Loading...",
+      "no_gender_data_available": "No gender data available",
+      "total_visitors": "Total Visitors",
+      "filter_options": {
+        "today": "Today",
+        "this_week": "This Week",
+        "last_30_days": "Last 30 Days",
+        "last_3_months": "Last 3 Months",
+        "last_6_months": "Last 6 Months",
+        "last_year": "Last Year",
+        "all_time": "All Time"
+      },
+      "group_by_options": {
+        "by_day": "By Day",
+        "by_week": "By Week",
+        "by_month": "By Month"
+      }
+    },
+    "visitor_dashboard": {
+      "title": "Dashboard",
+      "overview": "Overview",
+      "total_visits": "Total Visits",
+      "pending_visits": "Pending Visits",
+      "confirmed_visits": "Confirmed Visits",
+      "rejected_visits": "Rejected Visits",
+      "failed_to_get_stats": "Failed to retrieve dashboard statistics",
+      "attendance_comparison_chart": "Attendance Comparison Chart",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "date": "Date",
+      "attendance": "Attendance",
+      "realtime_insight": "Real-time Insight",
+      "today": "Today"
+    },
+    "employee_dashboard": {
+      "title": "Dashboard",
+      "overview": "Overview",
+      "request_for_leave": "Request Leave",
+      "employee_info_not_found": "Employee information not found. Please contact the administrator.",
+      "late_arrivals": "Late Arrivals",
+      "earned_leaves": "Earned Leaves",
+      "total_leaves": "Total Leaves",
+      "total_visits": "Total Visits",
+      "approved": "Approved",
+      "failed_to_get_stats": "Failed to retrieve dashboard statistics",
+      "view_requests": "View Requests"
+    },
+    "common": {
+      "charts": "Charts",
+      "select_institution": "Select Institution",
+      "all_institutions": "None (All Institutions)",
+      "this_month": "This Month",
+      "tables": {
+        "common": {
+          "select_institution": "Select Institution",
+          "all_institutions": "None (All Institutions)"
+        }
+      }
+    },
+    "operator_dashboard": {
+      "title": "Dashboard",
+      "overview": "Overview",
+      "total_visitors": "Total Visitors",
+      "total_visits": "Total Visits",
+      "pending_visits": "Pending Visits",
+      "confirmed_visits": "Confirmed Visits",
+      "rejected_visits": "Rejected Visits",
+      "failed_to_get_stats": "Failed to retrieve dashboard statistics",
+      "visits": "Visits",
+      "visitor_check_ins": "Visitor Check-ins",
+      "select_period": "Select Period",
+      "no_visitor_data_available": "No visitor data available",
+      "showing_visitor_check_ins_from": "Showing visitor check-ins from",
+      "to": "to",
+      "total_check_ins": "Total Check-ins",
+      "visitors": "visitors",
+      "gender_distribution": "Gender Distribution",
+      "visitor_gender_breakdown": "Visitor Gender Breakdown",
+      "loading": "Loading...",
+      "no_gender_data_available": "No gender data available",
+      "filter_options": {
+        "today": "Today",
+        "this_week": "This Week",
+        "last_30_days": "Last 30 Days",
+        "last_3_months": "Last 3 Months",
+        "last_6_months": "Last 6 Months",
+        "last_year": "Last Year",
+        "all_time": "All Time"
+      },
+      "group_by_options": {
+        "by_day": "By Day",
+        "by_week": "By Week",
+        "by_month": "By Month"
+      }
+    },
+    "notices": {
+      "no_data": "No visitor data available",
+      "no_gender_data": "No gender data available"
+    }
+  },
+  "heading": {
+    "my_account": "My Account",
+    "logout": "Logout"
+  },
+  "tables": {
+    "common": {
+      "status": "Status",
+      "institution": "Institution",
+      "search": "Search",
+      "filter": "Filter",
+      "export": "Export",
+      "excel": "Excel",
+      "pdf": "PDF",
+      "print": "Print",
+      "loading": "Loading...",
+      "no_data": "No data available",
+      "date_filters": {
+        "this_week": "This Week",
+        "last_week": "Last Week",
+        "this_month": "This Month",
+        "last_month": "Last Month",
+        "this_year": "This Year",
+        "last_year": "Last Year"
+      },
+      "filter_labels": {
+        "institutions": "Institutions",
+        "users": "Users",
+        "action_type": "Action Type",
+        "by_date": "By Date",
+        "status": "Status",
+        "date_range": "Date Range",
+        "from_date": "From Date",
+        "to_date": "To Date",
+        "clear_filters": "Clear Filters"
+      },
+      "search_placeholders": {
+        "general": "Search...",
+        "visits": "Search Visits",
+        "institution": "Search Institution",
+        "institution_name": "Search by Institution Name",
+        "badge": "Search Badge by ID",
+        "badge_institution": "Search an Institution to view badges",
+        "badge_visitor": "Search by name, badge ID, visitor name",
+        "badge_employee": "Search by name, badge ID, employee name",
+        "blacklist": "Search Blacklist",
+        "logs": "Search by name, email, or action",
+        "operators": "Search by name or email",
+        "roles": "Search Roles",
+        "roles_by_name": "Search Role by Name",
+        "leave_types": "Search Leave Type by Name",
+        "employees": "Search by Employee Name",
+        "visitor_institutions": "Search by Institution Name"
+      }
+    },
+    "institutions": {
+      "institution": "Institution",
+      "contacts": "Contacts",
+      "email": "Institution Email Address",
+      "employees": "Employees",
+      "visitors": "Visitors",
+      "operators": "Operators"
+    },
+    "operators": {
+      "names": "Names",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "institutions": "Institutions"
+    },
+    "employees": {
+      "name": "Name",
+      "position": "Position",
+      "contacts": "Contacts",
+      "email": "Email Address"
+    },
+    "visitors": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "purpose": "Purpose",
+      "scheduledAt": "Scheduled At"
+    },
+    "badges": {
+      "badgeId": "Badge ID",
+      "validity": "Validity",
+      "issueStatus": "Issue Status",
+      "issuedAt": "Issued At",
+      "visitorName": "Visitor Name",
+      "employeeName": "Employee Name"
+    },
+    "documents": {
+      "title": "Document Title",
+      "fileType": "File Type",
+      "fileSize": "File Size",
+      "uploadedDate": "Uploaded Date"
+    },
+    "logs": {
+      "performedBy": "Performed By",
+      "email": "Email",
+      "actionType": "Action Type",
+      "timestamp": "Timestamp"
+    },
+    "accessLogs": {
+      "name": "Name",
+      "enteredAt": "Entered At",
+      "exitedAt": "Exited At",
+      "time": "Duration"
+    },
+    "departments": {
+      "department": "Department",
+      "description": "Description"
+    },
+    "leaves": {
+      "name": "Leave Type Name",
+      "duration": "Duration"
+    },
+    "requests": {
+      "leaveType": "Leave Type",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "actions": "Actions"
+    },
+    "visits": {
+      "meetingPerson": "Meeting Person",
+      "visitorType": "Visitor Type",
+      "visitDate": "Visit Date"
+    },
+    "blacklist": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "nationalId": "National ID",
+      "dateBlacklisted": "Date Blacklisted"
+    },
+    "reports": {
+      "fileName": "File Name",
+      "fileType": "File Type",
+      "fileSize": "File Size"
+    },
+    "roles": {
+      "roleName": "Role Name",
+      "users": "Users",
+      "description": "Description",
+      "permissions": "Permissions"
+    },
+    "attendance": {
+      "employee": "Employee",
+      "department": "Department"
+    }
+  },
+  "modals": {
+    "appointment": {
+      "details_title": "Appointment Details",
+      "visitor": "Visitor",
+      "scheduled_for": "Scheduled For",
+      "visitor_email": "Visitor Email",
+      "institution_information": "Institution Information",
+      "purpose": "Purpose",
+      "badge_type": "Badge Type",
+      "your_availability": "Your Availability",
+      "select_availability": "Select Availability",
+      "available": "Available",
+      "not_available": "Not Available",
+      "comments": "Comments",
+      "update_availability": "Update Availability",
+      "assign_host": "Assign Host",
+      "reassign_host": "Reassign Host",
+      "current_host_not_available": "Current Host is Unavailable",
+      "reject_visit": "Reject Visit",
+      "reschedule_visit": "Reschedule Visit",
+      "approve_visit": "Approve Visit",
+      "host": "Host",
+      "comment": "Comment",
+      "no_comment": "No comment provided.",
+      "edit_title": "Edit Visit",
+      "edit_description": "Update the visit details below. You can only modify pending visits.",
+      "postpone_title": "Postpone Visit"
+    }
+  },
+  "onboarding": {
+    "welcome_title": "Welcome to Your Portal!",
+    "welcome_description": "Before you access your portal, first add your organisation structure",
+    "departments_title": "Departments",
+    "departments_description": "Organize institution teams",
+    "employees_title": "Employees",
+    "employees_description": "Manage institution staff",
+    "roles_title": "Roles",
+    "roles_description": "Define permissions",
+    "add_structure_button": "Add organizational Structure",
+    "help_text": "This will help you set up departments, roles, and organizational hierarchy"
+  },
+  "common": {
+    "actions": {
+      "save": "Save",
+      "saving": "Saving...",
+      "upload": "Upload",
+      "add_color": "Add Color",
+      "click_to_select_color": "Click to select a color",
+      "no_file_chosen": "No file chosen",
+      "remove_file": "Remove file",
+      "back_to_login": "Back to Login",
+      "redirecting": "Redirecting...",
+      "invalid_reset_link": "Invalid Reset Link",
+      "request_new_reset_link": "Request New Reset Link",
+      "invalid_missing_token": "Invalid or missing reset token",
+      "expired_link_message": "The password reset link is invalid or has expired.",
+      "verify_your_email": "Verify Your Email",
+      "verification_sent_message": "We've sent a 6-digit code to",
+      "enter_code_below": "Enter it below.",
+      "verifying": "Verifying...",
+      "verify": "Verify",
+      "didnt_receive_code": "Didn't receive code?",
+      "resend": "Resend",
+      "resending": "Resending...",
+      "resend_in": "Resend in"
+    },
+    "form_labels": {
+      "new_password": "New Password",
+      "confirm_new_password": "Confirm New Password",
+      "resetting": "Resetting...",
+      "reset_password": "Reset Password",
+      "enter_new_password_below": "Enter your new password below."
+    },
+    "badge_customization": {
+      "title": "Customize your Institution Badges",
+      "upload_logo_label": "Upload your logo here",
+      "required_field": "*",
+      "color_palette_label": "Choose your Color palette",
+      "text_color_label": "Choose your text Color",
+      "card_background_label": "Choose your Card background"
+    },
+    "errors": {
+      "login_failed": "Login failed. Please try again.",
+      "two_factor_success": "Two-factor authentication is enabled. Please complete the verification.",
+      "logged_in_successfully": "logged in successfully",
+      "invalid_reset_token": "Invalid or missing reset token",
+      "please_enter_verification_code": "Please enter the verification code.",
+      "email_verified_successfully": "Email verified successfully!",
+      "verification_failed": "Verification failed.",
+      "verification_code_resent": "Verification code resent.",
+      "failed_resend_email": "Failed to resend verification email."
+    },
+  "heading": {
+    "my_account": "My account",
+    "logout": "Logout"
+  }
+  }
+}
+}
+  
