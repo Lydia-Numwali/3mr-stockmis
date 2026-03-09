@@ -12,10 +12,13 @@ export enum CustomerType {
 }
 
 export enum ProductCategory {
-    PHONES = 'PHONES',
-    LAPTOPS = 'LAPTOPS',
-    ACCESSORIES = 'ACCESSORIES',
-    OTHER = 'OTHER'
+    ENGINE_PARTS = 'Engine Parts',
+    BRAKE_SYSTEM = 'Brake System',
+    ELECTRICAL_PARTS = 'Electrical Parts',
+    BODY_PARTS = 'Body Parts',
+    SUSPENSION = 'Suspension',
+    TIRES_WHEELS = 'Tires & Wheels',
+    OTHER = 'Other',
 }
 
 export interface Product {

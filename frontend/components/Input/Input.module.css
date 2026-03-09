@@ -1,0 +1,124 @@
+/* Input Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Input Label */
+.label {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #374151;
+  margin-bottom: 0;
+}
+
+/* Input Base Styles */
+.input {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #374151;
+  background-color: #FFFFFF;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+/* Input Placeholder */
+.input::placeholder {
+  color: #9CA3AF;
+  font-weight: 400;
+}
+
+/* Input Sizes */
+.large {
+  padding: 12px 12px;
+  font-size: 16px;
+  height: 40px;
+}
+
+.regular {
+  padding: 10px 12px;
+  font-size: 14px;
+  height: 36px;
+}
+
+.small {
+  padding: 8px 12px;
+  font-size: 12px;
+  height: 32px;
+}
+
+/* Input States */
+.input:hover:not(:disabled) {
+  border-color: #9CA3AF;
+}
+
+.input:focus:not(:disabled) {
+  border-color: #2563EB;
+  border-width: 2px;
+  padding: 10px 11px;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.large:focus:not(:disabled) {
+  padding: 12px 11px;
+}
+
+.small:focus:not(:disabled) {
+  padding: 8px 11px;
+}
+
+.input:disabled {
+  background-color: #E5E7EB;
+  color: #9CA3AF;
+  border-color: #E5E7EB;
+  cursor: not-allowed;
+}
+
+/* Error State */
+.input.error {
+  border-color: #EF4444;
+  border-width: 2px;
+  padding: 10px 11px;
+}
+
+.large.error {
+  padding: 12px 11px;
+}
+
+.small.error {
+  padding: 8px 11px;
+}
+
+.input.error:focus:not(:disabled) {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Error Message */
+.errorMessage {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #EF4444;
+  margin-top: 4px;
+}
+
+/* Focus Indicator for Keyboard Navigation */
+.input:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+.input.error:focus-visible {
+  outline: 2px solid #EF4444;
+  outline-offset: 2px;
+}

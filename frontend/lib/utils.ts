@@ -35,10 +35,8 @@ export const getCurrentLocale = (): string => {
 };
 
  export const formatValue = (value: number) => {
-    if (value >= 1000) {
-      return `${(value / 1000).toFixed(1)}K`.replace(".0K", "K");
-    }
-    return value?.toString();
+    // Format number with comma separators (e.g., 5500 instead of 5.5k)
+    return value?.toLocaleString();
   };
 
 

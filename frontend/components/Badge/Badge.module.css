@@ -1,0 +1,43 @@
+/* Badge Base Styles */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Badge Variants */
+.primary {
+  background-color: #2563EB;
+  color: #FFFFFF;
+}
+
+.secondary {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.success {
+  background-color: #10B981;
+  color: #FFFFFF;
+}
+
+.warning {
+  background-color: #F59E0B;
+  color: #FFFFFF;
+}
+
+.error {
+  background-color: #EF4444;
+  color: #FFFFFF;
+}
+
+.info {
+  background-color: #3B82F6;
+  color: #FFFFFF;
+}

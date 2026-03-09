@@ -1,11 +1,79 @@
-/* Main Stylesheet - Imports all design tokens and base styles */
+/* Main CSS Entry Point - Imports all design tokens and base styles */
 
 /* Design Tokens */
-@import url("./tokens/colors.css");
-@import url("./tokens/typography.css");
-@import url("./tokens/spacing.css");
-@import url("./tokens/shadows.css");
+@import url('./tokens/colors.css');
+@import url('./tokens/typography.css');
+@import url('./tokens/spacing.css');
+@import url('./tokens/shadows.css');
 
 /* Base Styles */
-@import url("./base/reset.css");
-@import url("./base/typography.css");
+@import url('./base/reset.css');
+@import url('./base/typography.css');
+
+/* Global Styles */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-regular);
+  font-weight: var(--font-weight-body-regular);
+  line-height: var(--line-height-body-regular);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+/* Focus Visible Styles */
+:focus-visible {
+  outline: 2px solid var(--color-primary-blue);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-primary-blue);
+  outline-offset: 2px;
+}
+
+/* Selection Styles */
+::selection {
+  background-color: var(--color-primary-blue);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--color-primary-blue);
+  color: white;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    background-color: white;
+    border: 1px solid black;
+  }
+}

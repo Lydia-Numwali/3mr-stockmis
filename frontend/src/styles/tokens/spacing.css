@@ -1,7 +1,7 @@
-/* Design Tokens: Spacing System */
+/* Spacing Design Tokens */
 
 :root {
-  /* Spacing Units */
+  /* Spacing Units (4px base unit) */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;
@@ -10,4 +10,45 @@
   --spacing-2xl: 32px;
   --spacing-3xl: 48px;
   --spacing-4xl: 64px;
+
+  /* Border Radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 12px;
+
+  /* Component Padding */
+  --padding-button-large: 12px 20px;
+  --padding-button-regular: 10px 16px;
+  --padding-button-small: 8px 12px;
+
+  --padding-input-large: 12px;
+  --padding-input-regular: 10px 12px;
+  --padding-input-small: 8px;
+
+  --padding-card: 16px;
+  --padding-card-lg: 20px;
+  --padding-card-xl: 24px;
+
+  --padding-modal: 24px;
+
+  --padding-section: 24px;
+  --padding-page: 24px;
+
+  /* Component Gaps */
+  --gap-component: 8px;
+  --gap-component-lg: 16px;
+  --gap-grid: 16px;
+  --gap-grid-lg: 24px;
+  --gap-list: 12px;
+
+  /* Margins */
+  --margin-section: 24px;
+  --margin-section-lg: 32px;
+  --margin-component: 16px;
+  --margin-component-lg: 24px;
+  --margin-form-field: 12px;
+  --margin-form-field-lg: 16px;
+  --margin-list-item: 8px;
+  --margin-list-item-lg: 12px;
 }

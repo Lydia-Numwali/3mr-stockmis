@@ -12,7 +12,7 @@ export class StockService {
     constructor(private utils: UtilsService) { }
 
     async getMovements(params: { page?: number; limit?: number; search?: string } = {}) {
-        return this.utils.authorizedAPI().get('/stock', { params }).then((res: any) => res.data);
+        return this.utils.authorizedAPI().get('/stock/movements', { params }).then((res: any) => res.data);
     }
 
     async addStock(data: AddStockDto) {

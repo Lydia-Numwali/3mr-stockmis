@@ -18,7 +18,7 @@ export const getSalesColumns = (): ColumnDef<Sale>[] => {
         {
             accessorKey: 'quantitySold',
             header: 'Qty Sold',
-            cell: ({ row }) => <span className="font-semibold text-red-500">-{formatValue(row.original.quantitySold)}</span>,
+            cell: ({ row }) => <span className="font-semibold text-red-500">{formatValue(row.original.quantitySold)}</span>,
         },
         {
             accessorKey: 'priceUsed',

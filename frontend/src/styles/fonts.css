@@ -1,0 +1,45 @@
+/* Font Loading Configuration for ITC Avant Garde Gothic Std */
+
+/* 
+  ITC Avant Garde Gothic Std is a commercial font not available on Google Fonts.
+  This implementation uses a self-hosted approach with fallback to modern sans-serif alternatives.
+  
+  Font weights: 400 (Regular), 500 (Medium), 700 (Bold)
+  Font display: swap - ensures text is visible during font load
+*/
+
+/* Regular (400) */
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Std';
+  src: url('/fonts/itc-avant-garde-gothic-std-regular.woff2') format('woff2'),
+       url('/fonts/itc-avant-garde-gothic-std-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Medium (500) */
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Std';
+  src: url('/fonts/itc-avant-garde-gothic-std-medium.woff2') format('woff2'),
+       url('/fonts/itc-avant-garde-gothic-std-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Std';
+  src: url('/fonts/itc-avant-garde-gothic-std-bold.woff2') format('woff2'),
+       url('/fonts/itc-avant-garde-gothic-std-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 
+  Fallback: If ITC Avant Garde Gothic Std is not available,
+  the browser will use Avenir Next, Avenir, or system sans-serif fonts.
+  These are modern geometric sans-serif alternatives with similar characteristics.
+*/

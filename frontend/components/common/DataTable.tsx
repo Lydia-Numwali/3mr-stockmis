@@ -385,7 +385,7 @@ const DataTable = <T extends Record<string, any>>({
               {table.getRowModel().rows.map((row, index) => (
                 <TableRow key={row.id} className={cn(index % 2 === 0 ? 'bg-white' : 'bg-[#f2f5f9]')}>
                   {selectable && (
-                    <TableCell>
+                    <TableCell className="py-2 px-6">
                       <IndeterminateCheckbox
                         checked={row.getIsSelected()}
                         indeterminate={row.getIsSomeSelected()}
@@ -394,7 +394,7 @@ const DataTable = <T extends Record<string, any>>({
                     </TableCell>
                   )}
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="!p-0">
+                    <TableCell key={cell.id} className="py-2 px-6">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

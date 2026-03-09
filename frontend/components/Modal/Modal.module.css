@@ -1,0 +1,162 @@
+/* Modal Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Container */
+.modal {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.2s ease;
+  z-index: 1001;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Modal Sizes */
+.regular {
+  max-width: 500px;
+  width: 90vw;
+}
+
+.large {
+  max-width: 800px;
+  width: 90vw;
+}
+
+/* Modal Header */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.headerContent {
+  flex: 1;
+}
+
+.headerContent h1,
+.headerContent h2,
+.headerContent h3 {
+  margin: 0;
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #111827;
+}
+
+/* Close Button */
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #6B7280;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  color: #111827;
+}
+
+.closeButton:focus {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.closeButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Modal Body */
+.body {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 24px;
+}
+
+.body > * + * {
+  margin-top: 16px;
+}
+
+/* Modal Footer */
+.footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+  margin-top: 24px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modal {
+    max-width: 100%;
+    width: 95vw;
+    padding: 16px;
+    max-height: 95vh;
+  }
+
+  .header {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .body {
+    margin-bottom: 16px;
+  }
+
+  .footer {
+    margin-top: 16px;
+    padding-top: 12px;
+  }
+}

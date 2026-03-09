@@ -12,7 +12,7 @@ export class CreateLendingDto {
   @Type(() => Number) @IsNumber() @Min(1) quantityLent: number;
   @IsString() borrowerShop: string;
   @IsOptional() @IsString() borrowerContact?: string;
-  @IsString() dateLent: string;
+  @IsOptional() @IsString() dateLent?: string;
   @IsOptional() @IsString() expectedReturnDate?: string;
   @IsOptional() @IsString() notes?: string;
 }
@@ -40,7 +40,12 @@ export class LendingService {
         throw new BadRequestException(`Insufficient stock. Available: ${product.quantity}`);
       product.quantity -= Number(dto.quantityLent);
       await em.save(product);
-      const lending = em.create(Lending, { ...dto, status: LendingStatus.PENDING });
+      const lending = em.create(Lending, { 
+        ...dto, 
+        dateLent: dto.dateLent ? new Date(dto.dateLent) as any : new Date() as any,
+        expectedReturnDate: dto.expectedReturnDate ? new Date(dto.expectedReturnDate) as any : undefined,
+        status: LendingStatus.PENDING 
+      });
       const saved = await em.save(lending);
       await em.save(em.create(StockMovement, {
         productId: dto.productId, type: MovementType.LEND, quantity: dto.quantityLent, notes: `Lend #${saved.id} to ${dto.borrowerShop}`,

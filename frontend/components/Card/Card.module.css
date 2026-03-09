@@ -1,0 +1,109 @@
+/* Card Base Styles */
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Variants */
+.default {
+  border-left: 3px solid transparent;
+}
+
+.success {
+  border-left: 3px solid #10B981;
+}
+
+.warning {
+  border-left: 3px solid #F59E0B;
+}
+
+.error {
+  border-left: 3px solid #EF4444;
+}
+
+.info {
+  border-left: 3px solid #3B82F6;
+}
+
+/* Card Header */
+.header {
+  margin-bottom: 12px;
+}
+
+.header h1,
+.header h2,
+.header h3,
+.header h4 {
+  margin: 0;
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+}
+
+.header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #111827;
+}
+
+/* Card Body */
+.body {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
+}
+
+/* Card Footer */
+.footer {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Metric Card Specific Styles */
+.card.default .header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.card.default .body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Value styling for metric cards */
+.card .value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2563EB;
+  line-height: 1.2;
+}
+
+.card .label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+/* Icon styling */
+.card .icon {
+  width: 24px;
+  height: 24px;
+  color: #2563EB;
+}

@@ -1,0 +1,92 @@
+/* Alert Container */
+.alert {
+  padding: 12px 16px;
+  border-radius: 6px;
+  border-left: 4px solid;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* Alert Variants */
+.success {
+  border-left-color: #10B981;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.warning {
+  border-left-color: #F59E0B;
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #F59E0B;
+}
+
+.error {
+  border-left-color: #EF4444;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.info {
+  border-left-color: #3B82F6;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+}
+
+/* Alert Icon */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Alert Content */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Alert Title */
+.title {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: inherit;
+}
+
+/* Alert Message */
+.message {
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6B7280;
+}
+
+.success .message {
+  color: #047857;
+}
+
+.warning .message {
+  color: #92400E;
+}
+
+.error .message {
+  color: #7F1D1D;
+}
+
+.info .message {
+  color: #1E40AF;
+}

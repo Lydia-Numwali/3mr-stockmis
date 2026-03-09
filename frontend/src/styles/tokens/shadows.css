@@ -1,8 +1,22 @@
-/* Design Tokens: Shadows */
+/* Shadow Design Tokens */
 
 :root {
-  /* Shadow Definitions */
+  /* Box Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  /* Focus Ring Shadow */
+  --shadow-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  --shadow-focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.1);
+
+  /* Hover Shadows */
+  --shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* Component Shadows */
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-hover: var(--shadow-md);
+  --shadow-modal: var(--shadow-lg);
+  --shadow-dropdown: var(--shadow-md);
+  --shadow-tooltip: var(--shadow-md);
 }

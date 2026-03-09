@@ -22,7 +22,8 @@ import { useState } from 'react';
 import { Cookies } from 'react-cookie';
 import Sidebar from './sidebar';
 import { getReadableLocation } from '@/utils/getMenuByRole';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { Languages } from '@/utils/constants';
 
 const Heading = () => {
   const [isSheetOpen, setSheetOpen] = useState(false);
@@ -30,11 +31,19 @@ const Heading = () => {
   const cookies = new Cookies();
   const router = useRouter();
   const t = useTranslations('heading');
+  const locale = useLocale();
+
+  const currentLanguage = Languages.find((lang) => lang.locale === locale) || Languages[0];
 
   const handleLogout = () => {
     cookies.remove('accessToken', { path: '/' });
     router.replace('/login');
     window.location.reload();
+  };
+
+  const handleLanguageChange = (newLocale: string) => {
+    cookies.set('NEXT_LOCALE', newLocale, { path: '/' });
+    router.replace(pathname, { locale: newLocale });
   };
 
   return (
@@ -66,6 +75,29 @@ const Heading = () => {
         </div>
 
         <div className="flex items-center gap-4">
+          {/* Language Selector */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="cursor-pointer rounded-full overflow-hidden w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
+                <Icon icon={currentLanguage.icon} width={32} height={32} className="rounded-full" />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="rounded-xl shadow-lg p-1">
+              {Languages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.locale}
+                  onClick={() => handleLanguageChange(lang.locale)}
+                  className={`flex items-center gap-2 cursor-pointer px-3 py-2 rounded-md ${
+                    locale === lang.locale ? 'bg-blue-50' : ''
+                  }`}
+                >
+                  <Icon icon={lang.icon} width={24} height={24} />
+                  <span>{lang.name}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* User menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="overflow-hidden">

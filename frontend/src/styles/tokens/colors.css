@@ -1,4 +1,4 @@
-/* Design Tokens: Color Palette */
+/* Color Palette Design Tokens */
 
 :root {
   /* Primary Colors */
@@ -30,7 +30,28 @@
   --color-semantic-warning: #F59E0B;
   --color-semantic-info: #3B82F6;
 
-  /* Utility Colors */
-  --color-white: #FFFFFF;
-  --color-black: #000000;
+  /* Semantic Color Aliases */
+  --color-success: var(--color-semantic-success);
+  --color-success-hover: var(--color-semantic-success-hover);
+  --color-error: var(--color-semantic-error);
+  --color-error-hover: var(--color-semantic-error-hover);
+  --color-warning: var(--color-semantic-warning);
+  --color-info: var(--color-semantic-info);
+
+  /* Text Colors */
+  --color-text-primary: var(--color-neutral-700);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-tertiary: var(--color-neutral-500);
+  --color-text-disabled: var(--color-neutral-400);
+  --color-text-inverse: #FFFFFF;
+
+  /* Background Colors */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: var(--color-neutral-50);
+  --color-bg-tertiary: var(--color-neutral-100);
+  --color-bg-disabled: var(--color-neutral-200);
+
+  /* Border Colors */
+  --color-border-primary: var(--color-neutral-200);
+  --color-border-secondary: var(--color-neutral-300);
 }

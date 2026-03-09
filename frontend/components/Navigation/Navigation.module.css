@@ -1,0 +1,194 @@
+/* Navigation Container */
+.navigation {
+  background-color: #FFFFFF;
+  border-right: 1px solid #E5E7EB;
+  width: 240px;
+  padding: 16px 0;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+  transition: width 0.2s ease;
+}
+
+.navigation.collapsed {
+  width: 60px;
+}
+
+/* Toggle Button */
+.toggleButton {
+  display: none;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  margin: 8px;
+  background: none;
+  border: none;
+  color: #6B7280;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.toggleButton:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.toggleButton:focus {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+/* Menu Container */
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation Item */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+}
+
+.item:hover:not(.disabled) {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.item:focus:not(.disabled) {
+  outline: 2px solid #2563EB;
+  outline-offset: -2px;
+}
+
+.item.active {
+  background-color: #F9FAFB;
+  color: #2563EB;
+  border-left-color: #2563EB;
+  font-weight: 500;
+}
+
+.item.active:hover {
+  background-color: #F3F4F6;
+}
+
+.item.disabled {
+  color: #9CA3AF;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Navigation Item Icon */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Navigation Item Label */
+.label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Navigation Section */
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section + .section {
+  margin-top: 8px;
+}
+
+/* Navigation Section Title */
+.sectionTitle {
+  padding: 12px 16px;
+  font-family: 'ITC Avant Garde Gothic Std', Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 8px;
+}
+
+/* Navigation Section Items */
+.sectionItems {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Collapsed State */
+.navigation.collapsed .item {
+  padding: 12px;
+  justify-content: center;
+}
+
+.navigation.collapsed .label {
+  display: none;
+}
+
+.navigation.collapsed .icon {
+  margin: 0;
+}
+
+.navigation.collapsed .sectionTitle {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .navigation {
+    width: 200px;
+  }
+
+  .toggleButton {
+    display: flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .navigation {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    height: calc(100vh - 64px);
+    width: 240px;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  .navigation.collapsed {
+    width: 240px;
+    transform: translateX(0);
+  }
+
+  .toggleButton {
+    display: flex;
+  }
+}

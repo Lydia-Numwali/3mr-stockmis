@@ -4,6 +4,7 @@ import './globals.css';
 import ReactQueryProvider from '@/providers/react-query.provider';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
+import { FontLoader } from '@/components/FontLoader';
 import 'leaflet/dist/leaflet.css';
 
 const mont = Mona_Sans({
@@ -11,8 +12,8 @@ const mont = Mona_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'QT VMS',
-  description: 'Visitor management system',
+  title: '3MR',
+  description: 'Stock Management Information System',
 };
 
 export default function RootLayout({
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${mont.className} antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-        <NextTopLoader color="#001526" showSpinner={false} />
-        <Toaster richColors position="top-center" />
+        <FontLoader>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <NextTopLoader color="#001526" showSpinner={false} />
+          <Toaster richColors position="top-center" />
+        </FontLoader>
       </body>
     </html>
   );

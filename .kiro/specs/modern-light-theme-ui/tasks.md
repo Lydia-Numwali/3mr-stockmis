@@ -48,7 +48,7 @@ This implementation plan breaks down the Modern Light Theme UI feature into disc
     - **Property 11: Button State Styling**
     - **Validates: Requirements 9.2_
 
-- [x] 4. Implement Form Input component with focus states
+- [-] 4. Implement Form Input component with focus states
   - Create `src/components/Input/Input.jsx` with support for text, email, password, number inputs
   - Create `src/components/Input/Input.module.css` with styling for all input states
   - Implement input sizes (large, regular, small)
@@ -67,7 +67,7 @@ This implementation plan breaks down the Modern Light Theme UI feature into disc
     - **Property 10: Form Input Styling**
     - **Validates: Requirements 9.1, 9.4, 9.5**
 
-- [x] 5. Implement Card component for dashboard and product pages
+- [-] 5. Implement Card component for dashboard and product pages
   - Create `src/components/Card/Card.jsx` with support for metric cards and product cards
   - Create `src/components/Card/Card.module.css` with card styling (border, shadow, padding, border-radius)
   - Implement card variants (default, success, warning, error, info)
@@ -84,7 +84,7 @@ This implementation plan breaks down the Modern Light Theme UI feature into disc
     - **Property 5: Dashboard Card Styling**
     - **Validates: Requirements 4.1, 4.3**
 
-- [x] 6. Implement Modal component with proper styling
+- [ ] 6. Implement Modal component with proper styling
   - Create `src/components/Modal/Modal.jsx` with overlay and modal container
   - Create `src/components/Modal/Modal.module.css` with modal styling (border-radius, shadow, padding)
   - Implement modal header with close button

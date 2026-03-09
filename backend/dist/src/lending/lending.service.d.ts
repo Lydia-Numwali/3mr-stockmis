@@ -7,7 +7,7 @@ export declare class CreateLendingDto {
     quantityLent: number;
     borrowerShop: string;
     borrowerContact?: string;
-    dateLent: string;
+    dateLent?: string;
     expectedReturnDate?: string;
     notes?: string;
 }

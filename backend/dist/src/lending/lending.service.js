@@ -52,6 +52,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateLendingDto.prototype, "borrowerContact", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateLendingDto.prototype, "dateLent", void 0);
@@ -107,7 +108,12 @@ let LendingService = class LendingService {
                 throw new common_1.BadRequestException(`Insufficient stock. Available: ${product.quantity}`);
             product.quantity -= Number(dto.quantityLent);
             await em.save(product);
-            const lending = em.create(lending_entity_1.Lending, { ...dto, status: lending_entity_1.LendingStatus.PENDING });
+            const lending = em.create(lending_entity_1.Lending, {
+                ...dto,
+                dateLent: dto.dateLent ? new Date(dto.dateLent) : new Date(),
+                expectedReturnDate: dto.expectedReturnDate ? new Date(dto.expectedReturnDate) : undefined,
+                status: lending_entity_1.LendingStatus.PENDING
+            });
             const saved = await em.save(lending);
             await em.save(em.create(stock_movement_entity_1.StockMovement, {
                 productId: dto.productId, type: stock_movement_entity_1.MovementType.LEND, quantity: dto.quantityLent, notes: `Lend #${saved.id} to ${dto.borrowerShop}`,
