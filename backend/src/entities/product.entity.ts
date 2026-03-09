@@ -13,6 +13,21 @@ export enum ProductCategory {
   OTHER = 'Other',
 }
 
+export enum PackagingUnit {
+  PIECES = 'Pieces',
+  CARTON = 'Carton',
+  LITRE = 'Litre',
+  KILOGRAM = 'Kilogram',
+  BOX = 'Box',
+  PACK = 'Pack',
+  BOTTLE = 'Bottle',
+  CAN = 'Can',
+  GALLON = 'Gallon',
+  METER = 'Meter',
+  SET = 'Set',
+  PAIR = 'Pair',
+}
+
 @Entity('products')
 export class Product {
   @PrimaryGeneratedColumn()
@@ -23,6 +38,12 @@ export class Product {
 
   @Column({ type: 'enum', enum: ProductCategory, default: ProductCategory.OTHER })
   category: ProductCategory;
+
+  @Column({ type: 'enum', enum: PackagingUnit, default: PackagingUnit.PIECES })
+  packagingUnit: PackagingUnit;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 1 })
+  unitsPerPackage: number;
 
   @Column({ nullable: true })
   brand: string;

@@ -7,13 +7,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/auth/Input';
-import { Product, ProductCategory } from '@/types/stock';
+import { Product, ProductCategory, PackagingUnit } from '@/types/stock';
 import { useCreateProduct, useUpdateProduct } from '@/hooks/useProducts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const productSchema = z.object({
     name: z.string().min(1, 'Name is required'),
     category: z.nativeEnum(ProductCategory),
+    packagingUnit: z.nativeEnum(PackagingUnit).optional(),
+    unitsPerPackage: z.coerce.number().min(0.01).optional(),
     brand: z.string().optional(),
     model: z.string().optional(),
     partType: z.string().optional(),
@@ -44,6 +46,8 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
         resolver: zodResolver(productSchema),
         defaultValues: {
             category: ProductCategory.OTHER,
+            packagingUnit: PackagingUnit.PIECES,
+            unitsPerPackage: 1,
             quantity: 0,
             lowStockThreshold: 5,
         }
@@ -54,6 +58,8 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
             reset({
                 name: product.name,
                 category: product.category as ProductCategory,
+                packagingUnit: (product.packagingUnit as PackagingUnit) || PackagingUnit.PIECES,
+                unitsPerPackage: product.unitsPerPackage || 1,
                 brand: product.brand || '',
                 model: product.model || '',
                 partType: product.partType || '',
@@ -69,6 +75,8 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
             reset({
                 name: '',
                 category: ProductCategory.OTHER,
+                packagingUnit: PackagingUnit.PIECES,
+                unitsPerPackage: 1,
                 brand: '',
                 model: '',
                 partType: '',
@@ -106,7 +114,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium mb-1 block">Category *</label>
+                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category *</label>
                         <Select onValueChange={(val) => setValue('category', val as ProductCategory)} defaultValue={product?.category || ProductCategory.OTHER}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Category" />
@@ -118,6 +126,25 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                             </SelectContent>
                         </Select>
                         {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category.message}</p>}
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Packaging Unit</label>
+                        <Select onValueChange={(val) => setValue('packagingUnit', val as PackagingUnit)} defaultValue={product?.packagingUnit || PackagingUnit.PIECES}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select Unit" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {Object.entries(PackagingUnit).map(([k, v]) => (
+                                    <SelectItem key={k} value={v}>{v}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div>
+                        <Input label="Units Per Package" type="number" step="0.01" {...register('unitsPerPackage')} placeholder="1" />
+                        {errors.unitsPerPackage && <p className="text-red-500 text-xs mt-1">{errors.unitsPerPackage.message}</p>}
                     </div>
 
                     <div>

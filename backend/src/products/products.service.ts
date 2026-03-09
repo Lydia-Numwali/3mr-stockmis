@@ -4,11 +4,13 @@ import { Repository, Like, ILike } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { IsString, IsNumber, IsOptional, IsEnum, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ProductCategory } from '../entities/product.entity';
+import { ProductCategory, PackagingUnit } from '../entities/product.entity';
 
 export class CreateProductDto {
   @IsString() name: string;
   @IsEnum(ProductCategory) category: ProductCategory;
+  @IsEnum(PackagingUnit) @IsOptional() packagingUnit?: PackagingUnit;
+  @Type(() => Number) @IsNumber() @IsOptional() unitsPerPackage?: number;
   @IsOptional() @IsString() brand?: string;
   @IsOptional() @IsString() model?: string;
   @IsOptional() @IsString() partType?: string;

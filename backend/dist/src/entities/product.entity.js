@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Product = exports.ProductCategory = void 0;
+exports.Product = exports.PackagingUnit = exports.ProductCategory = void 0;
 const typeorm_1 = require("typeorm");
 const sale_entity_1 = require("./sale.entity");
 const stock_movement_entity_1 = require("./stock-movement.entity");
@@ -24,10 +24,27 @@ var ProductCategory;
     ProductCategory["TIRES_WHEELS"] = "Tires & Wheels";
     ProductCategory["OTHER"] = "Other";
 })(ProductCategory || (exports.ProductCategory = ProductCategory = {}));
+var PackagingUnit;
+(function (PackagingUnit) {
+    PackagingUnit["PIECES"] = "Pieces";
+    PackagingUnit["CARTON"] = "Carton";
+    PackagingUnit["LITRE"] = "Litre";
+    PackagingUnit["KILOGRAM"] = "Kilogram";
+    PackagingUnit["BOX"] = "Box";
+    PackagingUnit["PACK"] = "Pack";
+    PackagingUnit["BOTTLE"] = "Bottle";
+    PackagingUnit["CAN"] = "Can";
+    PackagingUnit["GALLON"] = "Gallon";
+    PackagingUnit["METER"] = "Meter";
+    PackagingUnit["SET"] = "Set";
+    PackagingUnit["PAIR"] = "Pair";
+})(PackagingUnit || (exports.PackagingUnit = PackagingUnit = {}));
 let Product = class Product {
     id;
     name;
     category;
+    packagingUnit;
+    unitsPerPackage;
     brand;
     model;
     partType;
@@ -58,6 +75,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'enum', enum: ProductCategory, default: ProductCategory.OTHER }),
     __metadata("design:type", String)
 ], Product.prototype, "category", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'enum', enum: PackagingUnit, default: PackagingUnit.PIECES }),
+    __metadata("design:type", String)
+], Product.prototype, "packagingUnit", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 2, default: 1 }),
+    __metadata("design:type", Number)
+], Product.prototype, "unitsPerPackage", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)

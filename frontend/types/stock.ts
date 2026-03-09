@@ -21,10 +21,27 @@ export enum ProductCategory {
     OTHER = 'Other',
 }
 
+export enum PackagingUnit {
+    PIECES = 'Pieces',
+    CARTON = 'Carton',
+    LITRE = 'Litre',
+    KILOGRAM = 'Kilogram',
+    BOX = 'Box',
+    PACK = 'Pack',
+    BOTTLE = 'Bottle',
+    CAN = 'Can',
+    GALLON = 'Gallon',
+    METER = 'Meter',
+    SET = 'Set',
+    PAIR = 'Pair',
+}
+
 export interface Product {
     id: number;
     name: string;
     category: string;
+    packagingUnit?: string;
+    unitsPerPackage?: number;
     brand?: string;
     model?: string;
     partType?: string;

@@ -23,6 +23,8 @@ const product_entity_2 = require("../entities/product.entity");
 class CreateProductDto {
     name;
     category;
+    packagingUnit;
+    unitsPerPackage;
     brand;
     model;
     partType;
@@ -44,6 +46,17 @@ __decorate([
     (0, class_validator_1.IsEnum)(product_entity_2.ProductCategory),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "category", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(product_entity_2.PackagingUnit),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateProductDto.prototype, "packagingUnit", void 0);
+__decorate([
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateProductDto.prototype, "unitsPerPackage", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),

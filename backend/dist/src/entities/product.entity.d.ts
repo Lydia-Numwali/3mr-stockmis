@@ -10,10 +10,26 @@ export declare enum ProductCategory {
     TIRES_WHEELS = "Tires & Wheels",
     OTHER = "Other"
 }
+export declare enum PackagingUnit {
+    PIECES = "Pieces",
+    CARTON = "Carton",
+    LITRE = "Litre",
+    KILOGRAM = "Kilogram",
+    BOX = "Box",
+    PACK = "Pack",
+    BOTTLE = "Bottle",
+    CAN = "Can",
+    GALLON = "Gallon",
+    METER = "Meter",
+    SET = "Set",
+    PAIR = "Pair"
+}
 export declare class Product {
     id: number;
     name: string;
     category: ProductCategory;
+    packagingUnit: PackagingUnit;
+    unitsPerPackage: number;
     brand: string;
     model: string;
     partType: string;
