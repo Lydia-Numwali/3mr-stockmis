@@ -1,17 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { Product } from './product.entity';
 
-export enum SaleType {
-  RETAIL = 'RETAIL',
-  WHOLESALE = 'WHOLESALE',
-}
-
-@Entity('sales')
-export class Sale {
+@Entity('purchases')
+export class Purchase {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Product, (p) => p.sales, { eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => Product, (p) => p.purchases, { eager: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'productId' })
   product: Product;
 
@@ -19,25 +14,22 @@ export class Sale {
   productId: number;
 
   @Column()
-  quantitySold: number;
-
-  @Column({ type: 'enum', enum: SaleType })
-  saleType: SaleType;
+  quantityPurchased: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  priceUsed: number;
+  pricePerUnit: number;
 
   @Column({ nullable: true })
-  customerName: string;
+  supplier: string;
 
   @Column({ nullable: true, type: 'text' })
   notes: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantitySold" * "priceUsed"', nullable: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantityPurchased" * "pricePerUnit"', nullable: true })
   totalValue: number;
 
   @Column({ type: 'timestamp', nullable: true })
-  saleDate: Date;
+  purchaseDate: Date;
 
   @CreateDateColumn()
   recordedDate: Date;

@@ -26,24 +26,30 @@ const Sidebar: FC<props> = ({ handleLinkClick }) => {
     },
     {
       id: 3,
+      href: "/super-admin/purchases",
+      icon: "solar:cart-plus-bold",
+      label: "Purchases",
+    },
+    {
+      id: 4,
       href: "/super-admin/stock",
       icon: "solar:transfer-horizontal-bold",
       label: "Stock Movements",
     },
     {
-      id: 4,
+      id: 5,
       href: "/super-admin/sales",
       icon: "solar:cart-large-minimalistic-bold",
       label: "Sales",
     },
     {
-      id: 5,
+      id: 6,
       href: "/super-admin/lending",
       icon: "solar:hand-money-bold",
       label: "Lending",
     },
     {
-      id: 6,
+      id: 7,
       href: "/super-admin/reports",
       icon: "solar:document-text-bold",
       label: "Reports",

@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { Sale } from './sale.entity';
 import { StockMovement } from './stock-movement.entity';
 import { Lending } from './lending.entity';
+import { Purchase } from './purchase.entity';
 
 export enum ProductCategory {
   ENGINE_PARTS = 'Engine Parts',
@@ -92,4 +93,7 @@ export class Product {
 
   @OneToMany(() => Lending, (l: Lending) => l.product)
   lendings: Lending[];
+
+  @OneToMany(() => Purchase, (p: Purchase) => p.product)
+  purchases: Purchase[];
 }

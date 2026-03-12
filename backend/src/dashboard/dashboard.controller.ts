@@ -10,6 +10,9 @@ export class DashboardController {
   @Get('stats')
   getStats() { return this.service.getStats(); }
 
+  @Get('best-customers')
+  getBestCustomers() { return this.service.getBestCustomers(); }
+
   @Get('revenue-trend')
   getRevenueTrend() { return this.service.getMonthlyRevenueTrend(); }
 

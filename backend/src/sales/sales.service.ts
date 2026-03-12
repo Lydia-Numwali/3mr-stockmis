@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
-import { Sale, SaleType, CustomerType } from '../entities/sale.entity';
+import { Sale, SaleType } from '../entities/sale.entity';
 import { Product } from '../entities/product.entity';
 import { StockMovement, MovementType } from '../entities/stock-movement.entity';
 import { IsNumber, IsEnum, IsOptional, IsString, Min } from 'class-validator';
@@ -12,7 +12,8 @@ export class CreateSaleDto {
   @Type(() => Number) @IsNumber() @Min(1) quantitySold: number;
   @IsEnum(SaleType) saleType: SaleType;
   @Type(() => Number) @IsNumber() priceUsed: number;
-  @IsOptional() @IsEnum(CustomerType) customerType?: CustomerType;
+  @IsOptional() @IsString() customerName?: string;
+  @IsOptional() @IsString() saleDate?: string;
   @IsOptional() @IsString() notes?: string;
 }
 
@@ -33,7 +34,10 @@ export class SalesService {
         throw new BadRequestException(`Insufficient stock. Available: ${product.quantity}`);
       product.quantity -= Number(dto.quantitySold);
       await em.save(product);
-      const sale = em.create(Sale, dto);
+      const sale = em.create(Sale, {
+        ...dto,
+        saleDate: dto.saleDate ? new Date(dto.saleDate) : new Date(),
+      });
       const savedSale = await em.save(sale);
       const movement = em.create(StockMovement, {
         productId: dto.productId,
@@ -47,12 +51,13 @@ export class SalesService {
   }
 
   async findAll(query: any) {
-    const { from, to, saleType, page = 1, limit = 20 } = query;
+    const { from, to, saleType, customerName, page = 1, limit = 20 } = query;
     const qb = this.saleRepo.createQueryBuilder('s').leftJoinAndSelect('s.product', 'p');
-    if (from) qb.andWhere('s.date >= :from', { from });
-    if (to) qb.andWhere('s.date <= :to', { to: to + ' 23:59:59' });
+    if (from) qb.andWhere('s.saleDate >= :from', { from });
+    if (to) qb.andWhere('s.saleDate <= :to', { to: to + ' 23:59:59' });
     if (saleType) qb.andWhere('s.saleType = :saleType', { saleType });
-    qb.orderBy('s.date', 'DESC').skip((Number(page) - 1) * Number(limit)).take(Number(limit));
+    if (customerName) qb.andWhere('s.customerName ILIKE :customerName', { customerName: `%${customerName}%` });
+    qb.orderBy('s.saleDate', 'DESC').skip((Number(page) - 1) * Number(limit)).take(Number(limit));
     const [items, total] = await qb.getManyAndCount();
     return { items, total, page: Number(page), limit: Number(limit) };
   }
@@ -80,10 +85,10 @@ export class SalesService {
   async getSalesForReport(query: any) {
     const { from, to, saleType } = query;
     const qb = this.saleRepo.createQueryBuilder('s').leftJoinAndSelect('s.product', 'p');
-    if (from) qb.andWhere('s.date >= :from', { from });
-    if (to) qb.andWhere('s.date <= :to', { to: to + ' 23:59:59' });
+    if (from) qb.andWhere('s.saleDate >= :from', { from });
+    if (to) qb.andWhere('s.saleDate <= :to', { to: to + ' 23:59:59' });
     if (saleType) qb.andWhere('s.saleType = :saleType', { saleType });
-    qb.orderBy('s.date', 'DESC');
+    qb.orderBy('s.saleDate', 'DESC');
     return qb.getMany();
   }
 }
