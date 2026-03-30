@@ -43,38 +43,37 @@ export const DashboardStatsCards: React.FC = () => {
 
     const cards: StatCardProps[] = [
         {
-            label: 'Total Products',
-            value: stats?.totalProducts ?? 0,
+            label: 'Items in Stock',
+            value: stats?.itemsInStock ?? 0,
             icon: <Package size={20} className="text-green-600" />,
             iconBg: 'bg-green-100 dark:bg-green-900/30',
-            trend: { value: String(stats?.totalProducts ?? 0), positive: true },
+            trend: { value: String(stats?.itemsInStock ?? 0), positive: true },
         },
         {
-            label: 'Lent Items',
-            value: stats?.productsLentOut ?? 0,
-            icon: <HandHelping size={20} className="text-red-500" />,
-            iconBg: 'bg-red-100 dark:bg-red-900/30',
-            trend: { value: String(stats?.productsLentOut ?? 0), positive: (stats?.productsLentOut ?? 0) === 0 },
+            label: 'Total Value of Sales',
+            value: formatCurrency(stats?.valueOfSales ?? 0),
+            icon: <TrendingUp size={20} className="text-blue-600" />,
+            iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+            trend: { value: formatCurrency(stats?.valueOfSales ?? 0), positive: (stats?.valueOfSales ?? 0) > 0 },
         },
         {
-            label: 'Stock Alerts',
-            value: stats?.lowStockCount ?? 0,
-            icon: <AlertTriangle size={20} className="text-amber-500" />,
-            iconBg: 'bg-amber-100 dark:bg-amber-900/30',
-            trend: { value: String(stats?.lowStockCount ?? 0), positive: (stats?.lowStockCount ?? 0) === 0 },
+            label: 'Total Value of Purchases',
+            value: formatCurrency(stats?.valueOfPurchases ?? 0),
+            icon: <Package size={20} className="text-purple-600" />,
+            iconBg: 'bg-purple-100 dark:bg-purple-900/30',
+            trend: { value: formatCurrency(stats?.valueOfPurchases ?? 0), positive: true },
         },
         {
-            label: 'Income This Month',
-            value: formatCurrency(stats?.revenueThisMonth ?? 0),
-            icon: <TrendingUp size={20} className="text-violet-600" />,
-            iconBg: 'bg-violet-100 dark:bg-violet-900/30',
-            trend: { value: formatCurrency(stats?.revenueThisMonth ?? 0), positive: (stats?.revenueThisMonth ?? 0) > 0 },
+            label: 'Stock Balance',
+            value: formatCurrency(stats?.stockBalance ?? 0),
+            icon: <TrendingUp size={20} className="text-indigo-600" />,
+            iconBg: 'bg-indigo-100 dark:bg-indigo-900/30',
+            trend: { value: formatCurrency(stats?.stockBalance ?? 0), positive: (stats?.stockBalance ?? 0) >= 0 },
         },
     ];
 
     return (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-            {cards.map((card) => (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">{cards.map((card) => (
                 <StatCard key={card.label} {...card} loading={isLoading} />
             ))}
         </div>

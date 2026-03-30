@@ -23,6 +23,9 @@ export class DashboardService {
       valueOfPurchases,
       totalItemsInStock,
       lentProducts,
+      totalProducts,
+      lowStockCount,
+      revenueThisMonth,
     ] = await Promise.all([
       this.saleRepo.createQueryBuilder('s').select('COALESCE(COUNT(*), 0)', 'total').getRawOne(),
       this.purchaseRepo.createQueryBuilder('p').select('COALESCE(COUNT(*), 0)', 'total').getRawOne(),
@@ -30,11 +33,16 @@ export class DashboardService {
       this.purchaseRepo.createQueryBuilder('p').select('COALESCE(SUM(p.totalValue), 0)', 'total').getRawOne(),
       this.prodRepo.createQueryBuilder('p').select('COALESCE(SUM(p.quantity), 0)', 'total').getRawOne(),
       this.lendRepo.createQueryBuilder('l').select('COALESCE(SUM(l.quantityLent - l.quantityReturned), 0)', 'total').where('l.status IN (:...s)', { s: [LendingStatus.PENDING, LendingStatus.OVERDUE, LendingStatus.PARTIALLY_RETURNED] }).getRawOne(),
+      // New calculations for missing fields
+      this.prodRepo.createQueryBuilder('p').select('COALESCE(COUNT(*), 0)', 'total').getRawOne(),
+      this.prodRepo.createQueryBuilder('p').select('COALESCE(COUNT(*), 0)', 'total').where('p.quantity <= p.lowStockThreshold').getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.totalValue), 0)', 'total').where("DATE_TRUNC('month', s.saleDate) = DATE_TRUNC('month', CURRENT_DATE)").getRawOne(),
     ]);
 
     const stockBalance = Number(valueOfPurchases.total) - Number(valueOfSales.total);
 
     return {
+      // Existing fields (preserved for backward compatibility)
       totalSales: Number(totalSales.total),
       totalPurchases: Number(totalPurchases.total),
       valueOfSales: Number(valueOfSales.total),
@@ -42,6 +50,13 @@ export class DashboardService {
       stockBalance,
       totalItemsInStock: Number(totalItemsInStock.total),
       lentProducts: Number(lentProducts.total),
+      
+      // New fields for frontend compatibility
+      totalProducts: Number(totalProducts.total),
+      productsLentOut: Number(lentProducts.total), // Alias for lentProducts
+      lowStockCount: Number(lowStockCount.total),
+      revenueThisMonth: Number(revenueThisMonth.total),
+      itemsInStock: Number(totalItemsInStock.total), // Alias for totalItemsInStock
     };
   }
 

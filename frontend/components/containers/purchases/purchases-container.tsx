@@ -2,19 +2,19 @@
 
 import React, { useState } from 'react';
 import DataTable from '@/components/common/DataTable';
-import { getSalesColumns } from '@/components/table/columnsDef/salesColumns';
-import { useSalesHistory as useSales } from '@/hooks/useSales';
+import { getPurchasesColumns } from '@/components/table/columnsDef/purchasesColumns';
+import { usePurchases } from '@/hooks/usePurchases';
 import { PaginationState } from '@tanstack/react-table';
 import { useDebounce } from 'use-debounce';
-import { Sale } from '@/types/stock';
-import SalesDialog from './sales-dialog';
-import BulkSalesDialog from './bulk-sales-dialog';
+import { Purchase } from '@/types/stock';
+import PurchasesDialog from './purchases-dialog';
+import BulkPurchasesDialog from './bulk-purchases-dialog';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 import { ExportColumn, formatCurrency, formatDateTime } from '@/utils/export-utils';
 
-const SalesContainer = () => {
+const PurchasesContainer = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearch] = useDebounce(searchQuery, 500);
     const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({});
@@ -26,7 +26,7 @@ const SalesContainer = () => {
         pageSize: 25,
     });
 
-    const { isLoading, data } = useSales({
+    const { isLoading, data } = usePurchases({
         page: pagination.pageIndex + 1,
         limit: pagination.pageSize,
         search: debouncedSearch,
@@ -34,55 +34,54 @@ const SalesContainer = () => {
         to: dateRange.to?.toISOString().split('T')[0],
     });
 
-    const salesColumns = getSalesColumns();
+    const purchasesColumns = getPurchasesColumns();
 
     // Export configuration
     const exportConfig: { filename: string; title: string; columns: ExportColumn[] } = {
-        filename: 'sales-report',
-        title: 'Sales Report',
+        filename: 'purchases-report',
+        title: 'Purchases Report',
         columns: [
             { key: 'product.name', label: 'Product Name' },
             { key: 'product.brand', label: 'Brand' },
-            { key: 'quantitySold', label: 'Quantity Sold' },
-            { key: 'saleType', label: 'Sale Type' },
-            { key: 'priceUsed', label: 'Price Used', format: formatCurrency },
+            { key: 'quantityPurchased', label: 'Quantity Purchased' },
+            { key: 'pricePerUnit', label: 'Price Per Unit', format: formatCurrency },
             { key: 'totalValue', label: 'Total Value', format: formatCurrency },
-            { key: 'customerName', label: 'Customer Name' },
-            { key: 'saleDate', label: 'Sale Date', format: formatDateTime },
+            { key: 'supplier', label: 'Supplier' },
+            { key: 'purchaseDate', label: 'Purchase Date', format: formatDateTime },
         ],
     };
 
     return (
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-2xl font-bold">Sales History</h1>
+                <h1 className="text-2xl font-bold">Purchases History</h1>
                 
                 <div className="flex items-center gap-2">
                     <Button onClick={() => setOpenDialog(true)} variant="outline">
-                        Single Sale
+                        Single Purchase
                     </Button>
                     
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button className="bg-secondary-blue text-white">
-                                Record Sale
+                                Add Purchase
                                 <ChevronDown className="ml-2 h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => setOpenDialog(true)}>
-                                Single Sale
+                                Single Purchase
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => setOpenBulkDialog(true)}>
-                                Bulk Sale Entry
+                                Bulk Purchase Entry
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
             </div>
 
-            <DataTable<Sale>
-                columns={salesColumns}
+            <DataTable<Purchase>
+                columns={purchasesColumns}
                 data={data?.items ?? []}
                 isLoading={isLoading}
                 heading=""
@@ -93,7 +92,7 @@ const SalesContainer = () => {
                 limit={pagination.pageSize}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                searchPlaceholder="Search by product name, customer..."
+                searchPlaceholder="Search by product name, supplier..."
                 dateFilter={{
                     enabled: true,
                     value: dateRange,
@@ -102,18 +101,17 @@ const SalesContainer = () => {
                 exportConfig={exportConfig}
             />
 
-            {openDialog && <SalesDialog
+            {openDialog && <PurchasesDialog
                 open={openDialog}
                 onOpenChange={setOpenDialog}
             />}
 
-            {openBulkDialog && <BulkSalesDialog
+            {openBulkDialog && <BulkPurchasesDialog
                 open={openBulkDialog}
                 onOpenChange={setOpenBulkDialog}
             />}
         </div>
     );
 };
-};
 
-export default SalesContainer;
+export default PurchasesContainer;

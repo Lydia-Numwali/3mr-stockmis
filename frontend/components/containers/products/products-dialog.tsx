@@ -13,10 +13,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const productSchema = z.object({
     name: z.string().min(1, 'Name is required'),
-    category: z.nativeEnum(ProductCategory),
+    brand: z.string().min(1, 'Brand is required'),
+    category: z.nativeEnum(ProductCategory).optional(),
     packagingUnit: z.nativeEnum(PackagingUnit).optional(),
     unitsPerPackage: z.coerce.number().min(0.01).optional(),
-    brand: z.string().optional(),
     model: z.string().optional(),
     partType: z.string().optional(),
     wholesalePrice: z.coerce.number().min(0),
@@ -45,6 +45,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<ProductFormValues>({
         resolver: zodResolver(productSchema),
         defaultValues: {
+            brand: '',
             category: ProductCategory.OTHER,
             packagingUnit: PackagingUnit.PIECES,
             unitsPerPackage: 1,
@@ -74,10 +75,10 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
         } else if (open && type === 'add') {
             reset({
                 name: '',
+                brand: '',
                 category: ProductCategory.OTHER,
                 packagingUnit: PackagingUnit.PIECES,
                 unitsPerPackage: 1,
-                brand: '',
                 model: '',
                 partType: '',
                 wholesalePrice: 0,
@@ -109,15 +110,24 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 grid grid-cols-2 gap-4">
 
                     <div className="col-span-2">
-                        <Input label="Name *" {...register('name')} placeholder="Engine Oil" />
+                        <Input label="Name *" {...register('name')} placeholder="Engine Oil 5W-30" />
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                     </div>
 
                     <div>
-                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category *</label>
+                        <Input label="Brand *" {...register('brand')} placeholder="Mobil 1" />
+                        {errors.brand && <p className="text-red-500 text-xs mt-1">{errors.brand.message}</p>}
+                    </div>
+
+                    <div>
+                        <Input label="Model" {...register('model')} placeholder="Advanced Full Synthetic" />
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category</label>
                         <Select onValueChange={(val) => setValue('category', val as ProductCategory)} defaultValue={product?.category || ProductCategory.OTHER}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select Category" />
+                                <SelectValue placeholder="Select Category (Optional)" />
                             </SelectTrigger>
                             <SelectContent>
                                 {Object.entries(ProductCategory).map(([k, v]) => (
@@ -125,7 +135,6 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                                 ))}
                             </SelectContent>
                         </Select>
-                        {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category.message}</p>}
                     </div>
 
                     <div>
@@ -148,15 +157,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div>
-                        <Input label="Brand" {...register('brand')} placeholder="Castrol" />
-                    </div>
-
-                    <div>
-                        <Input label="Model" {...register('model')} placeholder="Magnatec" />
-                    </div>
-
-                    <div>
-                        <Input label="Part Type" {...register('partType')} placeholder="Oil" />
+                        <Input label="Part Type" {...register('partType')} placeholder="Lubricant" />
                     </div>
 
                     <div>

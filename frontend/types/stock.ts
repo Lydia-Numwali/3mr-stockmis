@@ -80,6 +80,20 @@ export interface Sale {
     date: string;
 }
 
+export interface Purchase {
+    id: number;
+    product: Product;
+    productId: number;
+    quantityPurchased: number;
+    pricePerUnit: number;
+    supplier?: string;
+    notes?: string;
+    totalValue: number;
+    purchaseDate: string;
+    recordedDate: string;
+    date: string;
+}
+
 export interface Lending {
     id: number;
     product: Product;

@@ -9,6 +9,7 @@ import { useDebounce } from 'use-debounce';
 import { Product } from '@/types/stock';
 import ProductDialog from './products-dialog';
 import BulkConfirmDialog from '@/components/common/bulk-action-dialog';
+import { ExportColumn, formatCurrency } from '@/utils/export-utils';
 
 const ProductsContainer = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -52,6 +53,23 @@ const ProductsContainer = () => {
 
     const productColumns = getProductColumns(handleEdit, handleDeleteClick);
 
+    // Export configuration
+    const exportConfig: { filename: string; title: string; columns: ExportColumn[] } = {
+        filename: 'products-report',
+        title: 'Products Inventory Report',
+        columns: [
+            { key: 'name', label: 'Product Name' },
+            { key: 'brand', label: 'Brand' },
+            { key: 'category', label: 'Category' },
+            { key: 'quantity', label: 'Stock Quantity' },
+            { key: 'costPrice', label: 'Cost Price', format: formatCurrency },
+            { key: 'wholesalePrice', label: 'Wholesale Price', format: formatCurrency },
+            { key: 'retailPrice', label: 'Retail Price', format: formatCurrency },
+            { key: 'supplier', label: 'Supplier' },
+            { key: 'storageLocation', label: 'Storage Location' },
+        ],
+    };
+
     return (
         <div className="w-full">
             <DataTable<Product>
@@ -73,7 +91,8 @@ const ProductsContainer = () => {
                 limit={pagination.pageSize}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                searchPlaceholder="Search product name or part..."
+                searchPlaceholder="Search product name or brand..."
+                exportConfig={exportConfig}
             />
 
             {openDialog && <ProductDialog

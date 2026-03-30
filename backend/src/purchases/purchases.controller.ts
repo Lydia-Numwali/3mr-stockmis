@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
-import { PurchasesService, CreatePurchaseDto } from './purchases.service';
+import { PurchasesService, CreatePurchaseDto, CreateBulkPurchaseDto } from './purchases.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
@@ -10,6 +10,11 @@ export class PurchasesController {
   @Post()
   create(@Body() dto: CreatePurchaseDto) {
     return this.service.create(dto);
+  }
+
+  @Post('bulk')
+  createBulk(@Body() dto: CreateBulkPurchaseDto) {
+    return this.service.createBulk(dto);
   }
 
   @Get()

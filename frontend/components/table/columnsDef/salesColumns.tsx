@@ -44,9 +44,11 @@ export const getSalesColumns = (): ColumnDef<Sale>[] => {
             },
         },
         {
-            accessorKey: 'customerType',
-            header: 'Customer Type',
-            cell: ({ row }) => row.original.customerType ? row.original.customerType.replace('_', ' ') : '-',
+            accessorKey: 'customerName',
+            header: 'Customer Name',
+            cell: ({ row }) => (
+                <span className="font-medium">{row.original.customerName || 'Walk-in Customer'}</span>
+            ),
         },
         {
             accessorKey: 'date',

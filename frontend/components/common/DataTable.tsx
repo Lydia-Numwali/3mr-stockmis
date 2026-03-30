@@ -54,7 +54,9 @@ import FormDatePicker from './FormDatePicker';
 import AttendanceLabels from './AttendanceLabels';
 import TableSkeleton from './TableSkeleton';
 import FilterSelect from './FilterSelect';
+import DateRangeFilter from './DateRangeFilter';
 import { handleDownloadAll } from '@/utils/download-all';
+import { exportToExcel, exportToPDF, printTable, ExportColumn } from '@/utils/export-utils';
 import { useTranslations } from 'next-intl';
 
 // Removed IFilterOption since it was only used for the old appointment system filtering and its component was deleted
@@ -117,6 +119,18 @@ interface DataTableProps<T extends object> {
   rowSelection?: Record<string, boolean>;
   setRowSelection?: Dispatch<SetStateAction<Record<string, boolean>>>;
   bulkOperator?: React.ReactNode;
+  // Date filter props
+  dateFilter?: {
+    value: { from?: Date; to?: Date };
+    onChange: (range: { from?: Date; to?: Date }) => void;
+    enabled?: boolean;
+  };
+  // Export configuration
+  exportConfig?: {
+    filename: string;
+    title: string;
+    columns: ExportColumn[];
+  };
 }
 
 const DataTable = <T extends Record<string, any>>({
@@ -155,6 +169,8 @@ const DataTable = <T extends Record<string, any>>({
   rowSelection = {},
   setRowSelection = () => { },
   bulkOperator,
+  dateFilter,
+  exportConfig,
 }: DataTableProps<T>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -163,6 +179,28 @@ const DataTable = <T extends Record<string, any>>({
 
   const updateFilter = (id: string, value: any) => {
     setFilterValues((prev) => ({ ...prev, [id]: value }));
+  };
+
+  // Enhanced export function
+  const handleExport = (type: 'excel' | 'pdf' | 'print') => {
+    if (!exportConfig) {
+      onExport?.(type);
+      return;
+    }
+
+    const { filename, title, columns: exportColumns } = exportConfig;
+    
+    switch (type) {
+      case 'excel':
+        exportToExcel({ filename, title, columns: exportColumns, data });
+        break;
+      case 'pdf':
+        exportToPDF({ filename, title, columns: exportColumns, data });
+        break;
+      case 'print':
+        printTable({ filename, title, columns: exportColumns, data });
+        break;
+    }
   };
 
   // FIX: Safe filtering function
@@ -239,45 +277,31 @@ const DataTable = <T extends Record<string, any>>({
 
         {/* SEARCH & FILTERS */}
         <div className="flex flex-wrap items-center justify-between gap-4">
-          {searchEnabled && (
-            <div className="flex border rounded-xl py-3 px-4 w-full max-w-[400px] items-center gap-2">
-              <Icon icon="solar:magnifer-linear" width={24} height={24} />
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder={searchPlaceholder ?? t('tables.common.search')}
-                value={searchQuery || ''}
-                onChange={(e) => setSearchQuery?.(e.target.value)}
-                className="px-1 flex-1 outline-none"
-              />
-            </div>
-          )}
-
-          <div className={cn('flex items-center justify-end gap-4 flex-1')}>
-            {(searchEnabled || !vfilters) && (
-              <div className="w-full max-w-[400px]">
-                <div className="flex border-[#4D4D4D40] rounded-xl py-3 px-[18px] w-full border items-center gap-[10px]">
-                  <Icon
-                    className="text-[#484F60]"
-                    icon="solar:magnifer-linear"
-                    width={24}
-                    height={24}
-                  />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder={
-                      searchPlaceholder ? searchPlaceholder : `Search`
-                    }
-                    value={searchQuery || ''}
-                    onChange={(e) =>
-                      setSearchQuery && setSearchQuery(e.target.value)
-                    }
-                    className="px-1 flex-1 w-full outline-none placeholder:capitalize"
-                  />
-                </div>
+          <div className="flex items-center gap-4 flex-1">
+            {searchEnabled && (
+              <div className="flex border rounded-xl py-3 px-4 w-full max-w-[400px] items-center gap-2">
+                <Icon icon="solar:magnifer-linear" width={24} height={24} />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder={searchPlaceholder ?? t('tables.common.search')}
+                  value={searchQuery || ''}
+                  onChange={(e) => setSearchQuery?.(e.target.value)}
+                  className="px-1 flex-1 outline-none"
+                />
               </div>
             )}
+
+            {dateFilter?.enabled && (
+              <DateRangeFilter
+                value={dateFilter.value}
+                onChange={dateFilter.onChange}
+                placeholder="Filter by date"
+              />
+            )}
+          </div>
+
+          <div className={cn('flex items-center justify-end gap-4 flex-1')}>
             {vfilters && vfilters.statuses && (
               <FilterSelect
                 filters={vfilters.statuses}
@@ -325,13 +349,13 @@ const DataTable = <T extends Record<string, any>>({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-36">
-                    <DropdownMenuItem onClick={() => onExport?.('excel')}>
+                    <DropdownMenuItem onClick={() => handleExport('excel')}>
                       Excel
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onExport?.('pdf')}>
+                    <DropdownMenuItem onClick={() => handleExport('pdf')}>
                       PDF
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onExport?.('print')}>
+                    <DropdownMenuItem onClick={() => handleExport('print')}>
                       Print
                     </DropdownMenuItem>
                   </DropdownMenuContent>

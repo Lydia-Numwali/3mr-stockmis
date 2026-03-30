@@ -16,6 +16,19 @@ export class CreatePurchaseDto {
   @IsOptional() @IsString() notes?: string;
 }
 
+export class BulkPurchaseItemDto {
+  @Type(() => Number) @IsNumber() productId: number;
+  @Type(() => Number) @IsNumber() @Min(1) quantityPurchased: number;
+  @Type(() => Number) @IsNumber() @Min(0.01) pricePerUnit: number;
+}
+
+export class CreateBulkPurchaseDto {
+  @IsOptional() @IsString() supplier?: string;
+  @IsOptional() @IsString() purchaseDate?: string;
+  @IsOptional() @IsString() notes?: string;
+  items: BulkPurchaseItemDto[];
+}
+
 @Injectable()
 export class PurchasesService {
   constructor(
@@ -57,12 +70,56 @@ export class PurchasesService {
     });
   }
 
+  async createBulk(dto: CreateBulkPurchaseDto) {
+    return this.dataSource.transaction(async (em) => {
+      const savedPurchases = [];
+      const purchaseDate = dto.purchaseDate ? new Date(dto.purchaseDate) : new Date();
+      
+      for (const item of dto.items) {
+        const product = await em.findOne(Product, { where: { id: item.productId } });
+        if (!product) throw new BadRequestException(`Product with ID ${item.productId} not found`);
+        
+        // Update product quantity and cost price
+        product.quantity += Number(item.quantityPurchased);
+        product.costPrice = Number(item.pricePerUnit);
+        if (dto.supplier) product.supplier = dto.supplier;
+        await em.save(product);
+        
+        // Create purchase record
+        const purchase = em.create(Purchase, {
+          productId: item.productId,
+          quantityPurchased: item.quantityPurchased,
+          pricePerUnit: item.pricePerUnit,
+          supplier: dto.supplier,
+          purchaseDate,
+          notes: dto.notes,
+        });
+        const savedPurchase = await em.save(purchase);
+        savedPurchases.push(savedPurchase);
+        
+        // Create stock movement
+        const movement = em.create(StockMovement, {
+          productId: item.productId,
+          type: MovementType.IN,
+          quantity: item.quantityPurchased,
+          purchasePrice: item.pricePerUnit,
+          supplier: dto.supplier,
+          notes: `Bulk Purchase #${savedPurchase.id}`,
+        });
+        await em.save(movement);
+      }
+      
+      return savedPurchases;
+    });
+  }
+
   async findAll(query: any) {
-    const { from, to, supplier, page = 1, limit = 20 } = query;
+    const { from, to, supplier, search, page = 1, limit = 20 } = query;
     const qb = this.purchaseRepo.createQueryBuilder('p').leftJoinAndSelect('p.product', 'prod');
     if (from) qb.andWhere('p.purchaseDate >= :from', { from });
     if (to) qb.andWhere('p.purchaseDate <= :to', { to: to + ' 23:59:59' });
     if (supplier) qb.andWhere('p.supplier ILIKE :supplier', { supplier: `%${supplier}%` });
+    if (search) qb.andWhere('(prod.name ILIKE :search OR p.supplier ILIKE :search)', { search: `%${search}%` });
     qb.orderBy('p.purchaseDate', 'DESC').skip((Number(page) - 1) * Number(limit)).take(Number(limit));
     const [items, total] = await qb.getManyAndCount();
     return { items, total, page: Number(page), limit: Number(limit) };

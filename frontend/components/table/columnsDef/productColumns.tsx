@@ -17,10 +17,10 @@ export const getProductColumns = (
             header: 'Name',
         },
         {
-            accessorKey: 'category',
-            header: 'Category',
+            accessorKey: 'brand',
+            header: 'Brand',
             cell: ({ row }) => (
-                <span className="capitalize">{row.original.category.replace('_', ' ')}</span>
+                <span className="font-medium">{row.original.brand || 'N/A'}</span>
             ),
         },
         {

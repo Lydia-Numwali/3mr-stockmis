@@ -10,14 +10,14 @@ import Input from '@/components/auth/Input';
 import { useCreateSale } from '@/hooks/useSales';
 import { useProducts } from '@/hooks/useProducts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { SaleType, CustomerType } from '@/types/stock';
+import { SaleType } from '@/types/stock';
 
 const saleSchema = z.object({
     productId: z.coerce.number().min(1, 'Product is required'),
     quantitySold: z.coerce.number().min(1, 'Quantity must be at least 1'),
     saleType: z.nativeEnum(SaleType),
     priceUsed: z.coerce.number().min(0.01, 'Price must be greater than 0'),
-    customerType: z.nativeEnum(CustomerType).optional(),
+    customerName: z.string().optional(),
     notes: z.string().optional(),
 });
 
@@ -63,15 +63,12 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
     useEffect(() => {
         if (open) {
-            reset({ quantitySold: 1, saleType: SaleType.RETAIL, priceUsed: 0, notes: '', customerType: CustomerType.INDIVIDUAL });
+            reset({ quantitySold: 1, saleType: SaleType.RETAIL, priceUsed: 0, notes: '', customerName: '' });
         }
     }, [open, reset]);
 
     const onSubmit = async (data: SaleFormValues) => {
-        await createSaleMutation.mutateAsync({
-            ...data,
-            customerType: data.customerType || CustomerType.INDIVIDUAL
-        });
+        await createSaleMutation.mutateAsync(data);
         onOpenChange(false);
     };
 
@@ -118,16 +115,7 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                         </div>
 
                         <div>
-                            <label className="text-sm font-medium mb-1 block">Customer Type</label>
-                            <Select onValueChange={(val) => setValue('customerType', val as CustomerType)} defaultValue={CustomerType.INDIVIDUAL}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Customer Type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value={CustomerType.INDIVIDUAL}>Individual</SelectItem>
-                                    <SelectItem value={CustomerType.SHOP_OWNER}>Shop Owner</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Input label="Customer Name" {...register('customerName')} placeholder="John Doe" />
                         </div>
                     </div>
 
