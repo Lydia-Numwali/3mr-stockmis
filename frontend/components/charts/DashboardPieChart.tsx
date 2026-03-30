@@ -185,13 +185,28 @@ export function DashboardPieChart() {
                 />
               </Pie>
               <ChartLegend
-                content={
-                  <ChartLegendContent
-                    className="flex flex-wrap items-center justify-center !text-sm font-medium pt-4"
-                    nameKey="category"
-                  />
-                }
-                className="flex items-center justify-center gap-2"
+                content={({ payload }) => (
+                  <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+                    {payload?.map((entry, index) => (
+                      <div
+                        key={`legend-${index}`}
+                        className="flex items-center gap-2 text-sm font-medium cursor-pointer hover:opacity-80"
+                        onClick={() => handleCategoryClick(entry.payload?.category)}
+                      >
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: entry.color }}
+                        />
+                        <span className="text-foreground">
+                          {entry.payload?.category}
+                        </span>
+                        <span className="text-muted-foreground">
+                          ({entry.payload?.count?.toLocaleString()})
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               />
             </PieChart>
           </ChartContainer>

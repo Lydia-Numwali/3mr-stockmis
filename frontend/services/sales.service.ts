@@ -5,7 +5,9 @@ export interface CreateSaleDto {
     quantitySold: number;
     saleType: 'WHOLESALE' | 'RETAIL';
     priceUsed: number;
-    customerType: string;
+    customerName?: string;
+    saleDate?: string;
+    notes?: string;
 }
 
 export interface BulkSaleItemDto {

@@ -32,21 +32,21 @@ const Sidebar: FC<props> = ({ handleLinkClick }) => {
     },
     {
       id: 4,
-      href: "/super-admin/stock",
-      icon: "solar:transfer-horizontal-bold",
-      label: "Stock Movements",
-    },
-    {
-      id: 5,
       href: "/super-admin/sales",
       icon: "solar:cart-large-minimalistic-bold",
       label: "Sales",
     },
     {
-      id: 6,
+      id: 5,
       href: "/super-admin/lending",
       icon: "solar:hand-money-bold",
       label: "Lending",
+    },
+    {
+      id: 6,
+      href: "/super-admin/stock",
+      icon: "solar:transfer-horizontal-bold",
+      label: "Stock Movements",
     },
     {
       id: 7,

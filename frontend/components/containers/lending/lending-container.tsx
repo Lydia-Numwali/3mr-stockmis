@@ -5,11 +5,14 @@ import DataTable from '@/components/common/DataTable';
 import { getLendingColumns } from '@/components/table/columnsDef/lendingColumns';
 import { useLending } from '@/hooks/useLending';
 import { PaginationState } from '@tanstack/react-table';
+import { useDebounce } from 'use-debounce';
 import { Lending } from '@/types/stock';
 import LendingDialog from './lending-dialog';
 import ReturnDialog from './return-dialog';
 
 const LendingContainer = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [debouncedSearch] = useDebounce(searchQuery, 500);
     const [openDialog, setOpenDialog] = useState(false);
     const [openReturnDialog, setOpenReturnDialog] = useState(false);
     const [selectedLending, setSelectedLending] = useState<Lending | null>(null);
@@ -22,6 +25,7 @@ const LendingContainer = () => {
     const { isLoading, data } = useLending({
         page: pagination.pageIndex + 1,
         limit: pagination.pageSize,
+        search: debouncedSearch,
     });
 
     const handleReturnClick = (lending: Lending) => {
@@ -46,6 +50,9 @@ const LendingContainer = () => {
                 setPagination={setPagination}
                 page={pagination.pageIndex}
                 limit={pagination.pageSize}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                searchPlaceholder="Search by product name, borrower..."
             />
 
             {openDialog && <LendingDialog

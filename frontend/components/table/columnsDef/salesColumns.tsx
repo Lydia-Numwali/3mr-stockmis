@@ -51,9 +51,9 @@ export const getSalesColumns = (): ColumnDef<Sale>[] => {
             ),
         },
         {
-            accessorKey: 'date',
-            header: 'Date',
-            cell: ({ row }) => dayjs(row.original.date).format('DD MMM YYYY HH:mm'),
+            accessorKey: 'saleDate',
+            header: 'Sale Date',
+            cell: ({ row }) => dayjs(row.original.saleDate).format('DD MMM YYYY HH:mm'),
         },
     ];
 };

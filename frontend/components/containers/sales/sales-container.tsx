@@ -114,6 +114,5 @@ const SalesContainer = () => {
         </div>
     );
 };
-};
 
 export default SalesContainer;

@@ -5,10 +5,13 @@ import DataTable from '@/components/common/DataTable';
 import { getStockColumns } from '@/components/table/columnsDef/stockColumns';
 import { useStock as useStockMovements } from '@/hooks/useStock';
 import { PaginationState } from '@tanstack/react-table';
+import { useDebounce } from 'use-debounce';
 import { StockMovement } from '@/types/stock';
 import StockDialog from './stock-dialog';
 
 const StockContainer = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [debouncedSearch] = useDebounce(searchQuery, 500);
     const [openDialog, setOpenDialog] = useState(false);
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -18,6 +21,7 @@ const StockContainer = () => {
     const { isLoading, data } = useStockMovements({
         page: pagination.pageIndex + 1,
         limit: pagination.pageSize,
+        search: debouncedSearch,
     });
 
     const stockColumns = getStockColumns();
@@ -37,6 +41,9 @@ const StockContainer = () => {
                 setPagination={setPagination}
                 page={pagination.pageIndex}
                 limit={pagination.pageSize}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                searchPlaceholder="Search by product name, notes..."
             />
 
             {openDialog && <StockDialog

@@ -428,6 +428,88 @@ const DataTable = <T extends Record<string, any>>({
           </Table>
         )}
       </div>
+
+      {/* PAGINATION CONTROLS */}
+      {!isLoading && data.length > 0 && (
+        <div className="flex items-center justify-between px-6 py-4 border-t bg-white">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <span>
+              Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}
+              {Math.min((pagination.pageIndex + 1) * pagination.pageSize, count)} of {count} results
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <span>Rows per page:</span>
+              <select
+                value={pagination.pageSize}
+                onChange={(e) => {
+                  setPagination(prev => ({
+                    ...prev,
+                    pageSize: Number(e.target.value),
+                    pageIndex: 0
+                  }));
+                }}
+                className="border rounded px-2 py-1 text-sm bg-white"
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            
+            <div className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPagination(prev => ({ ...prev, pageIndex: 0 }))}
+                disabled={pagination.pageIndex === 0}
+                className="h-8 w-8 p-0"
+              >
+                <Icon icon="solar:double-alt-arrow-left-bold" className="h-4 w-4" />
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPagination(prev => ({ ...prev, pageIndex: prev.pageIndex - 1 }))}
+                disabled={pagination.pageIndex === 0}
+                className="h-8 w-8 p-0"
+              >
+                <Icon icon="solar:alt-arrow-left-bold" className="h-4 w-4" />
+              </Button>
+              
+              <div className="flex items-center gap-1 mx-2">
+                <span className="text-sm text-gray-600">
+                  Page {pagination.pageIndex + 1} of {Math.max(1, Math.ceil(count / pagination.pageSize))}
+                </span>
+              </div>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPagination(prev => ({ ...prev, pageIndex: prev.pageIndex + 1 }))}
+                disabled={pagination.pageIndex >= Math.ceil(count / pagination.pageSize) - 1}
+                className="h-8 w-8 p-0"
+              >
+                <Icon icon="solar:alt-arrow-right-bold" className="h-4 w-4" />
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPagination(prev => ({ ...prev, pageIndex: Math.ceil(count / pagination.pageSize) - 1 }))}
+                disabled={pagination.pageIndex >= Math.ceil(count / pagination.pageSize) - 1}
+                className="h-8 w-8 p-0"
+              >
+                <Icon icon="solar:double-alt-arrow-right-bold" className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

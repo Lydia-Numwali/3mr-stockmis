@@ -18,6 +18,7 @@ const saleSchema = z.object({
     saleType: z.nativeEnum(SaleType),
     priceUsed: z.coerce.number().min(0.01, 'Price must be greater than 0'),
     customerName: z.string().optional(),
+    saleDate: z.string().optional(),
     notes: z.string().optional(),
 });
 
@@ -63,7 +64,15 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
     useEffect(() => {
         if (open) {
-            reset({ quantitySold: 1, saleType: SaleType.RETAIL, priceUsed: 0, notes: '', customerName: '' });
+            const today = new Date().toISOString().split('T')[0];
+            reset({ 
+                quantitySold: 1, 
+                saleType: SaleType.RETAIL, 
+                priceUsed: 0, 
+                notes: '', 
+                customerName: '',
+                saleDate: today
+            });
         }
     }, [open, reset]);
 
@@ -115,8 +124,18 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                         </div>
 
                         <div>
-                            <Input label="Customer Name" {...register('customerName')} placeholder="John Doe" />
+                            <Input 
+                                label="Sale Date" 
+                                type="date" 
+                                {...register('saleDate')} 
+                                placeholder="When was this sale made?"
+                            />
+                            {errors.saleDate && <p className="text-red-500 text-xs mt-1">{errors.saleDate.message}</p>}
                         </div>
+                    </div>
+
+                    <div>
+                        <Input label="Customer Name" {...register('customerName')} placeholder="John Doe" />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">

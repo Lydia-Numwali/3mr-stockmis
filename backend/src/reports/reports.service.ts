@@ -17,24 +17,61 @@ export class ReportsService {
   async getSalesReport(query: any) {
     const { from, to, saleType } = query;
     const qb = this.saleRepo.createQueryBuilder('s').leftJoinAndSelect('s.product', 'p');
-    if (from) qb.andWhere('s.date >= :from', { from });
-    if (to) qb.andWhere('s.date <= :to', { to: to + ' 23:59:59' });
+    if (from) qb.andWhere('s.saleDate >= :from', { from });
+    if (to) qb.andWhere('s.saleDate <= :to', { to: to + ' 23:59:59' });
     if (saleType) qb.andWhere('s.saleType = :saleType', { saleType });
-    const sales = await qb.orderBy('s.date', 'DESC').getMany();
+    const sales = await qb.orderBy('s.saleDate', 'DESC').getMany();
     const totalRevenue = sales.reduce((acc, s) => acc + s.quantitySold * Number(s.priceUsed), 0);
     return { sales, totalRevenue };
   }
 
-  async getStockReport() {
+  async getStockReport(query: any = {}) {
     const products = await this.prodRepo.find({ order: { name: 'ASC' } });
     return products;
   }
 
-  async getLendingReport() {
-    return this.lendRepo.createQueryBuilder('l').leftJoinAndSelect('l.product', 'p').orderBy('l.createdAt', 'DESC').getMany();
+  async getLendingReport(query: any = {}) {
+    const { from, to } = query;
+    const qb = this.lendRepo.createQueryBuilder('l').leftJoinAndSelect('l.product', 'p');
+    if (from) qb.andWhere('l.dateLent >= :from', { from });
+    if (to) qb.andWhere('l.dateLent <= :to', { to: to + ' 23:59:59' });
+    return qb.orderBy('l.createdAt', 'DESC').getMany();
   }
 
-  async getIncomeReport() {
+  async getIncomeReport(query: any = {}) {
+    const { startDate, endDate } = query;
+    
+    // If date range is provided, use it; otherwise use default periods
+    if (startDate && endDate) {
+      const [totalIncome, totalCost] = await Promise.all([
+        this.saleRepo.createQueryBuilder('s')
+          .select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total')
+          .where('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
+            startDate, 
+            endDate: endDate + ' 23:59:59' 
+          })
+          .getRawOne(),
+        this.saleRepo.createQueryBuilder('s')
+          .leftJoin('s.product', 'p')
+          .select('COALESCE(SUM(s.quantitySold * p.costPrice), 0)', 'total')
+          .where('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
+            startDate, 
+            endDate: endDate + ' 23:59:59' 
+          })
+          .getRawOne(),
+      ]);
+
+      const totalIncomeValue = Number(totalIncome.total);
+      const totalCostValue = Number(totalCost.total);
+      
+      return {
+        totalIncome: totalIncomeValue,
+        totalCost: totalCostValue,
+        profit: totalIncomeValue - totalCostValue,
+      };
+    }
+
+    // Default behavior for dashboard
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const startOfWeek = new Date(today);
@@ -42,9 +79,9 @@ export class ReportsService {
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     const [daily, weekly, monthly, topSelling] = await Promise.all([
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.date >= :today', { today }).getRawOne(),
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.date >= :startOfWeek', { startOfWeek }).getRawOne(),
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.date >= :startOfMonth', { startOfMonth }).getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.saleDate >= :today', { today }).getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.saleDate >= :startOfWeek', { startOfWeek }).getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.saleDate >= :startOfMonth', { startOfMonth }).getRawOne(),
       this.saleRepo.createQueryBuilder('s').select('p.id', 'productId').addSelect('p.name', 'productName').addSelect('SUM(s.quantitySold)', 'totalSold').addSelect('SUM(s.quantitySold * s.priceUsed)', 'totalRevenue').leftJoin('s.product', 'p').groupBy('p.id').addGroupBy('p.name').orderBy('SUM(s.quantitySold)', 'DESC').limit(10).getRawMany(),
     ]);
 
@@ -70,13 +107,13 @@ export class ReportsService {
       { header: 'Date', key: 'date', width: 20 },
     ];
     sales.forEach((s) => {
-      ws.addRow({ id: s.id, product: s.product?.name, qty: s.quantitySold, saleType: s.saleType, price: s.priceUsed, total: s.quantitySold * Number(s.priceUsed), date: new Date(s.date).toLocaleString() });
+      ws.addRow({ id: s.id, product: s.product?.name, qty: s.quantitySold, saleType: s.saleType, price: s.priceUsed, total: s.quantitySold * Number(s.priceUsed), date: new Date(s.saleDate).toLocaleString() });
     });
     return (wb.xlsx.writeBuffer() as unknown) as Promise<Buffer>;
   }
 
-  async exportStockToExcel(): Promise<Buffer> {
-    const products = await this.getStockReport();
+  async exportStockToExcel(query: any = {}): Promise<Buffer> {
+    const products = await this.getStockReport(query);
     const wb = new ExcelJS.Workbook();
     const ws = wb.addWorksheet('Stock Report');
     ws.columns = [
@@ -96,8 +133,8 @@ export class ReportsService {
     return (wb.xlsx.writeBuffer() as unknown) as Promise<Buffer>;
   }
 
-  async exportLendingToExcel(): Promise<Buffer> {
-    const lendings = await this.getLendingReport();
+  async exportLendingToExcel(query: any = {}): Promise<Buffer> {
+    const lendings = await this.getLendingReport(query);
     const wb = new ExcelJS.Workbook();
     const ws = wb.addWorksheet('Lending Report');
     ws.columns = [

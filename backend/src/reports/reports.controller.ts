@@ -12,13 +12,13 @@ export class ReportsController {
   getSales(@Query() query: any) { return this.service.getSalesReport(query); }
 
   @Get('stock')
-  getStock() { return this.service.getStockReport(); }
+  getStock(@Query() query: any) { return this.service.getStockReport(query); }
 
   @Get('lending')
-  getLending() { return this.service.getLendingReport(); }
+  getLending(@Query() query: any) { return this.service.getLendingReport(query); }
 
   @Get('income')
-  getIncome() { return this.service.getIncomeReport(); }
+  getIncome(@Query() query: any) { return this.service.getIncomeReport(query); }
 
   @Get('export/sales')
   async exportSales(@Query() query: any, @Res() res: Response) {
@@ -28,15 +28,15 @@ export class ReportsController {
   }
 
   @Get('export/stock')
-  async exportStock(@Res() res: Response) {
-    const buffer = await this.service.exportStockToExcel();
+  async exportStock(@Query() query: any, @Res() res: Response) {
+    const buffer = await this.service.exportStockToExcel(query);
     res.set({ 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'Content-Disposition': 'attachment; filename="stock-report.xlsx"' });
     res.send(buffer);
   }
 
   @Get('export/lending')
-  async exportLending(@Res() res: Response) {
-    const buffer = await this.service.exportLendingToExcel();
+  async exportLending(@Query() query: any, @Res() res: Response) {
+    const buffer = await this.service.exportLendingToExcel(query);
     res.set({ 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'Content-Disposition': 'attachment; filename="lending-report.xlsx"' });
     res.send(buffer);
   }

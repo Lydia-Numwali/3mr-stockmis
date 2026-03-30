@@ -75,9 +75,11 @@ export interface Sale {
     saleType: 'WHOLESALE' | 'RETAIL';
     priceUsed: number;
     totalValue: number;
-    customerType: string;
+    customerName?: string;
     notes?: string;
-    date: string;
+    saleDate: string;        // When the sale actually happened
+    recordedDate: string;    // When it was recorded in the system
+    date: string;           // Backward compatibility
 }
 
 export interface Purchase {
