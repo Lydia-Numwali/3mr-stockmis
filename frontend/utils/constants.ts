@@ -5,11 +5,6 @@ export const Languages: any[] = [
     name: "English",
   },
   {
-    icon: "emojione:flag-for-france",
-    locale: "fr",
-    name: "French",
-  },
-  {
     icon: "emojione:flag-for-rwanda",
     locale: "ki",
     name: "Kinyarwanda",
