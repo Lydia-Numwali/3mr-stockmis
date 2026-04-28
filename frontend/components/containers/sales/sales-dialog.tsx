@@ -20,6 +20,9 @@ const saleSchema = z.object({
     customerName: z.string().optional(),
     saleDate: z.string().optional(),
     notes: z.string().optional(),
+    paymentStatus: z.enum(['PAID', 'CREDIT', 'PARTIAL']).optional(),
+    amountPaid: z.coerce.number().min(0).optional(),
+    dueDate: z.string().optional(),
 });
 
 type SaleFormValues = z.infer<typeof saleSchema>;
@@ -37,12 +40,14 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<SaleFormValues>({
         resolver: zodResolver(saleSchema),
-        defaultValues: { quantitySold: 1, saleType: SaleType.RETAIL }
+        defaultValues: { quantitySold: 1, saleType: SaleType.RETAIL, paymentStatus: 'PAID', amountPaid: 0 }
     });
 
     const watchProductId = watch('productId');
     const watchQty = watch('quantitySold');
     const watchPrice = watch('priceUsed');
+    const watchPaymentStatus = watch('paymentStatus');
+    const watchAmountPaid = watch('amountPaid');
 
     // Auto-fill price based on product and sale type
     useEffect(() => {
@@ -71,17 +76,26 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                 priceUsed: 0, 
                 notes: '', 
                 customerName: '',
-                saleDate: today
+                saleDate: today,
+                paymentStatus: 'PAID',
+                amountPaid: 0,
+                dueDate: ''
             });
         }
     }, [open, reset]);
 
     const onSubmit = async (data: SaleFormValues) => {
-        await createSaleMutation.mutateAsync(data);
+        const totalValue = (data.quantitySold || 0) * (data.priceUsed || 0);
+        const submitData = {
+            ...data,
+            amountPaid: data.paymentStatus === 'PAID' ? totalValue : (data.amountPaid || 0)
+        };
+        await createSaleMutation.mutateAsync(submitData);
         onOpenChange(false);
     };
 
     const totalCalculated = (watchQty || 0) * (watchPrice || 0);
+    const amountDue = totalCalculated - (watchAmountPaid || 0);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -153,6 +167,59 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                     <div className="bg-gray-100 p-3 rounded-md flex justify-between items-center">
                         <span className="font-medium text-gray-700">Total Sale Value:</span>
                         <span className="font-bold text-lg text-green-700">{totalCalculated.toLocaleString()}</span>
+                    </div>
+
+                    <div className="border-t pt-4">
+                        <h3 className="font-semibold mb-3">Payment Information</h3>
+                        
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="text-sm font-medium mb-1 block">Payment Status *</label>
+                                <Select onValueChange={(val) => setValue('paymentStatus', val as any)} defaultValue="PAID">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Payment Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="PAID">Paid in Full</SelectItem>
+                                        <SelectItem value="CREDIT">Credit (Pay Later)</SelectItem>
+                                        <SelectItem value="PARTIAL">Partial Payment</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {(watchPaymentStatus === 'PARTIAL' || watchPaymentStatus === 'CREDIT') && (
+                                <div>
+                                    <Input 
+                                        label="Due Date" 
+                                        type="date" 
+                                        {...register('dueDate')} 
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {watchPaymentStatus === 'PARTIAL' && (
+                            <div className="mb-4">
+                                <Input 
+                                    label="Amount Paid Now" 
+                                    type="number" 
+                                    step="any" 
+                                    {...register('amountPaid')} 
+                                    placeholder="0.00"
+                                />
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Amount Due: <span className="font-semibold text-red-600">{amountDue.toLocaleString()}</span>
+                                </p>
+                            </div>
+                        )}
+
+                        {watchPaymentStatus === 'CREDIT' && (
+                            <div className="bg-yellow-50 border border-yellow-200 rounded p-3 mb-4">
+                                <p className="text-sm text-yellow-800">
+                                    <span className="font-semibold">Credit Sale:</span> Full amount of {totalCalculated.toLocaleString()} will be due on the specified date.
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     <div>

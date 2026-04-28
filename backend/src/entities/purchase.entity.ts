@@ -1,6 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { Product } from './product.entity';
 
+export enum PaymentStatus {
+  PAID = 'PAID',
+  CREDIT = 'CREDIT',
+  PARTIAL = 'PARTIAL',
+}
+
 @Entity('purchases')
 export class Purchase {
   @PrimaryGeneratedColumn()
@@ -27,6 +33,19 @@ export class Purchase {
 
   @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantityPurchased" * "pricePerUnit"', nullable: true })
   totalValue: number;
+
+  // Credit/Payment fields
+  @Column({ type: 'enum', enum: PaymentStatus, default: PaymentStatus.PAID })
+  paymentStatus: PaymentStatus;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  amountPaid: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  amountDue: number;
+
+  @Column({ type: 'timestamp', nullable: true })
+  dueDate: Date;
 
   @Column({ type: 'timestamp', nullable: true })
   purchaseDate: Date;

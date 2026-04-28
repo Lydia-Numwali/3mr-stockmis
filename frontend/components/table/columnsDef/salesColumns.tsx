@@ -44,6 +44,31 @@ export const getSalesColumns = (): ColumnDef<Sale>[] => {
             },
         },
         {
+            accessorKey: 'paymentStatus',
+            header: 'Payment',
+            cell: ({ row }) => {
+                const status = row.original.paymentStatus || 'PAID';
+                const colors = {
+                    PAID: 'bg-green-500',
+                    CREDIT: 'bg-red-500',
+                    PARTIAL: 'bg-yellow-500'
+                };
+                return <Badge className={`${colors[status as keyof typeof colors]} text-white`}>{status}</Badge>;
+            },
+        },
+        {
+            accessorKey: 'amountDue',
+            header: 'Amount Due',
+            cell: ({ row }) => {
+                const due = row.original.amountDue || 0;
+                return due > 0 ? (
+                    <span className="font-semibold text-red-600">{formatValue(due)}</span>
+                ) : (
+                    <span className="text-gray-400">-</span>
+                );
+            },
+        },
+        {
             accessorKey: 'customerName',
             header: 'Customer Name',
             cell: ({ row }) => (

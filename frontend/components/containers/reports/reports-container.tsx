@@ -107,6 +107,36 @@ const ReportsContainer = () => {
                         </p>
                     </CardContent>
                 </Card>
+
+                <Card className="shadow-sm border-l-4 border-l-orange-500">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium text-gray-500">Credit Sales</CardTitle>
+                        <DollarSign className="w-4 h-4 text-orange-500" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-orange-600">
+                            {isLoadingIncome ? '...' : formatValue(incomeData?.creditSales || 0)}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                            Outstanding receivables
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card className="shadow-sm border-l-4 border-l-red-500">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium text-gray-500">Credit Purchases</CardTitle>
+                        <Activity className="w-4 h-4 text-red-500" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-red-600">
+                            {isLoadingIncome ? '...' : formatValue(incomeData?.creditPurchases || 0)}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                            Outstanding payables
+                        </p>
+                    </CardContent>
+                </Card>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">

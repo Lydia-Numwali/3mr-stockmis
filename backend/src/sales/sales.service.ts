@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
-import { Sale, SaleType } from '../entities/sale.entity';
+import { Sale, SaleType, PaymentStatus } from '../entities/sale.entity';
 import { Product } from '../entities/product.entity';
 import { StockMovement, MovementType } from '../entities/stock-movement.entity';
 import { IsNumber, IsEnum, IsOptional, IsString, Min } from 'class-validator';
@@ -15,6 +15,9 @@ export class CreateSaleDto {
   @IsOptional() @IsString() customerName?: string;
   @IsOptional() @IsString() saleDate?: string;
   @IsOptional() @IsString() notes?: string;
+  @IsOptional() @IsEnum(PaymentStatus) paymentStatus?: PaymentStatus;
+  @IsOptional() @Type(() => Number) @IsNumber() amountPaid?: number;
+  @IsOptional() @IsString() dueDate?: string;
 }
 
 export class BulkSaleItemDto {
@@ -46,18 +49,30 @@ export class SalesService {
       if (!product) throw new BadRequestException('Product not found');
       if (product.quantity < dto.quantitySold)
         throw new BadRequestException(`Insufficient stock. Available: ${product.quantity}`);
+      
       product.quantity -= Number(dto.quantitySold);
       await em.save(product);
+      
+      const totalValue = dto.quantitySold * dto.priceUsed;
+      const paymentStatus = dto.paymentStatus || PaymentStatus.PAID;
+      const amountPaid = dto.amountPaid !== undefined ? dto.amountPaid : totalValue;
+      const amountDue = totalValue - amountPaid;
+      
       const sale = em.create(Sale, {
         ...dto,
         saleDate: dto.saleDate ? new Date(dto.saleDate) : new Date(),
+        paymentStatus,
+        amountPaid,
+        amountDue,
+        dueDate: dto.dueDate ? new Date(dto.dueDate) : null,
       });
       const savedSale = await em.save(sale);
+      
       const movement = em.create(StockMovement, {
         productId: dto.productId,
         type: MovementType.OUT,
         quantity: dto.quantitySold,
-        notes: `Sale #${savedSale.id}`,
+        notes: `Sale #${savedSale.id}${paymentStatus === PaymentStatus.CREDIT ? ' (Credit)' : ''}`,
       });
       await em.save(movement);
       return savedSale;

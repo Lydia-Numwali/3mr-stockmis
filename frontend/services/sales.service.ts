@@ -8,6 +8,9 @@ export interface CreateSaleDto {
     customerName?: string;
     saleDate?: string;
     notes?: string;
+    paymentStatus?: 'PAID' | 'CREDIT' | 'PARTIAL';
+    amountPaid?: number;
+    dueDate?: string;
 }
 
 export interface BulkSaleItemDto {

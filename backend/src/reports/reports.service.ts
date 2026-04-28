@@ -43,7 +43,7 @@ export class ReportsService {
     
     // If date range is provided, use it; otherwise use default periods
     if (startDate && endDate) {
-      const [totalIncome, totalCost] = await Promise.all([
+      const [totalIncome, totalCost, creditSales, creditPurchases] = await Promise.all([
         this.saleRepo.createQueryBuilder('s')
           .select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total')
           .where('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
@@ -59,6 +59,23 @@ export class ReportsService {
             endDate: endDate + ' 23:59:59' 
           })
           .getRawOne(),
+        this.saleRepo.createQueryBuilder('s')
+          .select('COALESCE(SUM(s.amountDue), 0)', 'total')
+          .where('s.paymentStatus IN (:...statuses)', { statuses: ['CREDIT', 'PARTIAL'] })
+          .andWhere('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
+            startDate, 
+            endDate: endDate + ' 23:59:59' 
+          })
+          .getRawOne(),
+        this.saleRepo.createQueryBuilder('p')
+          .from('purchases', 'p')
+          .select('COALESCE(SUM(p.amountDue), 0)', 'total')
+          .where('p.paymentStatus IN (:...statuses)', { statuses: ['CREDIT', 'PARTIAL'] })
+          .andWhere('p.purchaseDate >= :startDate AND p.purchaseDate <= :endDate', { 
+            startDate, 
+            endDate: endDate + ' 23:59:59' 
+          })
+          .getRawOne(),
       ]);
 
       const totalIncomeValue = Number(totalIncome.total);
@@ -68,6 +85,8 @@ export class ReportsService {
         totalIncome: totalIncomeValue,
         totalCost: totalCostValue,
         profit: totalIncomeValue - totalCostValue,
+        creditSales: Number(creditSales.total),
+        creditPurchases: Number(creditPurchases.total),
       };
     }
 

@@ -80,6 +80,10 @@ export interface Sale {
     saleDate: string;        // When the sale actually happened
     recordedDate: string;    // When it was recorded in the system
     date: string;           // Backward compatibility
+    paymentStatus?: 'PAID' | 'CREDIT' | 'PARTIAL';
+    amountPaid?: number;
+    amountDue?: number;
+    dueDate?: string;
 }
 
 export interface Purchase {
@@ -94,6 +98,10 @@ export interface Purchase {
     purchaseDate: string;
     recordedDate: string;
     date: string;
+    paymentStatus?: 'PAID' | 'CREDIT' | 'PARTIAL';
+    amountPaid?: number;
+    amountDue?: number;
+    dueDate?: string;
 }
 
 export interface Lending {
