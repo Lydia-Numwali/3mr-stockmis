@@ -58,14 +58,19 @@ export class SalesService {
       const amountPaid = dto.amountPaid !== undefined ? dto.amountPaid : totalValue;
       const amountDue = totalValue - amountPaid;
       
-      const sale = em.create(Sale, {
+      const saleData: any = {
         ...dto,
         saleDate: dto.saleDate ? new Date(dto.saleDate) : new Date(),
         paymentStatus,
         amountPaid,
         amountDue,
-        dueDate: dto.dueDate ? new Date(dto.dueDate) : null,
-      });
+      };
+      
+      if (dto.dueDate) {
+        saleData.dueDate = new Date(dto.dueDate);
+      }
+      
+      const sale = em.create(Sale, saleData);
       const savedSale = await em.save(sale);
       
       const movement = em.create(StockMovement, {
