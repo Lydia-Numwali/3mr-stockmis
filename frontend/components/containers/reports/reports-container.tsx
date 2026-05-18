@@ -108,7 +108,7 @@ const ReportsContainer = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm border-l-4 border-l-orange-500">
+                <Card className="shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-gray-500">Credit Sales</CardTitle>
                         <DollarSign className="w-4 h-4 text-orange-500" />
@@ -123,7 +123,7 @@ const ReportsContainer = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm border-l-4 border-l-red-500">
+                <Card className="shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-gray-500">Credit Purchases</CardTitle>
                         <Activity className="w-4 h-4 text-red-500" />
@@ -140,7 +140,7 @@ const ReportsContainer = () => {
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
-                <Card className="shadow-sm border-t-4 border-t-blue-500">
+                <Card className="shadow-sm">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileSpreadsheet className="w-5 h-5 text-blue-500" />
@@ -160,7 +160,7 @@ const ReportsContainer = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm border-t-4 border-t-green-500">
+                <Card className="shadow-sm">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileSpreadsheet className="w-5 h-5 text-green-500" />
@@ -180,7 +180,7 @@ const ReportsContainer = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm border-t-4 border-t-orange-500">
+                <Card className="shadow-sm">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileSpreadsheet className="w-5 h-5 text-orange-500" />
