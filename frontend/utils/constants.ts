@@ -79,7 +79,7 @@ export const roles: any[] = [
     institutionId: "inst-1",
     name: "Super admin",
     description:
-      "Full control over the system, including user roles, permissions, settings, and visitor management.",
+      "Full control over the system, including user roles, permissions, settings, and stock management.",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     deletedAt: null,
@@ -91,7 +91,7 @@ export const roles: any[] = [
     institutionId: "inst-1",
     name: "Operator",
     description:
-      "Manages visitor check-ins, approvals, badge printing, and maintains daily visitor logs.",
+      "Manages stock operations, product entries, sales recording, and maintains daily inventory logs.",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     deletedAt: null,
@@ -103,7 +103,7 @@ export const roles: any[] = [
     institutionId: "inst-1",
     name: "Employee",
     description:
-      "Can pre-register visitors, receive arrival alerts, and access their visit history.",
+      "Can record sales, manage lending, and access stock movement history.",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     deletedAt: null,
@@ -113,9 +113,9 @@ export const roles: any[] = [
   {
     id: "4",
     institutionId: "inst-1",
-    name: "Visitor",
+    name: "Customer",
     description:
-      "Can check in at the front desk, provide ID, and view details about their visit.",
+      "Can view product catalog, check availability, and view purchase history.",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     deletedAt: null,
@@ -217,9 +217,9 @@ export enum Role {
 const locale = getLocale();
 
 export const ROLE_REDIRECTS: Record<Role, string> = {
-  [Role.USER]: "https://app.vms.com",
-  [Role.SUPERVISOR]: "https://supervisor.vms.com",
-  [Role.ADMIN]: "https://admin.vms.com",
+  [Role.USER]: "https://app.3mr-stock.com",
+  [Role.SUPERVISOR]: "https://supervisor.3mr-stock.com",
+  [Role.ADMIN]: "https://admin.3mr-stock.com",
 };
 
 export const APP_ROUTES = {

@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/qt-vms/frontend:latest
+    image: ghcr.io/3mr-stock-management/frontend:latest
     container_name: frontend
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
