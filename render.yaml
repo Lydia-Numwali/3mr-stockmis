@@ -21,10 +21,9 @@ services:
   # Frontend
   - type: web
     name: centurion-frontend
-    env: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: .next
+    env: node
+    buildCommand: bash build-frontend.sh
+    startCommand: cd frontend && npm start
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://centurion-backend.onrender.com/api
+        value: https://centurion-backend-h66i.onrender.com/api
