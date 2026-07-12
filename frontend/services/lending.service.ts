@@ -12,23 +12,23 @@ import {
 // Backward compatibility - accept both old and new field names
 export interface CreateLendingDto {
     productId: number;
-    quantityReturned: number;  // NEW: renamed from quantityLent
-    quantityLent?: number;  // OLD: for backward compatibility
+    quantityLent: number;
+    quantityReturned?: number;  // Optional: for returns
     returnReference?: string;  // NEW: tracking number
-    returnedBy: string;  // NEW: renamed from borrowerShop
-    borrowerShop?: string;  // OLD: for backward compatibility
+    returnedBy?: string;  // Optional: for returns
+    borrowerShop?: string;  // For lending
     department?: string;  // NEW
     securitySite?: string;  // NEW
-    contactInfo?: string;  // NEW: renamed from borrowerContact
+    contactInfo?: string;  // NEW
     borrowerContact?: string;  // OLD: for backward compatibility
     originalIssueReference?: string;  // NEW
-    returnReason: string;  // NEW
+    returnReason?: string;  // Optional: for returns
     itemCondition?: string;  // NEW
-    returnDate?: string;  // NEW: renamed from dateLent
+    returnDate?: string;  // Optional: for returns
     dateLent?: string;  // OLD: for backward compatibility
+    expectedReturnDate?: string;  // For lending
     receivedBy?: string;  // NEW
     notes?: string;
-    // REMOVED: expectedReturnDate (not applicable for returns)
 }
 
 export interface ReturnLendingDto {
