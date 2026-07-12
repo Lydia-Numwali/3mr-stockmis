@@ -38,7 +38,7 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
 
         createPurchase({
             productId: Number(formData.productId),
-            quantityPurchased: Number(formData.quantityPurchased),
+            quantityReceived: Number(formData.quantityPurchased),
             pricePerUnit: (formData.pricePerUnit && Number(formData.pricePerUnit) > 0) ? Number(formData.pricePerUnit) : undefined,
             supplier: formData.supplier || undefined,
             purchaseDate: formData.purchaseDate,
