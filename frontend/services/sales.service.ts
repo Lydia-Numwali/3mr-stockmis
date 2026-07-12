@@ -99,11 +99,12 @@ export class SalesService {
      */
     async create(data: CreateItemIssuedDto): Promise<ItemIssued> {
         // Ensure new field names are used
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            quantityIssued: data.quantityIssued ?? data.quantitySold,
-            issuedTo: data.issuedTo || data.customerName,
-            issueDate: data.issueDate || data.saleDate,
+            quantityIssued: data.quantityIssued ?? anyData.quantitySold,
+            issuedTo: data.issuedTo || anyData.customerName,
+            issueDate: data.issueDate || anyData.saleDate,
         };
         return this.utils.authorizedAPI().post('/sales', payload).then((res: any) => res.data);
     }
@@ -113,14 +114,18 @@ export class SalesService {
      */
     async createBulk(data: CreateBulkSaleDto): Promise<ItemIssued[]> {
         // Ensure new field names are used for all items
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            issuedTo: data.issuedTo || data.customerName,
-            issueDate: data.issueDate || data.saleDate,
-            items: data.items.map(item => ({
-                ...item,
-                quantityIssued: item.quantityIssued ?? item.quantitySold,
-            })),
+            issuedTo: data.issuedTo || anyData.customerName,
+            issueDate: data.issueDate || anyData.saleDate,
+            items: data.items.map(item => {
+                const anyItem = item as any;
+                return {
+                    ...item,
+                    quantityIssued: item.quantityIssued ?? anyItem.quantitySold,
+                };
+            }),
         };
         return this.utils.authorizedAPI().post('/sales/bulk', payload).then((res: any) => res.data);
     }
@@ -129,11 +134,12 @@ export class SalesService {
      * Update an items issued record
      */
     async update(id: number, data: Partial<CreateItemIssuedDto>): Promise<ItemIssued> {
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            quantityIssued: data.quantityIssued ?? data.quantitySold,
-            issuedTo: data.issuedTo || data.customerName,
-            issueDate: data.issueDate || data.saleDate,
+            quantityIssued: data.quantityIssued ?? anyData.quantitySold,
+            issuedTo: data.issuedTo || anyData.customerName,
+            issueDate: data.issueDate || anyData.saleDate,
         };
         return this.utils.authorizedAPI().put(`/sales/${id}`, payload).then((res: any) => res.data);
     }

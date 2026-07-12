@@ -94,12 +94,13 @@ export class ProductsService {
      */
     async create(data: CreateLogisticsItemDto): Promise<LogisticsItem> {
         // Ensure new field names are used
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            itemType: data.itemType || data.partType,
-            standardUnitCost: data.standardUnitCost ?? data.wholesalePrice,
-            issueValue: data.issueValue ?? data.retailPrice,
-            warehouse: data.warehouse || data.storageLocation,
+            itemType: data.itemType || anyData.partType,
+            standardUnitCost: data.standardUnitCost ?? anyData.wholesalePrice,
+            issueValue: data.issueValue ?? anyData.retailPrice,
+            warehouse: data.warehouse || anyData.storageLocation,
         };
         return this.utils.authorizedAPI().post('/products', payload).then((res: any) => res.data);
     }
@@ -109,12 +110,13 @@ export class ProductsService {
      */
     async update(id: number, data: Partial<CreateLogisticsItemDto>): Promise<LogisticsItem> {
         // Ensure new field names are used
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            itemType: data.itemType || data.partType,
-            standardUnitCost: data.standardUnitCost ?? data.wholesalePrice,
-            issueValue: data.issueValue ?? data.retailPrice,
-            warehouse: data.warehouse || data.storageLocation,
+            itemType: data.itemType || anyData.partType,
+            standardUnitCost: data.standardUnitCost ?? anyData.wholesalePrice,
+            issueValue: data.issueValue ?? anyData.retailPrice,
+            warehouse: data.warehouse || anyData.storageLocation,
         };
         return this.utils.authorizedAPI().put(`/products/${id}`, payload).then((res: any) => res.data);
     }

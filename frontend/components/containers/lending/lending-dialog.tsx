@@ -47,7 +47,18 @@ const LendingDialog: React.FC<Props> = ({ open, onOpenChange }) => {
         // Convert empty string date to undefined to avoid backend parsing errors
         if (!data.expectedReturnDate) data.expectedReturnDate = undefined;
 
-        await createLendingMutation.mutateAsync(data);
+        // Transform lending data to return data format for API
+        // Note: This dialog is legacy and should be refactored or removed
+        const returnData = {
+            productId: data.productId,
+            quantityReturned: data.quantityLent, // Transform field name
+            returnedBy: data.borrowerShop, // Transform field name
+            returnReason: 'Legacy lending record', // Required field
+            returnDate: data.expectedReturnDate,
+            notes: data.notes,
+        };
+
+        await createLendingMutation.mutateAsync(returnData as any);
         onOpenChange(false);
     };
 

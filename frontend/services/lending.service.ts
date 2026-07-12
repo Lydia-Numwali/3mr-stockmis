@@ -125,12 +125,13 @@ export class LendingService {
      */
     async create(data: CreateItemReturnDto): Promise<ItemReturn> {
         // Ensure new field names are used
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            quantityReturned: data.quantityReturned ?? data.quantityLent,
-            returnedBy: data.returnedBy || data.borrowerShop,
-            contactInfo: data.contactInfo || data.borrowerContact,
-            returnDate: data.returnDate || data.dateLent,
+            quantityReturned: data.quantityReturned ?? anyData.quantityLent,
+            returnedBy: data.returnedBy || anyData.borrowerShop,
+            contactInfo: data.contactInfo || anyData.borrowerContact,
+            returnDate: data.returnDate || anyData.dateLent,
         };
         return this.utils.authorizedAPI().post('/lending', payload).then((res: any) => res.data);
     }
@@ -182,12 +183,13 @@ export class LendingService {
      * Update a return record
      */
     async update(id: number, data: Partial<CreateItemReturnDto>): Promise<ItemReturn> {
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            quantityReturned: data.quantityReturned ?? data.quantityLent,
-            returnedBy: data.returnedBy || data.borrowerShop,
-            contactInfo: data.contactInfo || data.borrowerContact,
-            returnDate: data.returnDate || data.dateLent,
+            quantityReturned: data.quantityReturned ?? anyData.quantityLent,
+            returnedBy: data.returnedBy || anyData.borrowerShop,
+            contactInfo: data.contactInfo || anyData.borrowerContact,
+            returnDate: data.returnDate || anyData.dateLent,
         };
         return this.utils.authorizedAPI().put(`/lending/${id}`, payload).then((res: any) => res.data);
     }

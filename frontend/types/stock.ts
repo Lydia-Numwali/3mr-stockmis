@@ -259,15 +259,15 @@ export interface ItemReturnFilter {
 // Create/Update DTOs
 export interface CreateLogisticsItemDto {
     name: string;
-    category: string;
+    category?: string;  // Optional to allow flexibility
     packagingUnit?: string;
     unitsPerPackage?: number;
     brand?: string;
     model?: string;
     itemType?: string;
-    standardUnitCost: number;
-    issueValue: number;
-    costPrice: number;
+    standardUnitCost?: number;  // Optional since prices are optional
+    issueValue?: number;  // Optional since prices are optional
+    costPrice?: number;  // Optional since prices are optional
     quantity: number;
     lowStockThreshold?: number;
     supplier?: string;
@@ -278,7 +278,7 @@ export interface CreateLogisticsItemDto {
 export interface CreateItemReceivedDto {
     productId: number;
     quantityReceived: number;
-    pricePerUnit: number;
+    pricePerUnit?: number;  // Optional since prices are optional in the system
     supplier?: string;
     deliveryReference?: string;
     warehouse?: string;
@@ -290,7 +290,7 @@ export interface CreateItemReceivedDto {
 export interface CreateItemIssuedDto {
     productId: number;
     quantityIssued: number;
-    priceUsed: number;
+    priceUsed?: number;  // Optional since prices are optional in the system
     issuedTo?: string;
     department?: string;
     securitySite?: string;

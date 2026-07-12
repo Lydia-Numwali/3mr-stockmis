@@ -83,10 +83,11 @@ export class PurchasesService {
      */
     async create(data: CreateItemReceivedDto): Promise<ItemReceived> {
         // Ensure new field names are used
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            quantityReceived: data.quantityReceived ?? data.quantityPurchased,
-            receivingDate: data.receivingDate || data.purchaseDate,
+            quantityReceived: data.quantityReceived ?? anyData.quantityPurchased,
+            receivingDate: data.receivingDate || anyData.purchaseDate,
         };
         return this.utils.authorizedAPI().post('/purchases', payload).then((res: any) => res.data);
     }
@@ -111,10 +112,11 @@ export class PurchasesService {
      * Update an items received record
      */
     async update(id: number, data: Partial<CreateItemReceivedDto>): Promise<ItemReceived> {
+        const anyData = data as any; // Cast to handle backward compatibility fields
         const payload = {
             ...data,
-            quantityReceived: data.quantityReceived ?? data.quantityPurchased,
-            receivingDate: data.receivingDate || data.purchaseDate,
+            quantityReceived: data.quantityReceived ?? anyData.quantityPurchased,
+            receivingDate: data.receivingDate || anyData.purchaseDate,
         };
         return this.utils.authorizedAPI().put(`/purchases/${id}`, payload).then((res: any) => res.data);
     }
