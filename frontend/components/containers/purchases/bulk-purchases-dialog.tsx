@@ -69,7 +69,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
             notes: formData.notes || undefined,
             items: validItems.map(({ id, ...item }) => ({
                 ...item,
-                pricePerUnit: item.pricePerUnit > 0 ? item.pricePerUnit : undefined
+                pricePerUnit: item.pricePerUnit && item.pricePerUnit > 0 ? item.pricePerUnit : undefined
             })),
         }, {
             onSuccess: () => {
