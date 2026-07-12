@@ -16,11 +16,11 @@ export interface CreateProductDto {
     model?: string;
     itemType?: string;  // NEW: renamed from partType
     partType?: string;  // OLD: for backward compatibility
-    standardUnitCost: number;  // NEW: renamed from wholesalePrice
+    standardUnitCost?: number;  // NEW: renamed from wholesalePrice (optional since prices are optional)
     wholesalePrice?: number;  // OLD: for backward compatibility
-    issueValue: number;  // NEW: renamed from retailPrice
+    issueValue?: number;  // NEW: renamed from retailPrice (optional since prices are optional)
     retailPrice?: number;  // OLD: for backward compatibility
-    costPrice: number;
+    costPrice?: number;  // Optional since prices are optional
     quantity: number;
     lowStockThreshold: number;
     supplier?: string;
