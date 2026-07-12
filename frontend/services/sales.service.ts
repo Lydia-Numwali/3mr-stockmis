@@ -11,7 +11,7 @@ export interface CreateSaleDto {
     productId: number;
     quantityIssued: number;  // NEW: renamed from quantitySold
     quantitySold?: number;  // OLD: for backward compatibility
-    priceUsed: number;  // For accounting/valuation purposes
+    priceUsed?: number;  // Optional - for accounting/valuation purposes
     issuedTo?: string;  // NEW: renamed from customerName
     customerName?: string;  // OLD: for backward compatibility
     department?: string;  // NEW: which department
@@ -29,7 +29,7 @@ export interface BulkSaleItemDto {
     productId: number;
     quantityIssued: number;  // NEW
     quantitySold?: number;  // OLD: for backward compatibility
-    priceUsed: number;
+    priceUsed?: number;  // Optional - for accounting/valuation purposes
 }
 
 export interface CreateBulkSaleDto {

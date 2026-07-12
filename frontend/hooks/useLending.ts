@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { LendingService, CreateLendingDto, ReturnLendingDto } from '@/services/lending.service';
 import { UtilsService } from '@/services/utils.service';
-import { ItemReturn, ItemReturnFilter, PaginatedResponse, InspectReturnDto, IssueReplacementDto } from '@/types/stock';
+import { ItemReturn, ItemReturnFilter, PaginatedResponse, InspectReturnDto, IssueReplacementDto, CreateItemReturnDto } from '@/types/stock';
 import { toast } from 'sonner';
 
 const lendingService = new LendingService(new UtilsService());
@@ -123,7 +123,7 @@ export function useOverdueLending() {
 export function useCreateLending() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: CreateLendingDto) => lendingService.create(data),
+        mutationFn: (data: CreateItemReturnDto) => lendingService.create(data),
         onSuccess: () => {
             toast.success('Item return recorded successfully');
             queryClient.invalidateQueries({ queryKey: ['lending'] });

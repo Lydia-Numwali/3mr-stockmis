@@ -83,7 +83,13 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
     }, [open, reset]);
 
     const onSubmit = async (data: SaleFormValues) => {
-        await createSaleMutation.mutateAsync(data);
+        // Transform field names to match API expectations
+        const apiData = {
+            ...data,
+            quantityIssued: data.quantitySold,
+            issueDate: data.saleDate,
+        };
+        await createSaleMutation.mutateAsync(apiData);
         onOpenChange(false);
     };
 

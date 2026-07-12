@@ -59,7 +59,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
         e.preventDefault();
         
         const validItems = items.filter(item => 
-            item.productId > 0 && item.quantityIssued > 0 && item.priceUsed > 0
+            item.productId > 0 && item.quantityIssued > 0 && item.priceUsed && item.priceUsed > 0
         );
 
         if (validItems.length === 0) {
@@ -89,7 +89,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
     };
 
     const getTotalValue = () => {
-        return items.reduce((total, item) => total + (item.quantityIssued * item.priceUsed), 0);
+        return items.reduce((total, item) => total + (item.quantityIssued * (item.priceUsed || 0)), 0);
     };
 
     const handleProductChange = (itemId: string, productIdStr: string) => {
@@ -221,7 +221,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                     <div className="flex justify-end">
                                         <div className="bg-white px-3 py-2 rounded border">
                                             <span className="text-sm font-medium">
-                                                Total: <span className="text-blue-600">Frws {(item.quantityIssued * item.priceUsed).toLocaleString()}</span>
+                                                Total: <span className="text-blue-600">Frws {(item.quantityIssued * (item.priceUsed || 0)).toLocaleString()}</span>
                                             </span>
                                         </div>
                                     </div>
