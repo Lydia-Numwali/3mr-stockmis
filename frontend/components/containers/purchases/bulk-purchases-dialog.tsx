@@ -29,7 +29,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
     });
 
     const [items, setItems] = useState<PurchaseItem[]>([
-        { id: '1', productId: 0, quantityPurchased: 0, pricePerUnit: 0 }
+        { id: '1', productId: 0, quantityReceived: 0, pricePerUnit: 0 }
     ]);
 
     const { mutate: createBulkPurchase, isPending } = useCreateBulkPurchase();
