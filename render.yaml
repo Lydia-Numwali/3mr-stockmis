@@ -23,7 +23,6 @@ services:
   - type: web
     name: centurion-frontend
     env: static
-    region: frankfurt
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
