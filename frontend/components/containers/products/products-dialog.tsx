@@ -125,7 +125,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
 
                     <div>
                         <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category</label>
-                        <Select onValueChange={(val) => setValue('category', val as ProductCategory)} defaultValue={product?.category || ProductCategory.OTHER}>
+                        <Select onValueChange={(val) => setValue('category', val as ProductCategory)} defaultValue={product?.category || ProductCategory.SECURITY_UNIFORMS}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Category (Optional)" />
                             </SelectTrigger>
