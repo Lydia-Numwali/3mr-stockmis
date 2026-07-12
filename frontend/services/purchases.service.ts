@@ -25,7 +25,7 @@ export interface BulkPurchaseItemDto {
     productId: number;
     quantityReceived: number;  // NEW
     quantityPurchased?: number;  // OLD: for backward compatibility
-    pricePerUnit: number;
+    pricePerUnit?: number;  // Optional since prices are optional in the system
 }
 
 export interface CreateBulkPurchaseDto {
