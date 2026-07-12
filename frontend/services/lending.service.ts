@@ -12,7 +12,7 @@ import {
 // Backward compatibility - accept both old and new field names
 export interface CreateLendingDto {
     productId: number;
-    quantityLent: number;
+    quantityLent?: number;  // Optional: for lending
     quantityReturned?: number;  // Optional: for returns
     returnReference?: string;  // NEW: tracking number
     returnedBy?: string;  // Optional: for returns
