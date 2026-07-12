@@ -61,4 +61,17 @@ const Select = React.forwardRef(
           >
             {children}
           </select>
-  
+        </div>
+        {error && (
+          <p id={errorId} className={styles.errorMessage} role="alert">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  }
+);
+
+Select.displayName = 'Select';
+
+export default Select;
