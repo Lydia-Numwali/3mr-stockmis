@@ -29,7 +29,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
     });
 
     const [items, setItems] = useState<SaleItem[]>([
-        { id: '1', productId: 0, quantitySold: 0, priceUsed: 0 }
+        { id: '1', productId: 0, quantityIssued: 0, priceUsed: 0 }
     ]);
 
     const { mutate: createBulkSale, isPending } = useCreateBulkSale();
@@ -37,7 +37,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
 
     const addItem = () => {
         const newId = (Math.max(...items.map(item => parseInt(item.id))) + 1).toString();
-        setItems([...items, { id: newId, productId: 0, quantitySold: 0, priceUsed: 0 }]);
+        setItems([...items, { id: newId, productId: 0, quantityIssued: 0, priceUsed: 0 }]);
     };
 
     const removeItem = (id: string) => {
@@ -59,7 +59,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
         e.preventDefault();
         
         const validItems = items.filter(item => 
-            item.productId > 0 && item.quantitySold > 0 && item.priceUsed > 0
+            item.productId > 0 && item.quantityIssued > 0 && item.priceUsed > 0
         );
 
         if (validItems.length === 0) {
@@ -79,7 +79,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                     saleDate: new Date().toISOString().split('T')[0],
                     notes: '',
                 });
-                setItems([{ id: '1', productId: 0, quantitySold: 0, priceUsed: 0 }]);
+                setItems([{ id: '1', productId: 0, quantityIssued: 0, priceUsed: 0 }]);
             }
         });
     };
@@ -89,7 +89,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
     };
 
     const getTotalValue = () => {
-        return items.reduce((total, item) => total + (item.quantitySold * item.priceUsed), 0);
+        return items.reduce((total, item) => total + (item.quantityIssued * item.priceUsed), 0);
     };
 
     const handleProductChange = (itemId: string, productIdStr: string) => {
@@ -197,8 +197,8 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                             <Input
                                                 type="number"
                                                 min="1"
-                                                value={item.quantitySold || ''}
-                                                onChange={(e) => updateItem(item.id, 'quantitySold', parseInt(e.target.value) || 0)}
+                                                value={item.quantityIssued || ''}
+                                                onChange={(e) => updateItem(item.id, 'quantityIssued', parseInt(e.target.value) || 0)}
                                                 placeholder="Qty"
                                                 className="mt-1"
                                             />
@@ -221,7 +221,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                     <div className="flex justify-end">
                                         <div className="bg-white px-3 py-2 rounded border">
                                             <span className="text-sm font-medium">
-                                                Total: <span className="text-blue-600">Frws {(item.quantitySold * item.priceUsed).toLocaleString()}</span>
+                                                Total: <span className="text-blue-600">Frws {(item.quantityIssued * item.priceUsed).toLocaleString()}</span>
                                             </span>
                                         </div>
                                     </div>
