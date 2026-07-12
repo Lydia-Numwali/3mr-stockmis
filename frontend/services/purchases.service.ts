@@ -11,7 +11,7 @@ export interface CreatePurchaseDto {
     productId: number;
     quantityReceived: number;  // NEW: renamed from quantityPurchased
     quantityPurchased?: number;  // OLD: for backward compatibility
-    pricePerUnit: number;
+    pricePerUnit?: number;  // Optional since prices are optional in the system
     supplier?: string;
     deliveryReference?: string;  // NEW: tracking number
     warehouse?: string;  // NEW: storage location
