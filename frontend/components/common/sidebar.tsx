@@ -60,7 +60,7 @@ const Sidebar: FC<props> = ({ handleLinkClick }) => {
     <div className="flex flex-col h-full bg-secondary-blue text-white">
       {/* Brand */}
       <div className="p-6 border-b border-blue-700">
-        <h1 className="text-2xl font-bold tracking-tight">3MR</h1>
+        <h1 className="text-2xl font-bold tracking-tight">STOCK MIS</h1>
       </div>
 
       {/* Navigation */}
