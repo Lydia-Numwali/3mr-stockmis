@@ -21,19 +21,19 @@ async function bootstrap() {
   const userRepo = dataSource.getRepository(User);
   
   try {
-    const exists = await userRepo.findOne({ where: { email: 'admin@example.com' } });
+    const exists = await userRepo.findOne({ where: { email: 'admin@centurion.com' } });
     if (exists) {
       console.log('✅ Admin user already exists');
     } else {
-      const hash = await bcrypt.hash('Admin@123456', 10);
+      const hash = await bcrypt.hash('Test@123', 10);
       const admin = await userRepo.save({ 
-        email: 'admin@example.com', 
+        email: 'admin@centurion.com', 
         passwordHash: hash, 
         role: 'super-admin' 
       });
       console.log('✅ Admin seeded successfully');
-      console.log(`   Email: admin@example.com`);
-      console.log(`   Password: Admin@123456`);
+      console.log(`   Email: admin@centurion.com`);
+      console.log(`   Password: Test@123`);
       console.log(`   ID: ${admin.id}`);
     }
   } catch (error) {

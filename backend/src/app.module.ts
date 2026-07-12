@@ -23,17 +23,36 @@ import { ReportsModule } from './reports/reports.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get('DB_HOST', 'localhost'),
-        port: +config.get('DB_PORT', '5432'),
-        username: config.get('DB_USER', 'postgres'),
-        password: config.get('DB_PASS', '123'),
-        database: config.get('DB_NAME', 'stockmis'),
-        entities: [User, Product, StockMovement, Sale, Purchase, Lending],
-        synchronize: true,
-        logging: false,
-      }),
+      useFactory: (config: ConfigService) => {
+        const databaseUrl = config.get('DATABASE_URL');
+        
+        // If DATABASE_URL is provided, use it (for production)
+        if (databaseUrl) {
+          return {
+            type: 'postgres',
+            url: databaseUrl,
+            entities: [User, Product, StockMovement, Sale, Purchase, Lending],
+            synchronize: true,
+            logging: false,
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          };
+        }
+        
+        // Otherwise use individual variables (for local development)
+        return {
+          type: 'postgres',
+          host: config.get('DB_HOST', 'localhost'),
+          port: +config.get('DB_PORT', '5432'),
+          username: config.get('DB_USER', 'postgres'),
+          password: config.get('DB_PASS', '123'),
+          database: config.get('DB_NAME', 'stockmis'),
+          entities: [User, Product, StockMovement, Sale, Purchase, Lending],
+          synchronize: true,
+          logging: false,
+        };
+      },
       inject: [ConfigService],
     }),
     AuthModule,
