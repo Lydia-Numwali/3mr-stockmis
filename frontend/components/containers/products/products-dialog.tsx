@@ -76,7 +76,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
             reset({
                 name: '',
                 brand: '',
-                category: ProductCategory.OTHER,
+                category: ProductCategory.SECURITY_UNIFORMS,
                 packagingUnit: PackagingUnit.PIECES,
                 unitsPerPackage: 1,
                 model: '',
