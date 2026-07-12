@@ -14,18 +14,22 @@ export const getProductColumns = (
     return [
         {
             accessorKey: 'name',
-            header: 'Name',
+            header: 'Item Name',
+        },
+        {
+            accessorKey: 'category',
+            header: 'Category',
         },
         {
             accessorKey: 'brand',
             header: 'Brand',
             cell: ({ row }) => (
-                <span className="font-medium">{row.original.brand || 'N/A'}</span>
+                <span className="font-medium">{row.original.brand || '-'}</span>
             ),
         },
         {
             accessorKey: 'quantity',
-            header: 'Stock Qty',
+            header: 'Quantity',
             cell: ({ row }) => {
                 const qty = row.original.quantity;
                 const lowStock = row.original.lowStockThreshold;
@@ -38,21 +42,36 @@ export const getProductColumns = (
             },
         },
         {
-            accessorKey: 'retailPrice',
-            header: 'Retail Price',
-            cell: ({ row }) => formatValue(row.original.retailPrice),
+            accessorKey: 'warehouse',
+            header: 'Warehouse',
+            cell: ({ row }) => (
+                <span>{row.original.warehouse || '-'}</span>
+            ),
         },
         {
-            accessorKey: 'wholesalePrice',
-            header: 'Wholesale Price',
-            cell: ({ row }) => formatValue(row.original.wholesalePrice),
+            accessorKey: 'supplier',
+            header: 'Supplier',
+            cell: ({ row }) => (
+                <span>{row.original.supplier || '-'}</span>
+            ),
+        },
+        {
+            accessorKey: 'notes',
+            header: 'Notes',
+            cell: ({ row }) => {
+                const notes = row.original.notes;
+                if (!notes) return <span className="text-gray-400">-</span>;
+                const truncated = notes.length > 50 ? notes.substring(0, 50) + '...' : notes;
+                return <span className="text-sm text-gray-600">{truncated}</span>;
+            },
         },
         {
             id: 'actions',
+            header: 'Actions',
             cell: ({ row }) => {
                 const product = row.original;
                 return (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                         <Button variant="ghost" size="icon" onClick={() => onEdit(product)}>
                             <Edit className="h-4 w-4 text-blue-500" />
                         </Button>

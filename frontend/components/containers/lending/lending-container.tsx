@@ -7,8 +7,8 @@ import { useLending } from '@/hooks/useLending';
 import { PaginationState } from '@tanstack/react-table';
 import { useDebounce } from 'use-debounce';
 import { Lending } from '@/types/stock';
-import LendingDialog from './lending-dialog';
 import ReturnDialog from './return-dialog';
+import LendingViewDialog from './lending-view-dialog';
 
 const LendingContainer = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -16,6 +16,9 @@ const LendingContainer = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [openReturnDialog, setOpenReturnDialog] = useState(false);
     const [selectedLending, setSelectedLending] = useState<Lending | null>(null);
+    
+    const [viewOpen, setViewOpen] = useState(false);
+    const [viewLending, setViewLending] = useState<Lending | null>(null);
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -28,12 +31,24 @@ const LendingContainer = () => {
         search: debouncedSearch,
     });
 
-    const handleReturnClick = (lending: Lending) => {
-        setSelectedLending(lending);
-        setOpenReturnDialog(true);
+    const handleView = (lending: Lending) => {
+        setViewLending(lending);
+        setViewOpen(true);
     };
 
-    const lendingColumns = getLendingColumns(handleReturnClick);
+    const handleEdit = (lending: Lending) => {
+        // For now, just view - edit functionality can be added later
+        handleView(lending);
+    };
+
+    const handleDelete = (lending: Lending) => {
+        if (confirm(`Delete return record for ${lending.product?.name}?`)) {
+            // TODO: Implement delete functionality
+            console.log('Delete lending:', lending.id);
+        }
+    };
+
+    const lendingColumns = getLendingColumns(handleEdit, handleDelete);
 
     return (
         <div className="w-full">
@@ -41,9 +56,9 @@ const LendingContainer = () => {
                 columns={lendingColumns}
                 data={data?.items ?? []}
                 isLoading={isLoading}
-                heading="Lending History"
+                heading="Item Returns"
                 addButtonIcon="solar:hand-money-bold"
-                addButtonTitle="Lend Product"
+                addButtonTitle="Record Return"
                 onAdd={() => setOpenDialog(true)}
                 count={data?.total ?? 0}
                 pagination={pagination}
@@ -52,18 +67,19 @@ const LendingContainer = () => {
                 limit={pagination.pageSize}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                searchPlaceholder="Search by product name, borrower..."
+                searchPlaceholder="Search by item name, returned by..."
+                onRowClick={handleView}
             />
 
-            {openDialog && <LendingDialog
+            {openDialog && <ReturnDialog
                 open={openDialog}
                 onOpenChange={setOpenDialog}
             />}
 
-            {openReturnDialog && <ReturnDialog
-                open={openReturnDialog}
-                onOpenChange={setOpenReturnDialog}
-                lending={selectedLending}
+            {viewOpen && <LendingViewDialog
+                lending={viewLending}
+                open={viewOpen}
+                onOpenChange={setViewOpen}
             />}
         </div>
     );

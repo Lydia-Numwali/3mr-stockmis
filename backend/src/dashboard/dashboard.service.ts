@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { Sale } from '../entities/sale.entity';
 import { Purchase } from '../entities/purchase.entity';
-import { Lending, LendingStatus } from '../entities/lending.entity';
+import { Lending } from '../entities/lending.entity';
 
 @Injectable()
 export class DashboardService {
@@ -32,11 +32,11 @@ export class DashboardService {
       this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.totalValue), 0)', 'total').getRawOne(),
       this.purchaseRepo.createQueryBuilder('p').select('COALESCE(SUM(p.totalValue), 0)', 'total').getRawOne(),
       this.prodRepo.createQueryBuilder('p').select('COALESCE(SUM(p.quantity), 0)', 'total').getRawOne(),
-      this.lendRepo.createQueryBuilder('l').select('COALESCE(SUM(l.quantityLent - l.quantityReturned), 0)', 'total').where('l.status IN (:...s)', { s: [LendingStatus.PENDING, LendingStatus.OVERDUE, LendingStatus.PARTIALLY_RETURNED] }).getRawOne(),
+      this.lendRepo.createQueryBuilder('l').select('COALESCE(COUNT(*), 0)', 'total').getRawOne(),
       // New calculations for missing fields
       this.prodRepo.createQueryBuilder('p').select('COALESCE(COUNT(*), 0)', 'total').getRawOne(),
       this.prodRepo.createQueryBuilder('p').select('COALESCE(COUNT(*), 0)', 'total').where('p.quantity <= p.lowStockThreshold').getRawOne(),
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.totalValue), 0)', 'total').where("DATE_TRUNC('month', s.saleDate) = DATE_TRUNC('month', CURRENT_DATE)").getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.totalValue), 0)', 'total').where("DATE_TRUNC('month', COALESCE(s.issueDate, s.date)) = DATE_TRUNC('month', CURRENT_DATE)").getRawOne(),
     ]);
 
     const stockBalance = Number(valueOfPurchases.total) - Number(valueOfSales.total);
@@ -77,11 +77,11 @@ export class DashboardService {
   async getMonthlyRevenueTrend() {
     const rows = await this.saleRepo
       .createQueryBuilder('s')
-      .select("DATE_TRUNC('month', s.saleDate)", 'month')
+      .select("DATE_TRUNC('month', COALESCE(s.issueDate, s.date))", 'month')
       .addSelect('SUM(s.totalValue)', 'revenue')
-      .where("s.saleDate >= NOW() - INTERVAL '6 months'")
-      .groupBy("DATE_TRUNC('month', s.saleDate)")
-      .orderBy("DATE_TRUNC('month', s.saleDate)", 'ASC')
+      .where("COALESCE(s.issueDate, s.date) >= NOW() - INTERVAL '6 months'")
+      .groupBy("DATE_TRUNC('month', COALESCE(s.issueDate, s.date))")
+      .orderBy("DATE_TRUNC('month', COALESCE(s.issueDate, s.date))", 'ASC')
       .getRawMany();
     return rows;
   }

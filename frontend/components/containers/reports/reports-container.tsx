@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useExportSales, useExportStock, useExportLending, useIncomeReport } from '@/hooks/useReports';
+import { useExportSales, useExportStock, useExportLending } from '@/hooks/useReports';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileSpreadsheet, Download, Activity, DollarSign } from 'lucide-react';
-import { formatValue } from '@/lib/utils';
+import { FileSpreadsheet, Download } from 'lucide-react';
 
 const ReportsContainer = () => {
     const [startDate, setStartDate] = useState('');
@@ -14,11 +13,6 @@ const ReportsContainer = () => {
     const exportSales = useExportSales();
     const exportStock = useExportStock();
     const exportLending = useExportLending();
-
-    const { data: incomeData, isLoading: isLoadingIncome } = useIncomeReport({
-        startDate: startDate || undefined,
-        endDate: endDate || undefined,
-    });
 
     const handleExportSales = () => {
         exportSales.mutate({ startDate: startDate || undefined, endDate: endDate || undefined });
@@ -62,91 +56,14 @@ const ReportsContainer = () => {
                 </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Total Income</CardTitle>
-                        <DollarSign className="w-4 h-4 text-green-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-gray-800">
-                            {isLoadingIncome ? '...' : formatValue(incomeData?.totalIncome || 0)}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Sales revenue for selected period
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Total Cost</CardTitle>
-                        <Activity className="w-4 h-4 text-red-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-gray-800">
-                            {isLoadingIncome ? '...' : formatValue(incomeData?.totalCost || 0)}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Cost of goods sold
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Gross Profit</CardTitle>
-                        <DollarSign className="w-4 h-4 text-blue-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className={`text-2xl font-bold ${(incomeData?.profit || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {isLoadingIncome ? '...' : formatValue(incomeData?.profit || 0)}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Net profit margin
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Credit Sales</CardTitle>
-                        <DollarSign className="w-4 h-4 text-orange-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-orange-600">
-                            {isLoadingIncome ? '...' : formatValue(incomeData?.creditSales || 0)}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Outstanding receivables
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-500">Credit Purchases</CardTitle>
-                        <Activity className="w-4 h-4 text-red-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-red-600">
-                            {isLoadingIncome ? '...' : formatValue(incomeData?.creditPurchases || 0)}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Outstanding payables
-                        </p>
-                    </CardContent>
-                </Card>
-            </div>
-
             <div className="grid gap-6 md:grid-cols-3">
                 <Card className="shadow-sm">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileSpreadsheet className="w-5 h-5 text-blue-500" />
-                            Sales Report
+                            Items Issued Report
                         </CardTitle>
-                        <CardDescription>Export a detailed excel spreadsheet containing all sales records for the selected period.</CardDescription>
+                        <CardDescription>Export a detailed excel spreadsheet containing all items issued records for the selected period.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Button
@@ -155,7 +72,7 @@ const ReportsContainer = () => {
                             disabled={exportSales.isPending}
                         >
                             <Download className="w-4 h-4 mr-2" />
-                            {exportSales.isPending ? 'Downloading...' : 'Download Sales (.xlsx)'}
+                            {exportSales.isPending ? 'Downloading...' : 'Download Issues (.xlsx)'}
                         </Button>
                     </CardContent>
                 </Card>
@@ -164,9 +81,9 @@ const ReportsContainer = () => {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileSpreadsheet className="w-5 h-5 text-green-500" />
-                            Stock Movements Report
+                            Inventory Movements Report
                         </CardTitle>
-                        <CardDescription>Export a detailed excel spreadsheet containing all stock ins/outs for the selected period.</CardDescription>
+                        <CardDescription>Export a detailed excel spreadsheet containing all inventory movements for the selected period.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Button
@@ -175,7 +92,7 @@ const ReportsContainer = () => {
                             disabled={exportStock.isPending}
                         >
                             <Download className="w-4 h-4 mr-2" />
-                            {exportStock.isPending ? 'Downloading...' : 'Download Stock (.xlsx)'}
+                            {exportStock.isPending ? 'Downloading...' : 'Download Inventory (.xlsx)'}
                         </Button>
                     </CardContent>
                 </Card>
@@ -184,9 +101,9 @@ const ReportsContainer = () => {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileSpreadsheet className="w-5 h-5 text-orange-500" />
-                            Lending Report
+                            Returns Report
                         </CardTitle>
-                        <CardDescription>Export a detailed excel spreadsheet containing all lending and return history.</CardDescription>
+                        <CardDescription>Export a detailed excel spreadsheet containing all item returns history.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Button
@@ -195,7 +112,7 @@ const ReportsContainer = () => {
                             disabled={exportLending.isPending}
                         >
                             <Download className="w-4 h-4 mr-2" />
-                            {exportLending.isPending ? 'Downloading...' : 'Download Lending (.xlsx)'}
+                            {exportLending.isPending ? 'Downloading...' : 'Download Returns (.xlsx)'}
                         </Button>
                     </CardContent>
                 </Card>

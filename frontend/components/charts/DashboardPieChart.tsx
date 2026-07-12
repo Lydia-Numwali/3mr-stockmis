@@ -187,7 +187,7 @@ export function DashboardPieChart() {
               <ChartLegend
                 content={({ payload }) => (
                   <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-                    {payload?.map((entry, index) => (
+                    {payload?.map((entry: any, index) => (
                       <div
                         key={`legend-${index}`}
                         className="flex items-center gap-2 text-sm font-medium cursor-pointer hover:opacity-80"

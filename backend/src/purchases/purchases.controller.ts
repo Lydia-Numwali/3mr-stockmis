@@ -3,7 +3,7 @@ import { PurchasesService, CreatePurchaseDto, CreateBulkPurchaseDto } from './pu
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
-@Controller('purchases')
+@Controller('purchases')  // Keep endpoint for backward compatibility
 export class PurchasesController {
   constructor(private service: PurchasesService) {}
 
@@ -25,5 +25,17 @@ export class PurchasesController {
   @Get('total')
   getTotalPurchases() {
     return this.service.getTotalPurchases();
+  }
+  
+  // Get receiving summary
+  @Get('summary')
+  getReceivingSummary(@Query('from') from?: string, @Query('to') to?: string) {
+    return this.service.getReceivingSummary(from, to);
+  }
+  
+  // Get receiving by supplier
+  @Get('by-supplier')
+  getReceivingBySupplier(@Query('limit') limit?: number) {
+    return this.service.getReceivingBySupplier(limit || 10);
   }
 }

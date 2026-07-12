@@ -34,9 +34,13 @@ export const getCurrentLocale = (): string => {
   return pathLocale || 'en';
 };
 
- export const formatValue = (value: number) => {
+ export const formatValue = (value: number | null | undefined) => {
+    // Return dash for null, undefined, or 0 values
+    if (value === null || value === undefined || value === 0) {
+      return '-';
+    }
     // Format number with comma separators (e.g., 5500 instead of 5.5k)
-    return value?.toLocaleString();
+    return value.toLocaleString();
   };
 
 

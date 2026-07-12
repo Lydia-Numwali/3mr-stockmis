@@ -17,11 +17,10 @@ export class ReportsService {
   async getSalesReport(query: any) {
     const { from, to, saleType } = query;
     const qb = this.saleRepo.createQueryBuilder('s').leftJoinAndSelect('s.product', 'p');
-    if (from) qb.andWhere('s.saleDate >= :from', { from });
-    if (to) qb.andWhere('s.saleDate <= :to', { to: to + ' 23:59:59' });
-    if (saleType) qb.andWhere('s.saleType = :saleType', { saleType });
-    const sales = await qb.orderBy('s.saleDate', 'DESC').getMany();
-    const totalRevenue = sales.reduce((acc, s) => acc + s.quantitySold * Number(s.priceUsed), 0);
+    if (from) qb.andWhere('s.issueDate >= :from', { from });
+    if (to) qb.andWhere('s.issueDate <= :to', { to: to + ' 23:59:59' });
+    const sales = await qb.orderBy('s.issueDate', 'DESC').getMany();
+    const totalRevenue = sales.reduce((acc, s) => acc + s.quantityIssued * Number(s.priceUsed), 0);
     return { sales, totalRevenue };
   }
 
@@ -43,35 +42,18 @@ export class ReportsService {
     
     // If date range is provided, use it; otherwise use default periods
     if (startDate && endDate) {
-      const [totalIncome, totalCost, creditSales, creditPurchases] = await Promise.all([
+      const [totalIncome, totalCost] = await Promise.all([
         this.saleRepo.createQueryBuilder('s')
-          .select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total')
-          .where('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
+          .select('COALESCE(SUM(s.quantityIssued * s.priceUsed), 0)', 'total')
+          .where('COALESCE(s.issueDate, s.date) >= :startDate AND COALESCE(s.issueDate, s.date) <= :endDate', { 
             startDate, 
             endDate: endDate + ' 23:59:59' 
           })
           .getRawOne(),
         this.saleRepo.createQueryBuilder('s')
           .leftJoin('s.product', 'p')
-          .select('COALESCE(SUM(s.quantitySold * p.costPrice), 0)', 'total')
-          .where('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
-            startDate, 
-            endDate: endDate + ' 23:59:59' 
-          })
-          .getRawOne(),
-        this.saleRepo.createQueryBuilder('s')
-          .select('COALESCE(SUM(s.amountDue), 0)', 'total')
-          .where('s.paymentStatus IN (:...statuses)', { statuses: ['CREDIT', 'PARTIAL'] })
-          .andWhere('s.saleDate >= :startDate AND s.saleDate <= :endDate', { 
-            startDate, 
-            endDate: endDate + ' 23:59:59' 
-          })
-          .getRawOne(),
-        this.saleRepo.createQueryBuilder('p')
-          .from('purchases', 'p')
-          .select('COALESCE(SUM(p.amountDue), 0)', 'total')
-          .where('p.paymentStatus IN (:...statuses)', { statuses: ['CREDIT', 'PARTIAL'] })
-          .andWhere('p.purchaseDate >= :startDate AND p.purchaseDate <= :endDate', { 
+          .select('COALESCE(SUM(s.quantityIssued * p.costPrice), 0)', 'total')
+          .where('COALESCE(s.issueDate, s.date) >= :startDate AND COALESCE(s.issueDate, s.date) <= :endDate', { 
             startDate, 
             endDate: endDate + ' 23:59:59' 
           })
@@ -85,8 +67,8 @@ export class ReportsService {
         totalIncome: totalIncomeValue,
         totalCost: totalCostValue,
         profit: totalIncomeValue - totalCostValue,
-        creditSales: Number(creditSales.total),
-        creditPurchases: Number(creditPurchases.total),
+        creditSales: 0, // Not applicable for logistics system
+        creditPurchases: 0, // Not applicable for logistics system
       };
     }
 
@@ -98,10 +80,10 @@ export class ReportsService {
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     const [daily, weekly, monthly, topSelling] = await Promise.all([
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.saleDate >= :today', { today }).getRawOne(),
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.saleDate >= :startOfWeek', { startOfWeek }).getRawOne(),
-      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantitySold * s.priceUsed), 0)', 'total').where('s.saleDate >= :startOfMonth', { startOfMonth }).getRawOne(),
-      this.saleRepo.createQueryBuilder('s').select('p.id', 'productId').addSelect('p.name', 'productName').addSelect('SUM(s.quantitySold)', 'totalSold').addSelect('SUM(s.quantitySold * s.priceUsed)', 'totalRevenue').leftJoin('s.product', 'p').groupBy('p.id').addGroupBy('p.name').orderBy('SUM(s.quantitySold)', 'DESC').limit(10).getRawMany(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantityIssued * s.priceUsed), 0)', 'total').where('COALESCE(s.issueDate, s.date) >= :today', { today }).getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantityIssued * s.priceUsed), 0)', 'total').where('COALESCE(s.issueDate, s.date) >= :startOfWeek', { startOfWeek }).getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('COALESCE(SUM(s.quantityIssued * s.priceUsed), 0)', 'total').where('COALESCE(s.issueDate, s.date) >= :startOfMonth', { startOfMonth }).getRawOne(),
+      this.saleRepo.createQueryBuilder('s').select('p.id', 'productId').addSelect('p.name', 'productName').addSelect('SUM(s.quantityIssued)', 'totalSold').addSelect('SUM(s.quantityIssued * s.priceUsed)', 'totalRevenue').leftJoin('s.product', 'p').groupBy('p.id').addGroupBy('p.name').orderBy('SUM(s.quantityIssued)', 'DESC').limit(10).getRawMany(),
     ]);
 
     return {
@@ -119,14 +101,14 @@ export class ReportsService {
     ws.columns = [
       { header: 'Sale ID', key: 'id', width: 10 },
       { header: 'Product', key: 'product', width: 30 },
-      { header: 'Qty Sold', key: 'qty', width: 12 },
-      { header: 'Sale Type', key: 'saleType', width: 15 },
+      { header: 'Qty Issued', key: 'qty', width: 12 },
+      { header: 'Department', key: 'department', width: 15 },
       { header: 'Price', key: 'price', width: 15 },
       { header: 'Total Value', key: 'total', width: 15 },
       { header: 'Date', key: 'date', width: 20 },
     ];
     sales.forEach((s) => {
-      ws.addRow({ id: s.id, product: s.product?.name, qty: s.quantitySold, saleType: s.saleType, price: s.priceUsed, total: s.quantitySold * Number(s.priceUsed), date: new Date(s.saleDate).toLocaleString() });
+      ws.addRow({ id: s.id, product: s.product?.name, qty: s.quantityIssued, department: s.department, price: s.priceUsed, total: s.quantityIssued * Number(s.priceUsed), date: new Date(s.issueDate).toLocaleString() });
     });
     return (wb.xlsx.writeBuffer() as unknown) as Promise<Buffer>;
   }
@@ -142,12 +124,12 @@ export class ReportsService {
       { header: 'Brand', key: 'brand', width: 15 },
       { header: 'Qty', key: 'qty', width: 10 },
       { header: 'Cost Price', key: 'cost', width: 15 },
-      { header: 'Retail Price', key: 'retail', width: 15 },
-      { header: 'Wholesale Price', key: 'wholesale', width: 15 },
+      { header: 'Issue Value', key: 'retail', width: 15 },
+      { header: 'Standard Cost', key: 'wholesale', width: 15 },
       { header: 'Supplier', key: 'supplier', width: 20 },
     ];
     products.forEach((p) => {
-      ws.addRow({ id: p.id, name: p.name, category: p.category, brand: p.brand, qty: p.quantity, cost: p.costPrice, retail: p.retailPrice, wholesale: p.wholesalePrice, supplier: p.supplier });
+      ws.addRow({ id: p.id, name: p.name, category: p.category, brand: p.brand, qty: p.quantity, cost: p.costPrice, retail: p.issueValue, wholesale: p.standardUnitCost, supplier: p.supplier });
     });
     return (wb.xlsx.writeBuffer() as unknown) as Promise<Buffer>;
   }

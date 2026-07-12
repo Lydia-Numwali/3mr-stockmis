@@ -4,12 +4,17 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Purchase } from '@/types/stock';
 import { formatValue } from '@/lib/utils';
 import dayjs from 'dayjs';
+import { Button } from '@/components/ui/button';
+import { Pencil, Trash2 } from 'lucide-react';
 
-export const getPurchasesColumns = (): ColumnDef<Purchase>[] => {
+export const getPurchasesColumns = (
+    onEdit: (purchase: Purchase) => void,
+    onDelete: (purchase: Purchase) => void
+): ColumnDef<Purchase>[] => {
     return [
         {
             accessorKey: 'product',
-            header: 'Product Name',
+            header: 'Item Name',
             cell: ({ row }) => (
                 <span className="font-medium">{row.original.product?.name || 'Unknown'}</span>
             ),
@@ -24,39 +29,83 @@ export const getPurchasesColumns = (): ColumnDef<Purchase>[] => {
             ),
         },
         {
-            accessorKey: 'quantityPurchased',
-            header: 'Quantity',
-            cell: ({ row }) => (
-                <span className="font-semibold text-blue-600">
-                    {formatValue(row.original.quantityPurchased)}
-                </span>
-            ),
+            accessorKey: 'quantityReceived',
+            header: 'Quantity Received',
+            cell: ({ row }) => {
+                const qty = row.original.quantityReceived ?? row.original.quantityPurchased;
+                return (
+                    <span className="font-semibold text-blue-600">
+                        {formatValue(qty)}
+                    </span>
+                );
+            },
         },
         {
-            accessorKey: 'purchaseDate',
-            header: 'Date',
+            accessorKey: 'receivingDate',
+            header: 'Receiving Date',
             cell: ({ row }) => {
-                const date = row.original.purchaseDate || row.original.date;
-                return dayjs(date).format('DD MMM YYYY HH:mm');
+                const date = row.original.receivingDate ?? row.original.purchaseDate ?? row.original.date;
+                return dayjs(date).format('DD MMM YYYY');
             },
         },
         {
             accessorKey: 'pricePerUnit',
-            header: 'Purchase Price',
-            cell: ({ row }) => (
-                <span className="font-semibold text-green-600">
-                    Frws {formatValue(row.original.pricePerUnit)}
-                </span>
-            ),
+            header: 'Unit Cost',
+            cell: ({ row }) => {
+                const price = row.original.pricePerUnit;
+                return price ? (
+                    <span className="font-semibold text-green-600">
+                        Frws {formatValue(price)}
+                    </span>
+                ) : <span className="text-gray-400">-</span>;
+            },
         },
         {
             accessorKey: 'totalValue',
             header: 'Total Value',
-            cell: ({ row }) => (
-                <span className="font-semibold text-green-700">
-                    Frws {formatValue(row.original.totalValue || (row.original.quantityPurchased * row.original.pricePerUnit))}
-                </span>
-            ),
+            cell: ({ row }) => {
+                const qty = row.original.quantityReceived ?? row.original.quantityPurchased ?? 0;
+                const price = row.original.pricePerUnit ?? 0;
+                const total = row.original.totalValue ?? (qty * price);
+                return total > 0 ? (
+                    <span className="font-semibold text-green-700">
+                        Frws {formatValue(total)}
+                    </span>
+                ) : <span className="text-gray-400">-</span>;
+            },
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: ({ row }) => {
+                const purchase = row.original;
+                return (
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit(purchase);
+                            }}
+                            className="h-8 w-8 p-0"
+                        >
+                            <Pencil className="h-4 w-4 text-blue-600" />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(purchase);
+                            }}
+                            className="h-8 w-8 p-0"
+                        >
+                            <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                    </div>
+                );
+            },
         },
     ];
 };

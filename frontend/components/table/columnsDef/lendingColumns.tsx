@@ -6,37 +6,40 @@ import { formatValue } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import dayjs from 'dayjs';
 import { Button } from '@/components/ui/button';
-import { CheckCircle } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export const getLendingColumns = (
-    onReturn: (lending: Lending) => void
+    onEdit: (lending: Lending) => void,
+    onDelete: (lending: Lending) => void
 ): ColumnDef<Lending>[] => {
     return [
         {
             accessorKey: 'product',
-            header: 'Product Name',
+            header: 'Item Name',
             cell: ({ row }) => (
                 <span className="font-medium">{row.original.product?.name || 'Unknown'}</span>
             ),
         },
         {
-            accessorKey: 'borrowerShop',
-            header: 'Borrower (Shop/Person)',
-            cell: ({ row }) => row.original.borrowerShop,
-        },
-        {
-            accessorKey: 'quantityLent',
-            header: 'Qty Lent',
-            cell: ({ row }) => <span className="font-semibold text-orange-500">{formatValue(row.original.quantityLent)}</span>,
+            accessorKey: 'returnedBy',
+            header: 'Returned By',
+            cell: ({ row }) => {
+                const returnedBy = row.original.returnedBy ?? row.original.borrowerShop;
+                return returnedBy || '-';
+            },
         },
         {
             accessorKey: 'quantityReturned',
-            header: 'Qty Returned',
-            cell: ({ row }) => (
-                <span className="font-semibold text-green-600">
-                    {formatValue(row.original.quantityReturned)}
-                </span>
-            ),
+            header: 'Quantity Returned',
+            cell: ({ row }) => {
+                const qty = row.original.quantityReturned ?? row.original.quantityLent;
+                return <span className="font-semibold text-orange-500">{formatValue(qty)}</span>;
+            },
+        },
+        {
+            accessorKey: 'returnReason',
+            header: 'Return Reason',
+            cell: ({ row }) => row.original.returnReason || '-',
         },
         {
             accessorKey: 'status',
@@ -44,42 +47,61 @@ export const getLendingColumns = (
             cell: ({ row }) => {
                 const status = row.original.status;
                 let color = 'bg-gray-500';
-                if (status === 'RETURNED') color = 'bg-green-500';
-                if (status === 'PARTIALLY_RETURNED') color = 'bg-yellow-500';
-                if (status === 'PENDING') color = 'bg-orange-500';
+                if (status === 'RESTOCKED') color = 'bg-green-500';
+                if (status === 'INSPECTED') color = 'bg-blue-500';
+                if (status === 'RECEIVED') color = 'bg-orange-500';
+                if (status === 'SENT_FOR_REPAIR') color = 'bg-yellow-500';
+                if (status === 'DISPOSED') color = 'bg-red-500';
 
                 return <Badge className={`${color} text-white`}>{status.replace('_', ' ')}</Badge>;
             },
         },
         {
-            accessorKey: 'dateLent',
-            header: 'Date Lent',
-            cell: ({ row }) => dayjs(row.original.dateLent).format('DD MMM YYYY'),
+            accessorKey: 'returnDate',
+            header: 'Return Date',
+            cell: ({ row }) => {
+                const date = row.original.returnDate ?? row.original.dateLent;
+                return dayjs(date).format('DD MMM YYYY');
+            },
         },
         {
-            accessorKey: 'expectedReturnDate',
-            header: 'Expected Return',
+            accessorKey: 'itemCondition',
+            header: 'Condition',
             cell: ({ row }) => {
-                if (!row.original.expectedReturnDate) return '-';
-                const isOverdue = dayjs(row.original.expectedReturnDate).isBefore(dayjs()) && row.original.status !== 'RETURNED';
-                return (
-                    <span className={isOverdue ? 'text-red-500 font-bold' : ''}>
-                        {dayjs(row.original.expectedReturnDate).format('DD MMM YYYY')}
-                    </span>
-                );
+                const condition = row.original.itemCondition;
+                return condition || '-';
             },
         },
         {
             id: 'actions',
+            header: 'Actions',
             cell: ({ row }) => {
                 const lending = row.original;
-                if (lending.status === 'RETURNED') return null;
-
                 return (
-                    <Button variant="outline" size="sm" onClick={() => onReturn(lending)} className="flex items-center gap-1">
-                        <CheckCircle className="h-4 w-4 text-green-500" />
-                        Return
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit(lending);
+                            }}
+                            className="h-8 w-8 p-0"
+                        >
+                            <Pencil className="h-4 w-4 text-blue-600" />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(lending);
+                            }}
+                            className="h-8 w-8 p-0"
+                        >
+                            <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                    </div>
                 );
             },
         },

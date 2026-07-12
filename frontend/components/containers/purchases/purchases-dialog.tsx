@@ -32,14 +32,14 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         
-        if (!formData.productId || !formData.quantityPurchased || !formData.pricePerUnit) {
+        if (!formData.productId || !formData.quantityPurchased) {
             return;
         }
 
         createPurchase({
             productId: Number(formData.productId),
             quantityPurchased: Number(formData.quantityPurchased),
-            pricePerUnit: Number(formData.pricePerUnit),
+            pricePerUnit: (formData.pricePerUnit && Number(formData.pricePerUnit) > 0) ? Number(formData.pricePerUnit) : undefined,
             supplier: formData.supplier || undefined,
             purchaseDate: formData.purchaseDate,
             notes: formData.notes || undefined,
@@ -66,15 +66,15 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle>Record New Purchase</DialogTitle>
+                    <DialogTitle>Record Items Received</DialogTitle>
                 </DialogHeader>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="productId">Product *</Label>
+                        <Label htmlFor="productId">Logistics Item *</Label>
                         <Select value={formData.productId} onValueChange={(value) => handleInputChange('productId', value)}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select a product" />
+                                <SelectValue placeholder="Select a logistics item" />
                             </SelectTrigger>
                             <SelectContent>
                                 {products?.items?.map((product) => (
@@ -98,7 +98,7 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="quantityPurchased">Quantity *</Label>
+                            <Label htmlFor="quantityPurchased">Quantity Received *</Label>
                             <Input
                                 id="quantityPurchased"
                                 type="number"
@@ -111,22 +111,21 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="pricePerUnit">Purchase Price *</Label>
+                            <Label htmlFor="pricePerUnit">Unit Price (Optional)</Label>
                             <Input
                                 id="pricePerUnit"
                                 type="number"
-                                min="0.01"
+                                min="0"
                                 step="0.01"
                                 value={formData.pricePerUnit}
                                 onChange={(e) => handleInputChange('pricePerUnit', e.target.value)}
-                                placeholder="Enter price per unit"
-                                required
+                                placeholder="0"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="purchaseDate">Purchase Date</Label>
+                        <Label htmlFor="purchaseDate">Receiving Date</Label>
                         <Input
                             id="purchaseDate"
                             type="date"
@@ -152,7 +151,7 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                         </Button>
                         <Button type="submit" disabled={isPending}>
                             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Record Purchase
+                            Record Receipt
                         </Button>
                     </div>
                 </form>

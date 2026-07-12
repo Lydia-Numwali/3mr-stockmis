@@ -62,10 +62,10 @@ const StockDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
 
                     <div>
-                        <label className="text-sm font-medium mb-1 block">Product *</label>
+                        <label className="text-sm font-medium mb-1 block">Logistics Item *</label>
                         <Select onValueChange={(val) => setValue('productId', Number(val))}>
                             <SelectTrigger>
-                                <SelectValue placeholder={isLoadingProducts ? "Loading products..." : "Select Product"} />
+                                <SelectValue placeholder={isLoadingProducts ? "Loading items..." : "Select Item"} />
                             </SelectTrigger>
                             <SelectContent>
                                 {productsData?.items?.map((p: any) => (

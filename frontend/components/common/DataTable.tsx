@@ -131,6 +131,8 @@ interface DataTableProps<T extends object> {
     title: string;
     columns: ExportColumn[];
   };
+  // Row click handler
+  onRowClick?: (row: T) => void;
 }
 
 const DataTable = <T extends Record<string, any>>({
@@ -171,6 +173,7 @@ const DataTable = <T extends Record<string, any>>({
   bulkOperator,
   dateFilter,
   exportConfig,
+  onRowClick,
 }: DataTableProps<T>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -407,7 +410,14 @@ const DataTable = <T extends Record<string, any>>({
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows.map((row, index) => (
-                <TableRow key={row.id} className={cn(index % 2 === 0 ? 'bg-white' : 'bg-[#f2f5f9]')}>
+                <TableRow 
+                  key={row.id} 
+                  className={cn(
+                    index % 2 === 0 ? 'bg-white' : 'bg-[#f2f5f9]',
+                    onRowClick && 'cursor-pointer hover:bg-blue-50'
+                  )}
+                  onClick={() => onRowClick && onRowClick(row.original)}
+                >
                   {selectable && (
                     <TableCell className="py-2 px-6">
                       <IndeterminateCheckbox

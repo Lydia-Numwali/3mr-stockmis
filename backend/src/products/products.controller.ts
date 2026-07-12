@@ -3,7 +3,7 @@ import { ProductsService, CreateProductDto } from './products.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
-@Controller('products')
+@Controller('products')  // Keep endpoint for backward compatibility
 export class ProductsController {
   constructor(private service: ProductsService) {}
 
@@ -12,9 +12,28 @@ export class ProductsController {
     return this.service.findAll(query);
   }
 
+  // Get most issued items (logistics terminology)
+  @Get('most-issued')
+  mostIssued(@Query('limit') limit: number) {
+    return this.service.getMostIssued(limit || 10);
+  }
+
+  // Backward compatibility alias
   @Get('best-selling')
   bestSelling(@Query('limit') limit: number) {
     return this.service.getBestSelling(limit || 10);
+  }
+  
+  // Get low stock items
+  @Get('low-stock')
+  lowStock() {
+    return this.service.getLowStockItems();
+  }
+  
+  // Get out of stock items
+  @Get('out-of-stock')
+  outOfStock() {
+    return this.service.getOutOfStockItems();
   }
 
   @Get(':id')

@@ -1,4 +1,15 @@
 {
+  "heading": {
+    "logout": "Logout",
+    "my_account": "My Account",
+    "dashboard": "Dashboard",
+    "products": "Logistics Items",
+    "purchases": "Items Received",
+    "sales": "Items Issued",
+    "lending": "Returns",
+    "stock_movements": "Inventory Movements",
+    "reports": "Reports"
+  },
   "common": {
     "app_name": "3MR Stock Management",
     "loading": "Loading...",

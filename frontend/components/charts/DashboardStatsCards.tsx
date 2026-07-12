@@ -43,32 +43,30 @@ export const DashboardStatsCards: React.FC = () => {
 
     const cards: StatCardProps[] = [
         {
+            label: 'Total Logistics Items',
+            value: stats?.totalProducts ?? 0,
+            icon: <Package size={20} className="text-blue-600" />,
+            iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+        },
+        {
             label: 'Items in Stock',
             value: stats?.itemsInStock ?? 0,
             icon: <Package size={20} className="text-green-600" />,
             iconBg: 'bg-green-100 dark:bg-green-900/30',
-            trend: { value: String(stats?.itemsInStock ?? 0), positive: true },
         },
         {
-            label: 'Total Value of Sales',
-            value: formatCurrency(stats?.valueOfSales ?? 0),
-            icon: <TrendingUp size={20} className="text-blue-600" />,
-            iconBg: 'bg-blue-100 dark:bg-blue-900/30',
-            trend: { value: formatCurrency(stats?.valueOfSales ?? 0), positive: (stats?.valueOfSales ?? 0) > 0 },
+            label: 'Items Issued (This Month)',
+            value: stats?.totalSales ?? 0,
+            icon: <TrendingUp size={20} className="text-orange-600" />,
+            iconBg: 'bg-orange-100 dark:bg-orange-900/30',
+            trend: { value: `${stats?.totalSales ?? 0} items`, positive: true },
         },
         {
-            label: 'Total Value of Purchases',
-            value: formatCurrency(stats?.valueOfPurchases ?? 0),
-            icon: <Package size={20} className="text-purple-600" />,
-            iconBg: 'bg-purple-100 dark:bg-purple-900/30',
-            trend: { value: formatCurrency(stats?.valueOfPurchases ?? 0), positive: true },
-        },
-        {
-            label: 'Stock Balance',
-            value: formatCurrency(stats?.stockBalance ?? 0),
-            icon: <TrendingUp size={20} className="text-indigo-600" />,
-            iconBg: 'bg-indigo-100 dark:bg-indigo-900/30',
-            trend: { value: formatCurrency(stats?.stockBalance ?? 0), positive: (stats?.stockBalance ?? 0) >= 0 },
+            label: 'Low Stock Alerts',
+            value: stats?.lowStockCount ?? 0,
+            icon: <AlertTriangle size={20} className="text-red-600" />,
+            iconBg: 'bg-red-100 dark:bg-red-900/30',
+            trend: stats?.lowStockCount ? { value: 'Needs attention', positive: false } : undefined,
         },
     ];
 

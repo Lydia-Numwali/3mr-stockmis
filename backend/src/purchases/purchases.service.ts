@@ -7,26 +7,43 @@ import { StockMovement, MovementType } from '../entities/stock-movement.entity';
 import { IsNumber, IsString, IsOptional, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
+// DTO for recording items received
 export class CreatePurchaseDto {
   @Type(() => Number) @IsNumber() productId: number;
-  @Type(() => Number) @IsNumber() @Min(1) quantityPurchased: number;
-  @Type(() => Number) @IsNumber() @Min(0.01) pricePerUnit: number;
+  @Type(() => Number) @IsNumber() @Min(1) quantityReceived: number;  // Renamed from quantityPurchased
+  @IsOptional() @Type(() => Number) @IsNumber() pricePerUnit?: number;  // Now optional - no minimum when optional
   @IsOptional() @IsString() supplier?: string;
-  @IsOptional() @IsString() purchaseDate?: string;
+  @IsOptional() @IsString() deliveryReference?: string;  // NEW: tracking number
+  @IsOptional() @IsString() warehouse?: string;  // NEW: storage location
+  @IsOptional() @IsString() receivedBy?: string;  // NEW: staff who received
+  @IsOptional() @IsString() receivingDate?: string;  // Renamed from purchaseDate
   @IsOptional() @IsString() notes?: string;
+  
+  // Backward compatibility - accept old field names
+  @Type(() => Number) @IsNumber() @Min(1) @IsOptional() quantityPurchased?: number;
+  @IsOptional() @IsString() purchaseDate?: string;
 }
 
 export class BulkPurchaseItemDto {
   @Type(() => Number) @IsNumber() productId: number;
-  @Type(() => Number) @IsNumber() @Min(1) quantityPurchased: number;
-  @Type(() => Number) @IsNumber() @Min(0.01) pricePerUnit: number;
+  @Type(() => Number) @IsNumber() @Min(1) quantityReceived: number;  // Renamed
+  @IsOptional() @Type(() => Number) @IsNumber() pricePerUnit?: number;  // Now optional - no minimum
+  
+  // Backward compatibility
+  @Type(() => Number) @IsNumber() @Min(1) @IsOptional() quantityPurchased?: number;
 }
 
 export class CreateBulkPurchaseDto {
   @IsOptional() @IsString() supplier?: string;
-  @IsOptional() @IsString() purchaseDate?: string;
+  @IsOptional() @IsString() deliveryReference?: string;  // NEW
+  @IsOptional() @IsString() warehouse?: string;  // NEW
+  @IsOptional() @IsString() receivedBy?: string;  // NEW
+  @IsOptional() @IsString() receivingDate?: string;  // Renamed
   @IsOptional() @IsString() notes?: string;
   items: BulkPurchaseItemDto[];
+  
+  // Backward compatibility
+  @IsOptional() @IsString() purchaseDate?: string;
 }
 
 @Injectable()
@@ -41,28 +58,43 @@ export class PurchasesService {
   async create(dto: CreatePurchaseDto) {
     return this.dataSource.transaction(async (em) => {
       const product = await em.findOne(Product, { where: { id: dto.productId } });
-      if (!product) throw new BadRequestException('Product not found');
+      if (!product) throw new BadRequestException('Logistics item not found');
+      
+      // Map old field names to new for backward compatibility
+      const quantityReceived = dto.quantityReceived || dto.quantityPurchased;
+      const receivingDate = dto.receivingDate || dto.purchaseDate;
+      
+      if (!quantityReceived) throw new BadRequestException('Quantity received is required');
       
       // Update product quantity and cost price
-      product.quantity += Number(dto.quantityPurchased);
+      product.quantity += Number(quantityReceived);
       product.costPrice = Number(dto.pricePerUnit);
       if (dto.supplier) product.supplier = dto.supplier;
+      if (dto.warehouse) product.warehouse = dto.warehouse;
       await em.save(product);
       
+      // Create purchase/receiving record
       const purchase = em.create(Purchase, {
-        ...dto,
-        purchaseDate: dto.purchaseDate ? new Date(dto.purchaseDate) : new Date(),
+        productId: dto.productId,
+        quantityReceived: Number(quantityReceived),
+        pricePerUnit: dto.pricePerUnit,
+        supplier: dto.supplier,
+        deliveryReference: dto.deliveryReference,
+        warehouse: dto.warehouse,
+        receivedBy: dto.receivedBy,
+        receivingDate: receivingDate ? new Date(receivingDate) : new Date(),
+        notes: dto.notes,
       });
       const savedPurchase = await em.save(purchase);
       
-      // Create stock movement
+      // Create stock movement record
       const movement = em.create(StockMovement, {
         productId: dto.productId,
         type: MovementType.IN,
-        quantity: dto.quantityPurchased,
+        quantity: quantityReceived,
         purchasePrice: dto.pricePerUnit,
         supplier: dto.supplier,
-        notes: `Purchase #${savedPurchase.id}`,
+        notes: `Items Received #${savedPurchase.id}${dto.deliveryReference ? ` - Ref: ${dto.deliveryReference}` : ''}`,
       });
       await em.save(movement);
       
@@ -73,38 +105,47 @@ export class PurchasesService {
   async createBulk(dto: CreateBulkPurchaseDto) {
     return this.dataSource.transaction(async (em) => {
       const savedPurchases = [];
-      const purchaseDate = dto.purchaseDate ? new Date(dto.purchaseDate) : new Date();
+      const receivingDate = dto.receivingDate || dto.purchaseDate;
+      const receiptDate = receivingDate ? new Date(receivingDate) : new Date();
       
       for (const item of dto.items) {
         const product = await em.findOne(Product, { where: { id: item.productId } });
-        if (!product) throw new BadRequestException(`Product with ID ${item.productId} not found`);
+        if (!product) throw new BadRequestException(`Logistics item with ID ${item.productId} not found`);
+        
+        // Map old field names for backward compatibility
+        const quantityReceived = item.quantityReceived || item.quantityPurchased;
+        if (!quantityReceived) throw new BadRequestException(`Quantity received is required for item ${item.productId}`);
         
         // Update product quantity and cost price
-        product.quantity += Number(item.quantityPurchased);
+        product.quantity += Number(quantityReceived);
         product.costPrice = Number(item.pricePerUnit);
         if (dto.supplier) product.supplier = dto.supplier;
+        if (dto.warehouse) product.warehouse = dto.warehouse;
         await em.save(product);
         
-        // Create purchase record
+        // Create purchase/receiving record
         const purchase = em.create(Purchase, {
           productId: item.productId,
-          quantityPurchased: item.quantityPurchased,
+          quantityReceived: Number(quantityReceived),
           pricePerUnit: item.pricePerUnit,
           supplier: dto.supplier,
-          purchaseDate,
+          deliveryReference: dto.deliveryReference,
+          warehouse: dto.warehouse,
+          receivedBy: dto.receivedBy,
+          receivingDate: receiptDate,
           notes: dto.notes,
         });
         const savedPurchase = await em.save(purchase);
         savedPurchases.push(savedPurchase);
         
-        // Create stock movement
+        // Create stock movement record
         const movement = em.create(StockMovement, {
           productId: item.productId,
           type: MovementType.IN,
-          quantity: item.quantityPurchased,
+          quantity: quantityReceived,
           purchasePrice: item.pricePerUnit,
           supplier: dto.supplier,
-          notes: `Bulk Purchase #${savedPurchase.id}`,
+          notes: `Bulk Items Received #${savedPurchase.id}${dto.deliveryReference ? ` - Ref: ${dto.deliveryReference}` : ''}`,
         });
         await em.save(movement);
       }
@@ -114,13 +155,23 @@ export class PurchasesService {
   }
 
   async findAll(query: any) {
-    const { from, to, supplier, search, page = 1, limit = 20 } = query;
+    const { from, to, supplier, warehouse, deliveryReference, search, page = 1, limit = 20 } = query;
     const qb = this.purchaseRepo.createQueryBuilder('p').leftJoinAndSelect('p.product', 'prod');
-    if (from) qb.andWhere('p.purchaseDate >= :from', { from });
-    if (to) qb.andWhere('p.purchaseDate <= :to', { to: to + ' 23:59:59' });
+    
+    // Use receivingDate (new) or fallback to date
+    if (from) qb.andWhere('COALESCE(p.receivingDate, p.date) >= :from', { from });
+    if (to) qb.andWhere('COALESCE(p.receivingDate, p.date) <= :to', { to: to + ' 23:59:59' });
     if (supplier) qb.andWhere('p.supplier ILIKE :supplier', { supplier: `%${supplier}%` });
-    if (search) qb.andWhere('(prod.name ILIKE :search OR p.supplier ILIKE :search)', { search: `%${search}%` });
-    qb.orderBy('p.purchaseDate', 'DESC').skip((Number(page) - 1) * Number(limit)).take(Number(limit));
+    if (warehouse) qb.andWhere('p.warehouse ILIKE :warehouse', { warehouse: `%${warehouse}%` });
+    if (deliveryReference) qb.andWhere('p.deliveryReference ILIKE :ref', { ref: `%${deliveryReference}%` });
+    if (search) qb.andWhere('(prod.name ILIKE :search OR p.supplier ILIKE :search OR p.deliveryReference ILIKE :search)', { search: `%${search}%` });
+    
+    // Order by receivingDate (preferred) or date (fallback) - use raw SQL for COALESCE
+    qb.addSelect('COALESCE(p.receivingDate, p.date)', 'order_date')
+      .orderBy('order_date', 'DESC')
+      .skip((Number(page) - 1) * Number(limit))
+      .take(Number(limit));
+    
     const [items, total] = await qb.getManyAndCount();
     return { items, total, page: Number(page), limit: Number(limit) };
   }
@@ -130,5 +181,44 @@ export class PurchasesService {
       .select('COALESCE(SUM(p.totalValue), 0)', 'total')
       .getRawOne();
     return Number(result.total);
+  }
+  
+  // Get receiving summary by date range
+  async getReceivingSummary(from?: string, to?: string) {
+    const qb = this.purchaseRepo.createQueryBuilder('p');
+    
+    if (from) qb.andWhere('COALESCE(p.receivingDate, p.date) >= :from', { from });
+    if (to) qb.andWhere('COALESCE(p.receivingDate, p.date) <= :to', { to: to + ' 23:59:59' });
+    
+    const result = await qb
+      .select([
+        'COUNT(p.id) as totalReceipts',
+        'COALESCE(SUM(p.quantityReceived), COALESCE(SUM(p.quantityPurchased), 0)) as totalItemsReceived',
+        'COALESCE(SUM(p.totalValue), 0) as totalValue'
+      ])
+      .getRawOne();
+    
+    return {
+      totalReceipts: Number(result.totalReceipts),
+      totalItemsReceived: Number(result.totalItemsReceived),
+      totalValue: Number(result.totalValue),
+    };
+  }
+  
+  // Get receiving by supplier
+  async getReceivingBySupplier(limit = 10) {
+    return this.purchaseRepo
+      .createQueryBuilder('p')
+      .select([
+        'p.supplier',
+        'COUNT(p.id) as receiptCount',
+        'COALESCE(SUM(p.quantityReceived), COALESCE(SUM(p.quantityPurchased), 0)) as totalQuantity',
+        'COALESCE(SUM(p.totalValue), 0) as totalValue'
+      ])
+      .where('p.supplier IS NOT NULL')
+      .groupBy('p.supplier')
+      .orderBy('totalValue', 'DESC')
+      .limit(limit)
+      .getRawMany();
   }
 }

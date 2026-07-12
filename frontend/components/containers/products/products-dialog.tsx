@@ -19,9 +19,9 @@ const productSchema = z.object({
     unitsPerPackage: z.coerce.number().min(0.01).optional(),
     model: z.string().optional(),
     partType: z.string().optional(),
-    wholesalePrice: z.coerce.number().min(0),
-    retailPrice: z.coerce.number().min(0),
-    costPrice: z.coerce.number().min(0),
+    wholesalePrice: z.coerce.number().min(0).optional(),
+    retailPrice: z.coerce.number().min(0).optional(),
+    costPrice: z.coerce.number().min(0).optional(),
     quantity: z.coerce.number().min(0),
     lowStockThreshold: z.coerce.number().min(0),
     supplier: z.string().optional(),
@@ -105,7 +105,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[700px] overflow-y-auto max-h-[90vh]">
                 <DialogHeader>
-                    <DialogTitle>{type === 'add' ? 'Add Product' : 'Edit Product'}</DialogTitle>
+                    <DialogTitle>{type === 'add' ? 'Add Logistics Item' : 'Edit Logistics Item'}</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 grid grid-cols-2 gap-4">
 
@@ -157,21 +157,21 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div>
-                        <Input label="Part Type" {...register('partType')} placeholder="Lubricant" />
+                        <Input label="Item Type" {...register('partType')} placeholder="Uniform" />
                     </div>
 
                     <div>
-                        <Input label="Cost Price *" type="number" step="any" {...register('costPrice')} />
+                        <Input label="Cost Price (Optional)" type="number" step="any" {...register('costPrice')} placeholder="0" />
                         {errors.costPrice && <p className="text-red-500 text-xs mt-1">{errors.costPrice.message}</p>}
                     </div>
 
                     <div>
-                        <Input label="Wholesale Price *" type="number" step="any" {...register('wholesalePrice')} />
+                        <Input label="Standard Unit Cost (Optional)" type="number" step="any" {...register('wholesalePrice')} placeholder="0" />
                         {errors.wholesalePrice && <p className="text-red-500 text-xs mt-1">{errors.wholesalePrice.message}</p>}
                     </div>
 
                     <div>
-                        <Input label="Retail Price *" type="number" step="any" {...register('retailPrice')} />
+                        <Input label="Issue Value (Optional)" type="number" step="any" {...register('retailPrice')} placeholder="0" />
                         {errors.retailPrice && <p className="text-red-500 text-xs mt-1">{errors.retailPrice.message}</p>}
                     </div>
 
@@ -189,13 +189,13 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div>
-                        <Input label="Storage Location" {...register('storageLocation')} placeholder="A-12" />
+                        <Input label="Warehouse" {...register('storageLocation')} placeholder="Main Warehouse" />
                     </div>
 
                     <DialogFooter className="col-span-2 mt-4">
                         <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>Cancel</Button>
                         <Button type="submit" className="bg-blue hover:bg-blue/90 text-white" disabled={isPending}>
-                            {isPending ? 'Saving...' : 'Save Product'}
+                            {isPending ? 'Saving...' : 'Save Logistics Item'}
                         </Button>
                     </DialogFooter>
                 </form>

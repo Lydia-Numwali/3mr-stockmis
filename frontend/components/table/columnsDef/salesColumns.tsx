@@ -5,80 +5,95 @@ import { Sale } from '@/types/stock';
 import { formatValue } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import dayjs from 'dayjs';
+import { Button } from '@/components/ui/button';
+import { Pencil, Trash2 } from 'lucide-react';
 
-export const getSalesColumns = (): ColumnDef<Sale>[] => {
+export const getSalesColumns = (
+    onEdit: (sale: Sale) => void,
+    onDelete: (sale: Sale) => void
+): ColumnDef<Sale>[] => {
     return [
         {
             accessorKey: 'product',
-            header: 'Product Name',
+            header: 'Item Name',
             cell: ({ row }) => (
                 <span className="font-medium">{row.original.product?.name || 'Unknown'}</span>
             ),
         },
         {
-            accessorKey: 'quantitySold',
-            header: 'Qty Sold',
-            cell: ({ row }) => <span className="font-semibold text-red-500">{formatValue(row.original.quantitySold)}</span>,
+            accessorKey: 'quantityIssued',
+            header: 'Quantity Issued',
+            cell: ({ row }) => {
+                const qty = row.original.quantityIssued ?? row.original.quantitySold;
+                return <span className="font-semibold text-red-500">{formatValue(qty)}</span>;
+            },
         },
         {
             accessorKey: 'priceUsed',
-            header: 'Price Used',
+            header: 'Value',
             cell: ({ row }) => formatValue(row.original.priceUsed),
         },
         {
             accessorKey: 'totalValue',
-            header: 'Total Sale Value',
-            cell: ({ row }) => (
-                <span className="font-semibold text-green-600">
-                    {formatValue(row.original.quantitySold * row.original.priceUsed)}
-                </span>
-            ),
-        },
-        {
-            accessorKey: 'saleType',
-            header: 'Sale Type',
+            header: 'Total Value',
             cell: ({ row }) => {
-                const type = row.original.saleType;
-                const color = type === 'WHOLESALE' ? 'bg-purple-500' : 'bg-blue-500';
-                return <Badge className={`${color} text-white`}>{type}</Badge>;
-            },
-        },
-        {
-            accessorKey: 'paymentStatus',
-            header: 'Payment',
-            cell: ({ row }) => {
-                const status = row.original.paymentStatus || 'PAID';
-                const colors = {
-                    PAID: 'bg-green-500',
-                    CREDIT: 'bg-red-500',
-                    PARTIAL: 'bg-yellow-500'
-                };
-                return <Badge className={`${colors[status as keyof typeof colors]} text-white`}>{status}</Badge>;
-            },
-        },
-        {
-            accessorKey: 'amountDue',
-            header: 'Amount Due',
-            cell: ({ row }) => {
-                const due = row.original.amountDue || 0;
-                return due > 0 ? (
-                    <span className="font-semibold text-red-600">{formatValue(due)}</span>
-                ) : (
-                    <span className="text-gray-400">-</span>
+                const qty = row.original.quantityIssued ?? row.original.quantitySold ?? 0;
+                const price = row.original.priceUsed ?? 0;
+                return (
+                    <span className="font-semibold text-green-600">
+                        {formatValue(qty * price)}
+                    </span>
                 );
             },
         },
         {
-            accessorKey: 'customerName',
-            header: 'Customer Name',
-            cell: ({ row }) => (
-                <span className="font-medium">{row.original.customerName || 'Walk-in Customer'}</span>
-            ),
+            accessorKey: 'issuedTo',
+            header: 'Issued To',
+            cell: ({ row }) => {
+                const issuedTo = row.original.issuedTo ?? row.original.customerName;
+                return <span className="font-medium">{issuedTo || '-'}</span>;
+            },
         },
         {
-            accessorKey: 'saleDate',
-            header: 'Sale Date',
-            cell: ({ row }) => dayjs(row.original.saleDate).format('DD MMM YYYY HH:mm'),
+            accessorKey: 'issueDate',
+            header: 'Issue Date',
+            cell: ({ row }) => {
+                const date = row.original.issueDate ?? row.original.saleDate ?? row.original.date;
+                return dayjs(date).format('DD MMM YYYY');
+            },
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: ({ row }) => {
+                const sale = row.original;
+                return (
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit(sale);
+                            }}
+                            className="h-8 w-8 p-0"
+                        >
+                            <Pencil className="h-4 w-4 text-blue-600" />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(sale);
+                            }}
+                            className="h-8 w-8 p-0"
+                        >
+                            <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                    </div>
+                );
+            },
         },
     ];
 };

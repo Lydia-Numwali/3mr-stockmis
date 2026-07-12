@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 const lendingSchema = z.object({
     productId: z.coerce.number().min(1, 'Product is required'),
     quantityLent: z.coerce.number().min(1, 'Quantity must be at least 1'),
-    borrowerShop: z.string().min(1, 'Borrower details are required'),
+    borrowerShop: z.string().min(1, 'Return details are required'),
     expectedReturnDate: z.string().optional(),
     notes: z.string().optional(),
 });
@@ -55,15 +55,15 @@ const LendingDialog: React.FC<Props> = ({ open, onOpenChange }) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle>Lend Product</DialogTitle>
+                    <DialogTitle>Record Item Return</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
 
                     <div>
-                        <label className="text-sm font-medium mb-1 block">Product *</label>
+                        <label className="text-sm font-medium mb-1 block">Logistics Item *</label>
                         <Select onValueChange={(val) => setValue('productId', Number(val))}>
                             <SelectTrigger>
-                                <SelectValue placeholder={isLoadingProducts ? "Loading products..." : "Select Product"} />
+                                <SelectValue placeholder={isLoadingProducts ? "Loading items..." : "Select Item"} />
                             </SelectTrigger>
                             <SelectContent>
                                 {productsData?.items?.map((p: any) => (
@@ -77,17 +77,17 @@ const LendingDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                     </div>
 
                     <div>
-                        <Input label="Borrower / Shop *" {...register('borrowerShop')} placeholder="Shop B / John Carter" />
+                        <Input label="Returned By *" {...register('borrowerShop')} placeholder="Employee Name / Department" />
                         {errors.borrowerShop && <p className="text-red-500 text-xs mt-1">{errors.borrowerShop.message}</p>}
                     </div>
 
                     <div>
-                        <Input label="Quantity Lent *" type="number" {...register('quantityLent')} />
+                        <Input label="Quantity Returned *" type="number" {...register('quantityLent')} />
                         {errors.quantityLent && <p className="text-red-500 text-xs mt-1">{errors.quantityLent.message}</p>}
                     </div>
 
                     <div>
-                        <Input label="Expected Return Date" type="date" {...register('expectedReturnDate')} />
+                        <Input label="Return Date" type="date" {...register('expectedReturnDate')} />
                     </div>
 
                     <div>
@@ -97,7 +97,7 @@ const LendingDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                     <DialogFooter className="mt-4">
                         <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>Cancel</Button>
                         <Button type="submit" className="bg-blue hover:bg-blue/90 text-white" disabled={isPending}>
-                            {isPending ? 'Saving...' : 'Lend Product'}
+                            {isPending ? 'Saving...' : 'Record Return'}
                         </Button>
                     </DialogFooter>
                 </form>

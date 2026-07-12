@@ -1,17 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { Product } from './product.entity';
 
-export enum SaleType {
-  RETAIL = 'RETAIL',
-  WHOLESALE = 'WHOLESALE',
-}
-
-export enum PaymentStatus {
-  PAID = 'PAID',
-  CREDIT = 'CREDIT',
-  PARTIAL = 'PARTIAL',
-}
-
 @Entity('sales')
 export class Sale {
   @PrimaryGeneratedColumn()
@@ -25,38 +14,37 @@ export class Sale {
   productId: number;
 
   @Column()
-  quantitySold: number;
+  quantityIssued: number;  // renamed from quantitySold
 
-  @Column({ type: 'enum', enum: SaleType })
-  saleType: SaleType;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  priceUsed: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true, default: 0 })
+  priceUsed: number;  // unit value for accounting (optional - not always tracked in logistics)
 
   @Column({ nullable: true })
-  customerName: string;
+  issuedTo: string;  // renamed from customerName - employee name
+
+  @Column({ nullable: true })
+  department: string;  // new field
+
+  @Column({ nullable: true })
+  securitySite: string;  // new field - which branch/site
+
+  @Column({ nullable: true })
+  issuedBy: string;  // new field - staff who issued
+
+  @Column({ nullable: true })
+  approvedBy: string;  // new field - approval
+
+  @Column({ nullable: true })
+  purpose: string;  // new field - reason for issue
 
   @Column({ nullable: true, type: 'text' })
   notes: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantitySold" * "priceUsed"', nullable: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantityIssued" * "priceUsed"', nullable: true })
   totalValue: number;
 
-  // Credit/Payment fields
-  @Column({ type: 'enum', enum: PaymentStatus, default: PaymentStatus.PAID })
-  paymentStatus: PaymentStatus;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  amountPaid: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  amountDue: number;
-
   @Column({ type: 'timestamp', nullable: true })
-  dueDate: Date;
-
-  @Column({ type: 'timestamp', nullable: true })
-  saleDate: Date;
+  issueDate: Date;  // renamed from saleDate
 
   @CreateDateColumn()
   recordedDate: Date;

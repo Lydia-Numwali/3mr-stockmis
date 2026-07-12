@@ -4,7 +4,7 @@ import { getRepository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { Product } from './entities/product.entity';
 import { Purchase } from './entities/purchase.entity';
-import { Sale, SaleType } from './entities/sale.entity';
+import { Sale } from './entities/sale.entity';
 import { Lending } from './entities/lending.entity';
 import { StockMovement } from './entities/stock-movement.entity';
 import { PurchasesService } from './purchases/purchases.service';
@@ -268,7 +268,10 @@ async function seed() {
 
     let purchaseCount = 0;
     for (const purchaseData of purchases) {
-      await purchasesService.create(purchaseData);
+      await purchasesService.create({
+        ...purchaseData,
+        quantityReceived: purchaseData.quantityPurchased
+      });
       purchaseCount++;
     }
     console.log(`✓ Created ${purchaseCount} sample purchases with stock movements`);
@@ -276,33 +279,40 @@ async function seed() {
     // Create sales using the service (this will create stock movements automatically)
     const sales = [
       // January 2024 sales - Different brands showing price differences
-      { productId: createdProducts[0].id, quantitySold: 8, saleType: SaleType.RETAIL, priceUsed: 32000, customerName: 'John Smith', saleDate: '2024-01-20', notes: 'Mobil 1 - Premium choice' },
-      { productId: createdProducts[1].id, quantitySold: 12, saleType: SaleType.RETAIL, priceUsed: 30000, customerName: 'Maria Garcia', saleDate: '2024-01-25', notes: 'Castrol - Budget option' },
+      { productId: createdProducts[0].id, quantitySold: 8, priceUsed: 32000, customerName: 'John Smith', saleDate: '2024-01-20', notes: 'Mobil 1 - Premium choice' },
+      { productId: createdProducts[1].id, quantitySold: 12, priceUsed: 30000, customerName: 'Maria Garcia', saleDate: '2024-01-25', notes: 'Castrol - Budget option' },
       
       // February 2024 sales
-      { productId: createdProducts[2].id, quantitySold: 4, saleType: SaleType.RETAIL, priceUsed: 58000, customerName: 'David Johnson', saleDate: '2024-02-02', notes: 'Bosch brake pads' },
-      { productId: createdProducts[3].id, quantitySold: 2, saleType: SaleType.RETAIL, priceUsed: 68000, customerName: 'Sarah Wilson', saleDate: '2024-02-08', notes: 'Brembo premium brake pads' },
-      { productId: createdProducts[4].id, quantitySold: 15, saleType: SaleType.WHOLESALE, priceUsed: 18000, customerName: 'Mike\'s Auto Repair', saleDate: '2024-02-12', notes: 'Mann filters bulk order' },
+      { productId: createdProducts[2].id, quantitySold: 4, priceUsed: 58000, customerName: 'David Johnson', saleDate: '2024-02-02', notes: 'Bosch brake pads' },
+      { productId: createdProducts[3].id, quantitySold: 2, priceUsed: 68000, customerName: 'Sarah Wilson', saleDate: '2024-02-08', notes: 'Brembo premium brake pads' },
+      { productId: createdProducts[4].id, quantitySold: 15, priceUsed: 18000, customerName: 'Mike\'s Auto Repair', saleDate: '2024-02-12', notes: 'Mann filters bulk order' },
       
       // March 2024 sales
-      { productId: createdProducts[5].id, quantitySold: 8, saleType: SaleType.WHOLESALE, priceUsed: 25000, customerName: 'Performance Auto Shop', saleDate: '2024-03-05', notes: 'K&N performance filters' },
-      { productId: createdProducts[6].id, quantitySold: 12, saleType: SaleType.RETAIL, priceUsed: 16000, customerName: 'Robert Brown', saleDate: '2024-03-10', notes: 'NGK spark plugs' },
-      { productId: createdProducts[7].id, quantitySold: 8, saleType: SaleType.RETAIL, priceUsed: 14000, customerName: 'Lisa Martinez', saleDate: '2024-03-15', notes: 'Denso spark plugs' },
+      { productId: createdProducts[5].id, quantitySold: 8, priceUsed: 25000, customerName: 'Performance Auto Shop', saleDate: '2024-03-05', notes: 'K&N performance filters' },
+      { productId: createdProducts[6].id, quantitySold: 12, priceUsed: 16000, customerName: 'Robert Brown', saleDate: '2024-03-10', notes: 'NGK spark plugs' },
+      { productId: createdProducts[7].id, quantitySold: 8, priceUsed: 14000, customerName: 'Lisa Martinez', saleDate: '2024-03-15', notes: 'Denso spark plugs' },
       
       // Recent sales (March 2026)
-      { productId: createdProducts[8].id, quantitySold: 3, saleType: SaleType.RETAIL, priceUsed: 105000, customerName: 'James Anderson', saleDate: '2026-03-18', notes: 'Exide battery replacement' },
-      { productId: createdProducts[9].id, quantitySold: 2, saleType: SaleType.RETAIL, priceUsed: 110000, customerName: 'Emma Thompson', saleDate: '2026-03-22', notes: 'Varta premium battery' },
-      { productId: createdProducts[10].id, quantitySold: 8, saleType: SaleType.RETAIL, priceUsed: 150000, customerName: 'Michael Davis', saleDate: '2026-03-26', notes: 'Michelin tire set' },
-      { productId: createdProducts[11].id, quantitySold: 4, saleType: SaleType.RETAIL, priceUsed: 155000, customerName: 'Fleet Solutions Ltd', saleDate: '2026-03-28', notes: 'Bridgestone premium tires' },
+      { productId: createdProducts[8].id, quantitySold: 3, priceUsed: 105000, customerName: 'James Anderson', saleDate: '2026-03-18', notes: 'Exide battery replacement' },
+      { productId: createdProducts[9].id, quantitySold: 2, priceUsed: 110000, customerName: 'Emma Thompson', saleDate: '2026-03-22', notes: 'Varta premium battery' },
+      { productId: createdProducts[10].id, quantitySold: 8, priceUsed: 150000, customerName: 'Michael Davis', saleDate: '2026-03-26', notes: 'Michelin tire set' },
+      { productId: createdProducts[11].id, quantitySold: 4, priceUsed: 155000, customerName: 'Fleet Solutions Ltd', saleDate: '2026-03-28', notes: 'Bridgestone premium tires' },
       
       // Additional mixed sales for better testing
-      { productId: createdProducts[0].id, quantitySold: 18, saleType: SaleType.WHOLESALE, priceUsed: 25000, customerName: 'City Auto Center', saleDate: '2026-03-29', notes: 'Mobil 1 bulk order' },
-      { productId: createdProducts[1].id, quantitySold: 20, saleType: SaleType.WHOLESALE, priceUsed: 23000, customerName: 'Express Auto Repair', saleDate: '2026-03-30', notes: 'Castrol bulk order' }
+      { productId: createdProducts[0].id, quantitySold: 18, priceUsed: 25000, customerName: 'City Auto Center', saleDate: '2026-03-29', notes: 'Mobil 1 bulk order' },
+      { productId: createdProducts[1].id, quantitySold: 20, priceUsed: 23000, customerName: 'Express Auto Repair', saleDate: '2026-03-30', notes: 'Castrol bulk order' }
     ];
 
     let salesCount = 0;
     for (const saleData of sales) {
-      await salesService.create(saleData);
+      await salesService.create({
+        productId: saleData.productId,
+        quantityIssued: saleData.quantitySold,
+        priceUsed: saleData.priceUsed,
+        issueDate: saleData.saleDate,
+        issuedTo: saleData.customerName,
+        notes: saleData.notes
+      });
       salesCount++;
     }
     console.log(`✓ Created ${salesCount} sample sales with stock movements`);

@@ -29,7 +29,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
     });
 
     const [items, setItems] = useState<SaleItem[]>([
-        { id: '1', productId: 0, quantitySold: 0, saleType: 'RETAIL' as const, priceUsed: 0 }
+        { id: '1', productId: 0, quantitySold: 0, priceUsed: 0 }
     ]);
 
     const { mutate: createBulkSale, isPending } = useCreateBulkSale();
@@ -37,7 +37,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
 
     const addItem = () => {
         const newId = (Math.max(...items.map(item => parseInt(item.id))) + 1).toString();
-        setItems([...items, { id: newId, productId: 0, quantitySold: 0, saleType: 'RETAIL', priceUsed: 0 }]);
+        setItems([...items, { id: newId, productId: 0, quantitySold: 0, priceUsed: 0 }]);
     };
 
     const removeItem = (id: string) => {
@@ -79,7 +79,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                     saleDate: new Date().toISOString().split('T')[0],
                     notes: '',
                 });
-                setItems([{ id: '1', productId: 0, quantitySold: 0, saleType: 'RETAIL', priceUsed: 0 }]);
+                setItems([{ id: '1', productId: 0, quantitySold: 0, priceUsed: 0 }]);
             }
         });
     };
@@ -92,12 +92,6 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
         return items.reduce((total, item) => total + (item.quantitySold * item.priceUsed), 0);
     };
 
-    const getProductPrice = (productId: number, saleType: 'WHOLESALE' | 'RETAIL') => {
-        const product = products?.items?.find(p => p.id === productId);
-        if (!product) return 0;
-        return saleType === 'WHOLESALE' ? product.wholesalePrice : product.retailPrice;
-    };
-
     const handleProductChange = (itemId: string, productIdStr: string) => {
         if (!productIdStr || productIdStr === 'no-products' || productIdStr === 'loading') return;
         
@@ -105,17 +99,11 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
         updateItem(itemId, 'productId', productId);
         const item = items.find(i => i.id === itemId);
         if (item && productId > 0) {
-            const price = getProductPrice(productId, item.saleType);
-            updateItem(itemId, 'priceUsed', price);
-        }
-    };
-
-    const handleSaleTypeChange = (itemId: string, saleType: 'WHOLESALE' | 'RETAIL') => {
-        updateItem(itemId, 'saleType', saleType);
-        const item = items.find(i => i.id === itemId);
-        if (item && item.productId > 0) {
-            const price = getProductPrice(item.productId, saleType);
-            updateItem(itemId, 'priceUsed', price);
+            const product = products?.items?.find(p => p.id === productId);
+            if (product) {
+                // Use issue value (retail price) as default
+                updateItem(itemId, 'priceUsed', product.retailPrice || product.issueValue || 0);
+            }
         }
     };
 
@@ -123,24 +111,24 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[1000px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Bulk Sale Entry</DialogTitle>
+                    <DialogTitle>Bulk Issue Entry</DialogTitle>
                 </DialogHeader>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* General Information */}
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <Label htmlFor="customerName">Customer Name</Label>
+                            <Label htmlFor="customerName">Issued To</Label>
                             <Input
                                 id="customerName"
                                 value={formData.customerName}
                                 onChange={(e) => handleInputChange('customerName', e.target.value)}
-                                placeholder="Enter customer name"
+                                placeholder="Department/Security Site/Employee Name"
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="saleDate">Sale Date</Label>
+                            <Label htmlFor="saleDate">Issue Date</Label>
                             <Input
                                 id="saleDate"
                                 type="date"
@@ -174,20 +162,20 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                                         <div className="lg:col-span-2">
-                                            <Label className="text-sm font-medium">Product</Label>
+                                            <Label className="text-sm font-medium">Logistics Item</Label>
                                             <Select 
                                                 value={item.productId > 0 ? item.productId.toString() : undefined} 
                                                 onValueChange={(value) => handleProductChange(item.id, value)}
                                             >
                                                 <SelectTrigger className="mt-1">
                                                     <SelectValue 
-                                                        placeholder={productsLoading ? "Loading products..." : "Select product"}
+                                                        placeholder={productsLoading ? "Loading items..." : "Select item"}
                                                     />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {productsLoading ? (
                                                         <SelectItem value="loading" disabled>
-                                                            Loading products...
+                                                            Loading items...
                                                         </SelectItem>
                                                     ) : products?.items?.length > 0 ? (
                                                         products.items.map((product) => (
@@ -197,7 +185,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                                         ))
                                                     ) : (
                                                         <SelectItem value="no-products" disabled>
-                                                            No products available
+                                                            No items available
                                                         </SelectItem>
                                                     )}
                                                 </SelectContent>
@@ -205,23 +193,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                         </div>
 
                                         <div>
-                                            <Label className="text-sm font-medium">Sale Type</Label>
-                                            <Select 
-                                                value={item.saleType} 
-                                                onValueChange={(value: 'WHOLESALE' | 'RETAIL') => handleSaleTypeChange(item.id, value)}
-                                            >
-                                                <SelectTrigger className="mt-1">
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="RETAIL">Retail</SelectItem>
-                                                    <SelectItem value="WHOLESALE">Wholesale</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-
-                                        <div>
-                                            <Label className="text-sm font-medium">Quantity</Label>
+                                            <Label className="text-sm font-medium">Quantity Issued</Label>
                                             <Input
                                                 type="number"
                                                 min="1"
@@ -233,14 +205,14 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                         </div>
 
                                         <div>
-                                            <Label className="text-sm font-medium">Price per Unit</Label>
+                                            <Label className="text-sm font-medium">Issue Value per Unit</Label>
                                             <Input
                                                 type="number"
                                                 min="0.01"
                                                 step="0.01"
                                                 value={item.priceUsed || ''}
                                                 onChange={(e) => updateItem(item.id, 'priceUsed', parseFloat(e.target.value) || 0)}
-                                                placeholder="Price"
+                                                placeholder="Value"
                                                 className="mt-1"
                                             />
                                         </div>
@@ -269,7 +241,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                         <div className="flex justify-end">
                             <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
                                 <div className="text-lg font-semibold">
-                                    Total Sale Value: <span className="text-xl font-bold text-blue-600">Frws {getTotalValue().toLocaleString()}</span>
+                                    Total Issue Value: <span className="text-xl font-bold text-blue-600">Frws {getTotalValue().toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
@@ -292,7 +264,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                         </Button>
                         <Button type="submit" disabled={isPending} className="bg-blue hover:bg-blue/90 text-white">
                             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Record {items.filter(item => item.productId > 0).length} Sale{items.filter(item => item.productId > 0).length !== 1 ? 's' : ''}
+                            Issue {items.filter(item => item.productId > 0).length} Item{items.filter(item => item.productId > 0).length !== 1 ? 's' : ''}
                         </Button>
                     </div>
                 </form>

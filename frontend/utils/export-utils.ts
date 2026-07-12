@@ -157,11 +157,14 @@ const getNestedValue = (obj: any, path: string): any => {
 };
 
 // Format currency
-export const formatCurrency = (value: number): string => {
+export const formatCurrency = (value: number | null | undefined): string => {
+  if (value === null || value === undefined || value === 0) {
+    return '-';
+  }
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  }).format(value || 0);
+  }).format(value);
 };
 
 // Format date
@@ -175,15 +178,13 @@ export const formatDate = (value: string | Date): string => {
   });
 };
 
-// Format date and time
+// Format date and time (now showing date only)
 export const formatDateTime = (value: string | Date): string => {
   if (!value) return '';
   const date = new Date(value);
-  return date.toLocaleString('en-US', {
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
   });
 };

@@ -32,7 +32,7 @@ const StockContainer = () => {
                 columns={stockColumns}
                 data={data?.items ?? []}
                 isLoading={isLoading}
-                heading="Stock Movements"
+                heading="Inventory Movements"
                 addButtonIcon="solar:transfer-horizontal-bold"
                 addButtonTitle="Add Stock (IN)"
                 onAdd={() => setOpenDialog(true)}
@@ -43,7 +43,7 @@ const StockContainer = () => {
                 limit={pagination.pageSize}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                searchPlaceholder="Search by product name, notes..."
+                searchPlaceholder="Search by item name, notes..."
             />
 
             {openDialog && <StockDialog

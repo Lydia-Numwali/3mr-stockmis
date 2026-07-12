@@ -20,21 +20,30 @@ export class Purchase {
   productId: number;
 
   @Column()
-  quantityPurchased: number;
+  quantityReceived: number;  // renamed from quantityPurchased
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   pricePerUnit: number;
 
   @Column({ nullable: true })
   supplier: string;
 
+  @Column({ nullable: true })
+  deliveryReference: string;  // new field for tracking number
+
+  @Column({ nullable: true })
+  warehouse: string;  // new field for warehouse location
+
+  @Column({ nullable: true })
+  receivedBy: string;  // new field for staff who received
+
   @Column({ nullable: true, type: 'text' })
   notes: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantityPurchased" * "pricePerUnit"', nullable: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, generatedType: 'STORED', asExpression: '"quantityReceived" * "pricePerUnit"', nullable: true })
   totalValue: number;
 
-  // Credit/Payment fields
+  // Credit/Payment fields (kept for backward compatibility but less relevant for internal logistics)
   @Column({ type: 'enum', enum: PaymentStatus, default: PaymentStatus.PAID })
   paymentStatus: PaymentStatus;
 
@@ -48,7 +57,7 @@ export class Purchase {
   dueDate: Date;
 
   @Column({ type: 'timestamp', nullable: true })
-  purchaseDate: Date;
+  receivingDate: Date;  // renamed from purchaseDate
 
   @CreateDateColumn()
   recordedDate: Date;

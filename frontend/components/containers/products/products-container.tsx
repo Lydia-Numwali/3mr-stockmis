@@ -8,6 +8,7 @@ import { PaginationState } from '@tanstack/react-table';
 import { useDebounce } from 'use-debounce';
 import { Product } from '@/types/stock';
 import ProductDialog from './products-dialog';
+import ProductViewDialog from './product-view-dialog';
 import BulkConfirmDialog from '@/components/common/bulk-action-dialog';
 import { ExportColumn, formatCurrency } from '@/utils/export-utils';
 
@@ -18,6 +19,9 @@ const ProductsContainer = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogType, setDialogType] = useState<'add' | 'edit'>('add');
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+    const [viewOpen, setViewOpen] = useState(false);
+    const [viewProduct, setViewProduct] = useState<Product | null>(null);
 
     const [deleteOpen, setDeleteOpen] = useState(false);
     const deleteProductMutation = useDeleteProduct();
@@ -39,6 +43,11 @@ const ProductsContainer = () => {
         setOpenDialog(true);
     };
 
+    const handleView = (product: Product) => {
+        setViewProduct(product);
+        setViewOpen(true);
+    };
+
     const handleDeleteClick = (product: Product) => {
         setSelectedProduct(product);
         setDeleteOpen(true);
@@ -55,18 +64,16 @@ const ProductsContainer = () => {
 
     // Export configuration
     const exportConfig: { filename: string; title: string; columns: ExportColumn[] } = {
-        filename: 'products-report',
-        title: 'Products Inventory Report',
+        filename: 'logistics-items-report',
+        title: 'Logistics Items Inventory Report',
         columns: [
-            { key: 'name', label: 'Product Name' },
-            { key: 'brand', label: 'Brand' },
+            { key: 'name', label: 'Item Name' },
             { key: 'category', label: 'Category' },
+            { key: 'brand', label: 'Brand' },
             { key: 'quantity', label: 'Stock Quantity' },
-            { key: 'costPrice', label: 'Cost Price', format: formatCurrency },
-            { key: 'wholesalePrice', label: 'Wholesale Price', format: formatCurrency },
-            { key: 'retailPrice', label: 'Retail Price', format: formatCurrency },
+            { key: 'warehouse', label: 'Warehouse' },
             { key: 'supplier', label: 'Supplier' },
-            { key: 'storageLocation', label: 'Storage Location' },
+            { key: 'notes', label: 'Notes' },
         ],
     };
 
@@ -76,9 +83,9 @@ const ProductsContainer = () => {
                 columns={productColumns}
                 data={data?.items ?? []}
                 isLoading={isLoading}
-                heading="Products"
+                heading="Logistics Items"
                 addButtonIcon="solar:box-minimalistic-bold"
-                addButtonTitle="Add Product"
+                addButtonTitle="Add Logistics Item"
                 onAdd={() => {
                     setSelectedProduct(null);
                     setDialogType('add');
@@ -91,8 +98,9 @@ const ProductsContainer = () => {
                 limit={pagination.pageSize}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                searchPlaceholder="Search product name or brand..."
+                searchPlaceholder="Search item name or brand..."
                 exportConfig={exportConfig}
+                onRowClick={handleView}
             />
 
             {openDialog && <ProductDialog
@@ -102,12 +110,18 @@ const ProductsContainer = () => {
                 onOpenChange={setOpenDialog}
             />}
 
+            {viewOpen && <ProductViewDialog
+                product={viewProduct}
+                open={viewOpen}
+                onOpenChange={setViewOpen}
+            />}
+
             {deleteOpen && <BulkConfirmDialog
                 open={deleteOpen}
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setDeleteOpen(false)}
                 type="delete"
-                entityLabel="Product"
+                entityLabel="Logistics Item"
                 count={1}
                 loading={deleteProductMutation.isPending}
             />}

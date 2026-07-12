@@ -56,7 +56,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
         e.preventDefault();
         
         const validItems = items.filter(item => 
-            item.productId > 0 && item.quantityPurchased > 0 && item.pricePerUnit > 0
+            item.productId > 0 && item.quantityPurchased > 0
         );
 
         if (validItems.length === 0) {
@@ -67,7 +67,10 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
             supplier: formData.supplier || undefined,
             purchaseDate: formData.purchaseDate,
             notes: formData.notes || undefined,
-            items: validItems.map(({ id, ...item }) => item),
+            items: validItems.map(({ id, ...item }) => ({
+                ...item,
+                pricePerUnit: item.pricePerUnit > 0 ? item.pricePerUnit : undefined
+            })),
         }, {
             onSuccess: () => {
                 onOpenChange(false);
@@ -91,14 +94,17 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
     };
 
     const getTotalValue = () => {
-        return items.reduce((total, item) => total + (item.quantityPurchased * item.pricePerUnit), 0);
+        return items.reduce((total, item) => {
+            const itemTotal = item.pricePerUnit ? item.quantityPurchased * item.pricePerUnit : 0;
+            return total + itemTotal;
+        }, 0);
     };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[1000px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Bulk Purchase Entry</DialogTitle>
+                    <DialogTitle>Bulk Receipt Entry</DialogTitle>
                 </DialogHeader>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -115,7 +121,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="purchaseDate">Purchase Date</Label>
+                            <Label htmlFor="purchaseDate">Receiving Date</Label>
                             <Input
                                 id="purchaseDate"
                                 type="date"
@@ -149,13 +155,13 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                         <div className="lg:col-span-2">
-                                            <Label className="text-sm font-medium">Product</Label>
+                                            <Label className="text-sm font-medium">Logistics Item</Label>
                                             <Select 
                                                 value={item.productId > 0 ? item.productId.toString() : ''} 
                                                 onValueChange={(value) => handleProductChange(item.id, value)}
                                             >
                                                 <SelectTrigger className="mt-1">
-                                                    <SelectValue placeholder="Select product" />
+                                                    <SelectValue placeholder="Select item" />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {products?.items?.map((product) => (
@@ -168,7 +174,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                         </div>
 
                                         <div>
-                                            <Label className="text-sm font-medium">Quantity</Label>
+                                            <Label className="text-sm font-medium">Quantity Received</Label>
                                             <Input
                                                 type="number"
                                                 min="1"
@@ -180,14 +186,14 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                         </div>
 
                                         <div>
-                                            <Label className="text-sm font-medium">Price per Unit</Label>
+                                            <Label className="text-sm font-medium">Price per Unit (Optional)</Label>
                                             <Input
                                                 type="number"
-                                                min="0.01"
+                                                min="0"
                                                 step="0.01"
                                                 value={item.pricePerUnit || ''}
                                                 onChange={(e) => updateItem(item.id, 'pricePerUnit', parseFloat(e.target.value) || 0)}
-                                                placeholder="Price"
+                                                placeholder="0"
                                                 className="mt-1"
                                             />
                                         </div>
@@ -196,7 +202,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                     <div className="flex justify-end">
                                         <div className="bg-white px-3 py-2 rounded border">
                                             <span className="text-sm font-medium">
-                                                Total: <span className="text-blue-600">Frws {(item.quantityPurchased * item.pricePerUnit).toLocaleString()}</span>
+                                                Total: <span className="text-blue-600">{item.pricePerUnit ? `Frws ${(item.quantityPurchased * item.pricePerUnit).toLocaleString()}` : 'N/A'}</span>
                                             </span>
                                         </div>
                                     </div>
@@ -216,7 +222,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                         <div className="flex justify-end">
                             <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
                                 <div className="text-lg font-semibold">
-                                    Total Purchase Value: <span className="text-xl font-bold text-blue-600">Frws {getTotalValue().toLocaleString()}</span>
+                                    Total Receipt Value: <span className="text-xl font-bold text-blue-600">Frws {getTotalValue().toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +245,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                         </Button>
                         <Button type="submit" disabled={isPending} className="bg-blue hover:bg-blue/90 text-white">
                             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Record {items.filter(item => item.productId > 0).length} Purchase{items.filter(item => item.productId > 0).length !== 1 ? 's' : ''}
+                            Record {items.filter(item => item.productId > 0).length} Receipt{items.filter(item => item.productId > 0).length !== 1 ? 's' : ''}
                         </Button>
                     </div>
                 </form>

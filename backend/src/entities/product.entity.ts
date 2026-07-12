@@ -4,15 +4,27 @@ import { StockMovement } from './stock-movement.entity';
 import { Lending } from './lending.entity';
 import { Purchase } from './purchase.entity';
 
-export enum ProductCategory {
-  ENGINE_PARTS = 'Engine Parts',
-  BRAKE_SYSTEM = 'Brake System',
-  ELECTRICAL_PARTS = 'Electrical Parts',
-  BODY_PARTS = 'Body Parts',
-  SUSPENSION = 'Suspension',
-  TIRES_WHEELS = 'Tires & Wheels',
-  OTHER = 'Other',
+export enum LogisticsItemCategory {
+  SECURITY_UNIFORMS = 'Security Uniforms',
+  PROTECTIVE_EQUIPMENT = 'Protective Equipment',
+  COMMUNICATION_EQUIPMENT = 'Communication Equipment',
+  SECURITY_ACCESSORIES = 'Security Accessories',
+  OFFICE_SUPPLIES = 'Office Supplies',
+  CLEANING_SUPPLIES = 'Cleaning Supplies',
+  PATROL_EQUIPMENT = 'Patrol Equipment',
+  ELECTRONICS = 'Electronics',
+  FURNITURE = 'Furniture',
+  STATIONERY = 'Stationery',
+  IT_EQUIPMENT = 'IT Equipment',
+  VEHICLE_EQUIPMENT = 'Vehicle Equipment',
+  EMERGENCY_EQUIPMENT = 'Emergency Equipment',
+  MAINTENANCE_TOOLS = 'Maintenance Tools',
+  CONSUMABLES = 'Consumables',
+  MISCELLANEOUS_ASSETS = 'Miscellaneous Assets',
 }
+
+// Keep ProductCategory as alias for backward compatibility during migration
+export const ProductCategory = LogisticsItemCategory;
 
 export enum PackagingUnit {
   PIECES = 'Pieces',
@@ -27,6 +39,16 @@ export enum PackagingUnit {
   METER = 'Meter',
   SET = 'Set',
   PAIR = 'Pair',
+  UNIT = 'Unit',
+  ROLL = 'Roll',
+}
+
+export enum StockStatus {
+  IN_STOCK = 'In Stock',
+  LOW_STOCK = 'Low Stock',
+  OUT_OF_STOCK = 'Out of Stock',
+  UNDER_REPAIR = 'Under Repair',
+  DAMAGED = 'Damaged',
 }
 
 @Entity('products')
@@ -37,8 +59,8 @@ export class Product {
   @Column()
   name: string;
 
-  @Column({ type: 'enum', enum: ProductCategory, default: ProductCategory.OTHER })
-  category: ProductCategory;
+  @Column({ type: 'enum', enum: LogisticsItemCategory, default: LogisticsItemCategory.MISCELLANEOUS_ASSETS })
+  category: LogisticsItemCategory;
 
   @Column({ type: 'enum', enum: PackagingUnit, default: PackagingUnit.PIECES })
   packagingUnit: PackagingUnit;
@@ -53,15 +75,15 @@ export class Product {
   model: string;
 
   @Column({ nullable: true })
-  partType: string;
+  itemType: string;  // renamed from partType
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  wholesalePrice: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  standardUnitCost: number;  // renamed from wholesalePrice
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  retailPrice: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  issueValue: number;  // renamed from retailPrice
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   costPrice: number;
 
   @Column({ default: 0 })
@@ -74,7 +96,7 @@ export class Product {
   supplier: string;
 
   @Column({ nullable: true })
-  storageLocation: string;
+  warehouse: string;  // renamed from storageLocation
 
   @Column({ nullable: true, type: 'text' })
   notes: string;
@@ -96,4 +118,11 @@ export class Product {
 
   @OneToMany(() => Purchase, (p: Purchase) => p.product)
   purchases: Purchase[];
+
+  // Virtual/computed property for stock status
+  getStockStatus(): StockStatus {
+    if (this.quantity === 0) return StockStatus.OUT_OF_STOCK;
+    if (this.quantity <= this.lowStockThreshold) return StockStatus.LOW_STOCK;
+    return StockStatus.IN_STOCK;
+  }
 }

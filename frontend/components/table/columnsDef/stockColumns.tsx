@@ -51,7 +51,7 @@ export const getStockColumns = (): ColumnDef<StockMovement>[] => {
         {
             accessorKey: 'date',
             header: 'Date',
-            cell: ({ row }) => dayjs(row.original.date).format('DD MMM YYYY HH:mm'),
+            cell: ({ row }) => dayjs(row.original.date).format('DD MMM YYYY'),
         },
     ];
 };
