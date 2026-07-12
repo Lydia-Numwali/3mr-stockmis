@@ -177,7 +177,7 @@ const BulkSalesDialog: React.FC<BulkSalesDialogProps> = ({ open, onOpenChange })
                                                         <SelectItem value="loading" disabled>
                                                             Loading items...
                                                         </SelectItem>
-                                                    ) : products?.items?.length > 0 ? (
+                                                    ) : products?.items && products.items.length > 0 ? (
                                                         products.items.map((product) => (
                                                             <SelectItem key={product.id} value={product.id.toString()}>
                                                                 {product.name} (Stock: {product.quantity})
