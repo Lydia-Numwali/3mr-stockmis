@@ -46,7 +46,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
         resolver: zodResolver(productSchema),
         defaultValues: {
             brand: '',
-            category: ProductCategory.OTHER,
+            category: ProductCategory.SECURITY_UNIFORMS,
             packagingUnit: PackagingUnit.PIECES,
             unitsPerPackage: 1,
             quantity: 0,
