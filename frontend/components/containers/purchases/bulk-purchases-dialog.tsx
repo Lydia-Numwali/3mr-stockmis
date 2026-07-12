@@ -37,7 +37,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
 
     const addItem = () => {
         const newId = (Math.max(...items.map(item => parseInt(item.id))) + 1).toString();
-        setItems([...items, { id: newId, productId: 0, quantityPurchased: 0, pricePerUnit: 0 }]);
+        setItems([...items, { id: newId, productId: 0, quantityReceived: 0, pricePerUnit: 0 }]);
     };
 
     const removeItem = (id: string) => {
@@ -56,7 +56,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
         e.preventDefault();
         
         const validItems = items.filter(item => 
-            item.productId > 0 && item.quantityPurchased > 0
+            item.productId > 0 && item.quantityReceived > 0
         );
 
         if (validItems.length === 0) {
@@ -79,7 +79,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                     purchaseDate: new Date().toISOString().split('T')[0],
                     notes: '',
                 });
-                setItems([{ id: '1', productId: 0, quantityPurchased: 0, pricePerUnit: 0 }]);
+                setItems([{ id: '1', productId: 0, quantityReceived: 0, pricePerUnit: 0 }]);
             }
         });
     };
@@ -95,7 +95,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
 
     const getTotalValue = () => {
         return items.reduce((total, item) => {
-            const itemTotal = item.pricePerUnit ? item.quantityPurchased * item.pricePerUnit : 0;
+            const itemTotal = item.pricePerUnit ? item.quantityReceived * item.pricePerUnit : 0;
             return total + itemTotal;
         }, 0);
     };
@@ -178,8 +178,8 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                             <Input
                                                 type="number"
                                                 min="1"
-                                                value={item.quantityPurchased || ''}
-                                                onChange={(e) => updateItem(item.id, 'quantityPurchased', parseInt(e.target.value) || 0)}
+                                                value={item.quantityReceived || ''}
+                                                onChange={(e) => updateItem(item.id, 'quantityReceived', parseInt(e.target.value) || 0)}
                                                 placeholder="Qty"
                                                 className="mt-1"
                                             />
@@ -202,7 +202,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                     <div className="flex justify-end">
                                         <div className="bg-white px-3 py-2 rounded border">
                                             <span className="text-sm font-medium">
-                                                Total: <span className="text-blue-600">{item.pricePerUnit ? `Frws ${(item.quantityPurchased * item.pricePerUnit).toLocaleString()}` : 'N/A'}</span>
+                                                Total: <span className="text-blue-600">{item.pricePerUnit ? `Frws ${(item.quantityReceived * item.pricePerUnit).toLocaleString()}` : 'N/A'}</span>
                                             </span>
                                         </div>
                                     </div>
