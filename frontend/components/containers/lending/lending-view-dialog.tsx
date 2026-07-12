@@ -83,7 +83,7 @@ const LendingViewDialog: React.FC<Props> = ({ lending, open, onOpenChange }) => 
                             <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-500">Return Date</p>
                                 <p className="text-base font-semibold text-gray-900">
-                                    {(lending.returnDate || lending.dateLent) ? new Date(lending.returnDate || lending.dateLent).toLocaleDateString() : '-'}
+                                    {lending.returnDate ? new Date(lending.returnDate).toLocaleDateString() : lending.dateLent ? new Date(lending.dateLent).toLocaleDateString() : '-'}
                                 </p>
                             </div>
                             <div className="space-y-1">
