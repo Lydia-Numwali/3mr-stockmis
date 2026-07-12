@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-cd backend
+cd "$(dirname "$0")/backend"
 node dist/src/main.js
