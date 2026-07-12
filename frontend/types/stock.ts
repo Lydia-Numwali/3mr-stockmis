@@ -251,6 +251,7 @@ export interface ItemReturnFilter {
     itemCondition?: string;
     department?: string;
     securitySite?: string;
+    search?: string;
     page?: number;
     limit?: number;
 }
