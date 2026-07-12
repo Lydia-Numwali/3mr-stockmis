@@ -2,13 +2,11 @@
 set -e
 
 echo "==> Building backend..."
-echo "==> Current directory: $(pwd)"
-echo "==> Changing to backend directory..."
 cd "$(dirname "$0")/backend"
 echo "==> Now in: $(pwd)"
-echo "==> Checking package-lock.json content..."
-head -30 package-lock.json
-echo "==> Installing dependencies..."
+echo "==> Removing node_modules and package-lock if they exist..."
+rm -rf node_modules package-lock.json
+echo "==> Fresh install..."
 npm install
 echo "==> Building..."
 npm run build
