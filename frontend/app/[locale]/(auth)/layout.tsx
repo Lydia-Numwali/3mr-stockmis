@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '3MR - Authentication',
-  description: 'Authentication for 3MR',
+  title: 'SMIS - Authentication',
+  description: 'Authentication for SMIS',
 };
 
 export default function AuthLayout({

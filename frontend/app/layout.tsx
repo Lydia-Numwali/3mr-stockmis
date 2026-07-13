@@ -12,7 +12,7 @@ const mont = Mona_Sans({
 });
 
 export const metadata: Metadata = {
-  title: '3MR',
+  title: 'STOCK MIS',
   description: 'Stock Management Information System',
 };
 
