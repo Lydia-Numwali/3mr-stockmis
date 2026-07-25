@@ -14,7 +14,8 @@ export class CreatePurchaseDto {
   @IsOptional() @Type(() => Number) @IsNumber() pricePerUnit?: number;  // Now optional - no minimum when optional
   @IsOptional() @IsString() supplier?: string;
   @IsOptional() @IsString() deliveryReference?: string;  // NEW: tracking number
-  @IsOptional() @IsString() warehouse?: string;  // NEW: storage location
+  @IsOptional() @IsString() location?: string;  // Renamed from warehouse
+  @IsOptional() @IsString() warehouse?: string;  // Backward compatibility
   @IsOptional() @IsString() receivedBy?: string;  // NEW: staff who received
   @IsOptional() @IsString() receivingDate?: string;  // Renamed from purchaseDate
   @IsOptional() @IsString() notes?: string;
@@ -36,7 +37,8 @@ export class BulkPurchaseItemDto {
 export class CreateBulkPurchaseDto {
   @IsOptional() @IsString() supplier?: string;
   @IsOptional() @IsString() deliveryReference?: string;  // NEW
-  @IsOptional() @IsString() warehouse?: string;  // NEW
+  @IsOptional() @IsString() location?: string;  // Renamed from warehouse
+  @IsOptional() @IsString() warehouse?: string;  // Backward compatibility
   @IsOptional() @IsString() receivedBy?: string;  // NEW
   @IsOptional() @IsString() receivingDate?: string;  // Renamed
   @IsOptional() @IsString() notes?: string;
@@ -63,6 +65,7 @@ export class PurchasesService {
       // Map old field names to new for backward compatibility
       const quantityReceived = dto.quantityReceived || dto.quantityPurchased;
       const receivingDate = dto.receivingDate || dto.purchaseDate;
+      const location = dto.location || dto.warehouse;
       
       if (!quantityReceived) throw new BadRequestException('Quantity received is required');
       
@@ -70,7 +73,7 @@ export class PurchasesService {
       product.quantity += Number(quantityReceived);
       product.costPrice = Number(dto.pricePerUnit);
       if (dto.supplier) product.supplier = dto.supplier;
-      if (dto.warehouse) product.warehouse = dto.warehouse;
+      if (location) product.location = location;
       await em.save(product);
       
       // Create purchase/receiving record
@@ -80,7 +83,7 @@ export class PurchasesService {
         pricePerUnit: dto.pricePerUnit,
         supplier: dto.supplier,
         deliveryReference: dto.deliveryReference,
-        warehouse: dto.warehouse,
+        location,
         receivedBy: dto.receivedBy,
         receivingDate: receivingDate ? new Date(receivingDate) : new Date(),
         notes: dto.notes,
@@ -107,6 +110,7 @@ export class PurchasesService {
       const savedPurchases = [];
       const receivingDate = dto.receivingDate || dto.purchaseDate;
       const receiptDate = receivingDate ? new Date(receivingDate) : new Date();
+      const location = dto.location || dto.warehouse;
       
       for (const item of dto.items) {
         const product = await em.findOne(Product, { where: { id: item.productId } });
@@ -120,7 +124,7 @@ export class PurchasesService {
         product.quantity += Number(quantityReceived);
         product.costPrice = Number(item.pricePerUnit);
         if (dto.supplier) product.supplier = dto.supplier;
-        if (dto.warehouse) product.warehouse = dto.warehouse;
+        if (location) product.location = location;
         await em.save(product);
         
         // Create purchase/receiving record
@@ -130,7 +134,7 @@ export class PurchasesService {
           pricePerUnit: item.pricePerUnit,
           supplier: dto.supplier,
           deliveryReference: dto.deliveryReference,
-          warehouse: dto.warehouse,
+          location,
           receivedBy: dto.receivedBy,
           receivingDate: receiptDate,
           notes: dto.notes,
@@ -155,14 +159,15 @@ export class PurchasesService {
   }
 
   async findAll(query: any) {
-    const { from, to, supplier, warehouse, deliveryReference, search, page = 1, limit = 20 } = query;
+    const { from, to, supplier, location, warehouse, deliveryReference, search, page = 1, limit = 20 } = query;
     const qb = this.purchaseRepo.createQueryBuilder('p').leftJoinAndSelect('p.product', 'prod');
     
     // Use receivingDate (new) or fallback to date
     if (from) qb.andWhere('COALESCE(p.receivingDate, p.date) >= :from', { from });
     if (to) qb.andWhere('COALESCE(p.receivingDate, p.date) <= :to', { to: to + ' 23:59:59' });
     if (supplier) qb.andWhere('p.supplier ILIKE :supplier', { supplier: `%${supplier}%` });
-    if (warehouse) qb.andWhere('p.warehouse ILIKE :warehouse', { warehouse: `%${warehouse}%` });
+    const locationFilter = location || warehouse;
+    if (locationFilter) qb.andWhere('p.location ILIKE :location', { location: `%${locationFilter}%` });
     if (deliveryReference) qb.andWhere('p.deliveryReference ILIKE :ref', { ref: `%${deliveryReference}%` });
     if (search) qb.andWhere('(prod.name ILIKE :search OR p.supplier ILIKE :search OR p.deliveryReference ILIKE :search)', { search: `%${search}%` });
     

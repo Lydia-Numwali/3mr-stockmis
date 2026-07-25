@@ -47,7 +47,7 @@ async function seed() {
         issueValue: 25000,
         lowStockThreshold: 10,
         supplier: 'Uniform Suppliers Ltd',
-        warehouse: 'Main Warehouse',
+        location: 'Main Warehouse',
         notes: 'Standard security guard uniform set',
       },
       {
@@ -64,7 +64,7 @@ async function seed() {
         issueValue: 150000,
         lowStockThreshold: 5,
         supplier: 'Tech Solutions Rwanda',
-        warehouse: 'Main Warehouse',
+        location: 'Main Warehouse',
         notes: 'Digital two-way radio for security communication',
       },
       {
@@ -81,7 +81,7 @@ async function seed() {
         issueValue: 8000,
         lowStockThreshold: 10,
         supplier: 'Security Equipment Co',
-        warehouse: 'Main Warehouse',
+        location: 'Main Warehouse',
         notes: 'High-powered LED flashlight',
       },
       {
@@ -98,7 +98,7 @@ async function seed() {
         issueValue: 18000,
         lowStockThreshold: 5,
         supplier: 'Security Equipment Co',
-        warehouse: 'Secure Storage',
+        location: 'Secure Storage',
         notes: 'Standard issue handcuffs',
       },
       {
@@ -115,7 +115,7 @@ async function seed() {
         issueValue: 12000,
         lowStockThreshold: 8,
         supplier: 'Medical Supplies Rwanda',
-        warehouse: 'Main Warehouse',
+        location: 'Main Warehouse',
         notes: 'Complete first aid kit for security posts',
       },
     ];

@@ -12,12 +12,14 @@ import { useCreateProduct, useUpdateProduct } from '@/hooks/useProducts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const productSchema = z.object({
-    name: z.string().min(1, 'Name is required'),
-    brand: z.string().min(1, 'Brand is required'),
-    category: z.nativeEnum(ProductCategory).optional(),
+    assetId: z.string().optional(),
+    name: z.string().min(1, 'Asset description is required'),
+    category: z.string().optional(),
     packagingUnit: z.nativeEnum(PackagingUnit).optional(),
     unitsPerPackage: z.coerce.number().min(0.01).optional(),
+    brand: z.string().optional(),
     model: z.string().optional(),
+    serialNumber: z.string().optional(),
     partType: z.string().optional(),
     wholesalePrice: z.coerce.number().min(0).optional(),
     retailPrice: z.coerce.number().min(0).optional(),
@@ -25,7 +27,11 @@ const productSchema = z.object({
     quantity: z.coerce.number().min(0),
     lowStockThreshold: z.coerce.number().min(0),
     supplier: z.string().optional(),
-    storageLocation: z.string().optional(),
+    location: z.string().optional(),
+    custodian: z.string().optional(),
+    condition: z.string().optional(),
+    purchaseDate: z.string().optional(),
+    notes: z.string().optional(),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -46,7 +52,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
         resolver: zodResolver(productSchema),
         defaultValues: {
             brand: '',
-            category: ProductCategory.SECURITY_UNIFORMS,
+            category: ProductCategory.IT_EQUIPMENT,
             packagingUnit: PackagingUnit.PIECES,
             unitsPerPackage: 1,
             quantity: 0,
@@ -57,29 +63,37 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
     useEffect(() => {
         if (open && type === 'edit' && product) {
             reset({
+                assetId: product.assetId || '',
                 name: product.name,
-                category: product.category as ProductCategory,
+                category: product.category || ProductCategory.MISCELLANEOUS_ASSETS,
                 packagingUnit: (product.packagingUnit as PackagingUnit) || PackagingUnit.PIECES,
                 unitsPerPackage: product.unitsPerPackage || 1,
                 brand: product.brand || '',
                 model: product.model || '',
-                partType: product.partType || '',
-                wholesalePrice: product.wholesalePrice,
-                retailPrice: product.retailPrice,
+                serialNumber: product.serialNumber || '',
+                partType: product.partType || product.itemType || '',
+                wholesalePrice: product.wholesalePrice ?? product.standardUnitCost,
+                retailPrice: product.retailPrice ?? product.issueValue,
                 costPrice: product.costPrice,
                 quantity: product.quantity,
                 lowStockThreshold: product.lowStockThreshold,
                 supplier: product.supplier || '',
-                storageLocation: product.storageLocation || '',
+                location: product.location || product.warehouse || product.storageLocation || '',
+                custodian: product.custodian || '',
+                condition: product.condition || '',
+                purchaseDate: product.purchaseDate ? product.purchaseDate.split('T')[0] : '',
+                notes: product.notes || '',
             });
         } else if (open && type === 'add') {
             reset({
+                assetId: '',
                 name: '',
                 brand: '',
-                category: ProductCategory.SECURITY_UNIFORMS,
+                category: ProductCategory.IT_EQUIPMENT,
                 packagingUnit: PackagingUnit.PIECES,
                 unitsPerPackage: 1,
                 model: '',
+                serialNumber: '',
                 partType: '',
                 wholesalePrice: 0,
                 retailPrice: 0,
@@ -87,16 +101,26 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                 quantity: 0,
                 lowStockThreshold: 5,
                 supplier: '',
-                storageLocation: '',
+                location: '',
+                custodian: '',
+                condition: '',
+                purchaseDate: '',
+                notes: '',
             });
         }
     }, [open, type, product, reset]);
 
     const onSubmit = async (data: ProductFormValues) => {
+        const payload = {
+            ...data,
+            itemType: data.partType,
+            standardUnitCost: data.wholesalePrice,
+            issueValue: data.retailPrice,
+        };
         if (type === 'edit' && product) {
-            await updateMutation.mutateAsync({ id: product.id, data });
+            await updateMutation.mutateAsync({ id: product.id, data: payload });
         } else {
-            await createMutation.mutateAsync(data);
+            await createMutation.mutateAsync(payload);
         }
         onOpenChange(false);
     };
@@ -109,25 +133,27 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 grid grid-cols-2 gap-4">
 
+                    <div>
+                        <Input label="Asset ID" {...register('assetId')} placeholder="CAL-CL-001-2022" />
+                    </div>
+
+                    <div>
+                        <Input label="Purchase Date" type="date" {...register('purchaseDate')} />
+                    </div>
+
                     <div className="col-span-2">
-                        <Input label="Name *" {...register('name')} placeholder="Engine Oil 5W-30" />
+                        <Input label="Asset Description *" {...register('name')} placeholder="Computer Laptop" />
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                     </div>
 
                     <div>
-                        <Input label="Brand *" {...register('brand')} placeholder="Mobil 1" />
-                        {errors.brand && <p className="text-red-500 text-xs mt-1">{errors.brand.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Model" {...register('model')} placeholder="Advanced Full Synthetic" />
-                    </div>
-
-                    <div>
-                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category</label>
-                        <Select onValueChange={(val) => setValue('category', val as ProductCategory)} defaultValue={product?.category || ProductCategory.SECURITY_UNIFORMS}>
+                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Asset Category</label>
+                        <Select
+                            onValueChange={(val) => setValue('category', val)}
+                            defaultValue={product?.category || ProductCategory.IT_EQUIPMENT}
+                        >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select Category (Optional)" />
+                                <SelectValue placeholder="Select Category" />
                             </SelectTrigger>
                             <SelectContent>
                                 {Object.entries(ProductCategory).map(([k, v]) => (
@@ -135,6 +161,39 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                                 ))}
                             </SelectContent>
                         </Select>
+                    </div>
+
+                    <div>
+                        <Input label="Serial Number" {...register('serialNumber')} placeholder="5CD21226WC" />
+                    </div>
+
+                    <div>
+                        <Input label="Model" {...register('model')} placeholder="HP PRO BOOK 450" />
+                    </div>
+
+                    <div>
+                        <Input label="Brand" {...register('brand')} placeholder="HP" />
+                    </div>
+
+                    <div>
+                        <Input label="QTY *" type="number" {...register('quantity')} disabled={type === 'edit'} />
+                        {errors.quantity && <p className="text-red-500 text-xs mt-1">{errors.quantity.message}</p>}
+                    </div>
+
+                    <div>
+                        <Input label="Location" {...register('location')} placeholder="CAL Office" />
+                    </div>
+
+                    <div>
+                        <Input label="Custodian" {...register('custodian')} placeholder="IT dept" />
+                    </div>
+
+                    <div>
+                        <Input label="Condition" {...register('condition')} placeholder="Good" />
+                    </div>
+
+                    <div>
+                        <Input label="Low Stock Threshold" type="number" {...register('lowStockThreshold')} />
                     </div>
 
                     <div>
@@ -153,35 +212,6 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
 
                     <div>
                         <Input label="Units Per Package" type="number" step="0.01" {...register('unitsPerPackage')} placeholder="1" />
-                        {errors.unitsPerPackage && <p className="text-red-500 text-xs mt-1">{errors.unitsPerPackage.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Item Type" {...register('partType')} placeholder="Uniform" />
-                    </div>
-
-                    <div>
-                        <Input label="Cost Price (Optional)" type="number" step="any" {...register('costPrice')} placeholder="0" />
-                        {errors.costPrice && <p className="text-red-500 text-xs mt-1">{errors.costPrice.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Standard Unit Cost (Optional)" type="number" step="any" {...register('wholesalePrice')} placeholder="0" />
-                        {errors.wholesalePrice && <p className="text-red-500 text-xs mt-1">{errors.wholesalePrice.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Issue Value (Optional)" type="number" step="any" {...register('retailPrice')} placeholder="0" />
-                        {errors.retailPrice && <p className="text-red-500 text-xs mt-1">{errors.retailPrice.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Quantity *" type="number" {...register('quantity')} disabled={type === 'edit'} />
-                        {errors.quantity && <p className="text-red-500 text-xs mt-1">{errors.quantity.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Low Stock Threshold" type="number" {...register('lowStockThreshold')} />
                     </div>
 
                     <div>
@@ -189,7 +219,19 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div>
-                        <Input label="Warehouse" {...register('storageLocation')} placeholder="Main Warehouse" />
+                        <Input label="Cost Price (Optional)" type="number" step="any" {...register('costPrice')} placeholder="0" />
+                    </div>
+
+                    <div>
+                        <Input label="Standard Unit Cost (Optional)" type="number" step="any" {...register('wholesalePrice')} placeholder="0" />
+                    </div>
+
+                    <div>
+                        <Input label="Issue Value (Optional)" type="number" step="any" {...register('retailPrice')} placeholder="0" />
+                    </div>
+
+                    <div className="col-span-2">
+                        <Input label="Remarks" {...register('notes')} placeholder="No issues" />
                     </div>
 
                     <DialogFooter className="col-span-2 mt-4">

@@ -52,20 +52,28 @@ const ProductViewDialog: React.FC<Props> = ({ product, open, onOpenChange }) => 
                     {/* Basic Information */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1">
+                            <p className="text-sm font-medium text-gray-500">Asset ID</p>
+                            <p className="text-base font-semibold text-gray-900">{formatValue(product.assetId)}</p>
+                        </div>
+                        <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-500">Category</p>
                             <p className="text-base font-semibold text-gray-900">{product.category}</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-sm font-medium text-gray-500">Brand</p>
-                            <p className="text-base font-semibold text-gray-900">{formatValue(product.brand)}</p>
+                            <p className="text-sm font-medium text-gray-500">Serial Number</p>
+                            <p className="text-base font-semibold text-gray-900">{formatValue(product.serialNumber)}</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-500">Model</p>
                             <p className="text-base font-semibold text-gray-900">{formatValue(product.model)}</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-sm font-medium text-gray-500">Item Type</p>
-                            <p className="text-base font-semibold text-gray-900">{formatValue(product.itemType || product.partType)}</p>
+                            <p className="text-sm font-medium text-gray-500">Brand</p>
+                            <p className="text-base font-semibold text-gray-900">{formatValue(product.brand)}</p>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-sm font-medium text-gray-500">Condition</p>
+                            <p className="text-base font-semibold text-gray-900">{formatValue(product.condition)}</p>
                         </div>
                     </div>
 
@@ -119,23 +127,33 @@ const ProductViewDialog: React.FC<Props> = ({ product, open, onOpenChange }) => 
 
                     {/* Location Information */}
                     <div className="border-t pt-4">
-                        <h4 className="text-lg font-semibold text-gray-800 mb-3">Location & Supplier</h4>
+                        <h4 className="text-lg font-semibold text-gray-800 mb-3">Location & Custodian</h4>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-1">
-                                <p className="text-sm font-medium text-gray-500">Warehouse</p>
-                                <p className="text-base font-semibold text-gray-900">{formatValue(product.warehouse || product.storageLocation)}</p>
+                                <p className="text-sm font-medium text-gray-500">Location</p>
+                                <p className="text-base font-semibold text-gray-900">{formatValue(product.location || product.warehouse || product.storageLocation)}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Custodian</p>
+                                <p className="text-base font-semibold text-gray-900">{formatValue(product.custodian)}</p>
                             </div>
                             <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-500">Supplier</p>
                                 <p className="text-base font-semibold text-gray-900">{formatValue(product.supplier)}</p>
                             </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Purchase Date</p>
+                                <p className="text-base font-semibold text-gray-900">
+                                    {product.purchaseDate ? new Date(product.purchaseDate).toLocaleDateString() : '-'}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Notes */}
+                    {/* Notes / Remarks */}
                     {product.notes && (
                         <div className="border-t pt-4">
-                            <h4 className="text-lg font-semibold text-gray-800 mb-2">Notes</h4>
+                            <h4 className="text-lg font-semibold text-gray-800 mb-2">Remarks</h4>
                             <div className="bg-gray-50 p-4 rounded-md">
                                 <p className="text-sm text-gray-700 whitespace-pre-wrap">{product.notes}</p>
                             </div>

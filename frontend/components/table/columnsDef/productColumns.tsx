@@ -13,23 +13,37 @@ export const getProductColumns = (
 ): ColumnDef<Product>[] => {
     return [
         {
+            accessorKey: 'assetId',
+            header: 'Asset ID',
+            cell: ({ row }) => (
+                <span className="font-medium text-sm">{row.original.assetId || '-'}</span>
+            ),
+        },
+        {
             accessorKey: 'name',
-            header: 'Item Name',
+            header: 'Asset Description',
         },
         {
             accessorKey: 'category',
             header: 'Category',
         },
         {
-            accessorKey: 'brand',
-            header: 'Brand',
+            accessorKey: 'serialNumber',
+            header: 'Serial Number',
             cell: ({ row }) => (
-                <span className="font-medium">{row.original.brand || '-'}</span>
+                <span className="text-sm">{row.original.serialNumber || '-'}</span>
+            ),
+        },
+        {
+            accessorKey: 'model',
+            header: 'Model',
+            cell: ({ row }) => (
+                <span>{row.original.model || '-'}</span>
             ),
         },
         {
             accessorKey: 'quantity',
-            header: 'Quantity',
+            header: 'QTY',
             cell: ({ row }) => {
                 const qty = row.original.quantity;
                 const lowStock = row.original.lowStockThreshold;
@@ -42,28 +56,25 @@ export const getProductColumns = (
             },
         },
         {
-            accessorKey: 'warehouse',
-            header: 'Warehouse',
+            accessorKey: 'location',
+            header: 'Location',
             cell: ({ row }) => (
-                <span>{row.original.warehouse || '-'}</span>
+                <span>{row.original.location || row.original.warehouse || '-'}</span>
             ),
         },
         {
-            accessorKey: 'supplier',
-            header: 'Supplier',
+            accessorKey: 'custodian',
+            header: 'Custodian',
             cell: ({ row }) => (
-                <span>{row.original.supplier || '-'}</span>
+                <span>{row.original.custodian || '-'}</span>
             ),
         },
         {
-            accessorKey: 'notes',
-            header: 'Notes',
-            cell: ({ row }) => {
-                const notes = row.original.notes;
-                if (!notes) return <span className="text-gray-400">-</span>;
-                const truncated = notes.length > 50 ? notes.substring(0, 50) + '...' : notes;
-                return <span className="text-sm text-gray-600">{truncated}</span>;
-            },
+            accessorKey: 'condition',
+            header: 'Condition',
+            cell: ({ row }) => (
+                <span>{row.original.condition || '-'}</span>
+            ),
         },
         {
             id: 'actions',

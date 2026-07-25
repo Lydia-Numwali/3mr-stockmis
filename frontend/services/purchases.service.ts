@@ -14,7 +14,8 @@ export interface CreatePurchaseDto {
     pricePerUnit?: number;  // Optional since prices are optional in the system
     supplier?: string;
     deliveryReference?: string;  // NEW: tracking number
-    warehouse?: string;  // NEW: storage location
+    location?: string;  // Renamed from warehouse
+    warehouse?: string;  // OLD: for backward compatibility
     receivedBy?: string;  // NEW: staff who received
     receivingDate?: string;  // NEW: renamed from purchaseDate
     purchaseDate?: string;  // OLD: for backward compatibility
@@ -31,7 +32,8 @@ export interface BulkPurchaseItemDto {
 export interface CreateBulkPurchaseDto {
     supplier?: string;
     deliveryReference?: string;  // NEW
-    warehouse?: string;  // NEW
+    location?: string;  // Renamed from warehouse
+    warehouse?: string;  // OLD: for backward compatibility
     receivedBy?: string;  // NEW
     receivingDate?: string;  // NEW
     purchaseDate?: string;  // OLD: for backward compatibility
@@ -63,12 +65,19 @@ export class PurchasesService {
     }
 
     /**
-     * Get items received by warehouse
+     * Get items received by location
+     */
+    async getByLocation(location: string, params: { page?: number; limit?: number } = {}): Promise<PaginatedResponse<ItemReceived>> {
+        return this.utils.authorizedAPI().get('/purchases', {
+            params: { location, ...params }
+        }).then((res: any) => res.data);
+    }
+
+    /**
+     * @deprecated Use getByLocation
      */
     async getByWarehouse(warehouse: string, params: { page?: number; limit?: number } = {}): Promise<PaginatedResponse<ItemReceived>> {
-        return this.utils.authorizedAPI().get('/purchases/by-warehouse', { 
-            params: { warehouse, ...params } 
-        }).then((res: any) => res.data);
+        return this.getByLocation(warehouse, params);
     }
 
     /**

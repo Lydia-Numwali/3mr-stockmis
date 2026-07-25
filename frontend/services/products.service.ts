@@ -8,12 +8,14 @@ import {
 
 // Backward compatibility - accept both old and new field names
 export interface CreateProductDto {
+    assetId?: string;
     name: string;
     category?: string;
     packagingUnit?: string;
     unitsPerPackage?: number;
     brand?: string;
     model?: string;
+    serialNumber?: string;
     itemType?: string;  // NEW: renamed from partType
     partType?: string;  // OLD: for backward compatibility
     standardUnitCost?: number;  // NEW: renamed from wholesalePrice (optional since prices are optional)
@@ -24,7 +26,11 @@ export interface CreateProductDto {
     quantity: number;
     lowStockThreshold: number;
     supplier?: string;
-    warehouse?: string;  // NEW: renamed from storageLocation
+    location?: string;  // Renamed from warehouse
+    custodian?: string;
+    condition?: string;
+    purchaseDate?: string;
+    warehouse?: string;  // OLD: for backward compatibility
     storageLocation?: string;  // OLD: for backward compatibility
     notes?: string;
 }
@@ -67,12 +73,19 @@ export class ProductsService {
     }
 
     /**
-     * Get items by warehouse
+     * Get items by location
+     */
+    async getByLocation(location: string, params: { page?: number; limit?: number } = {}): Promise<PaginatedResponse<LogisticsItem>> {
+        return this.utils.authorizedAPI().get('/products', {
+            params: { location, ...params }
+        }).then((res: any) => res.data);
+    }
+
+    /**
+     * @deprecated Use getByLocation
      */
     async getByWarehouse(warehouse: string, params: { page?: number; limit?: number } = {}): Promise<PaginatedResponse<LogisticsItem>> {
-        return this.utils.authorizedAPI().get('/products/by-warehouse', { 
-            params: { warehouse, ...params } 
-        }).then((res: any) => res.data);
+        return this.getByLocation(warehouse, params);
     }
 
     /**
@@ -100,7 +113,7 @@ export class ProductsService {
             itemType: data.itemType || anyData.partType,
             standardUnitCost: data.standardUnitCost ?? anyData.wholesalePrice,
             issueValue: data.issueValue ?? anyData.retailPrice,
-            warehouse: data.warehouse || anyData.storageLocation,
+            location: data.location || anyData.warehouse || anyData.storageLocation,
         };
         return this.utils.authorizedAPI().post('/products', payload).then((res: any) => res.data);
     }
@@ -116,7 +129,7 @@ export class ProductsService {
             itemType: data.itemType || anyData.partType,
             standardUnitCost: data.standardUnitCost ?? anyData.wholesalePrice,
             issueValue: data.issueValue ?? anyData.retailPrice,
-            warehouse: data.warehouse || anyData.storageLocation,
+            location: data.location || anyData.warehouse || anyData.storageLocation,
         };
         return this.utils.authorizedAPI().put(`/products/${id}`, payload).then((res: any) => res.data);
     }

@@ -76,7 +76,7 @@ async function seed() {
         quantity: 0, // Start with 0, will be updated by purchases
         lowStockThreshold: 25,
         supplier: 'Auto Parts Distributors Ltd',
-        storageLocation: 'Warehouse A - Section 1'
+        location: 'Warehouse A - Section 1'
       },
       {
         name: 'Engine Oil 5W-30',
@@ -90,7 +90,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 25,
         supplier: 'Auto Parts Distributors Ltd',
-        storageLocation: 'Warehouse A - Section 1'
+        location: 'Warehouse A - Section 1'
       },
       {
         name: 'Brake Pads Front Set',
@@ -104,7 +104,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 15,
         supplier: 'Brake Masters International',
-        storageLocation: 'Warehouse A - Section 2'
+        location: 'Warehouse A - Section 2'
       },
       {
         name: 'Brake Pads Front Set',
@@ -118,7 +118,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 15,
         supplier: 'Brake Masters International',
-        storageLocation: 'Warehouse A - Section 2'
+        location: 'Warehouse A - Section 2'
       },
       {
         name: 'Air Filter',
@@ -132,7 +132,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 30,
         supplier: 'Filter Solutions Pro',
-        storageLocation: 'Warehouse B - Section 1'
+        location: 'Warehouse B - Section 1'
       },
       {
         name: 'Air Filter',
@@ -146,7 +146,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 20,
         supplier: 'Filter Solutions Pro',
-        storageLocation: 'Warehouse B - Section 1'
+        location: 'Warehouse B - Section 1'
       },
       {
         name: 'Spark Plugs Set',
@@ -160,7 +160,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 40,
         supplier: 'Ignition Systems Corp',
-        storageLocation: 'Warehouse B - Section 2'
+        location: 'Warehouse B - Section 2'
       },
       {
         name: 'Spark Plugs Set',
@@ -174,7 +174,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 40,
         supplier: 'Ignition Systems Corp',
-        storageLocation: 'Warehouse B - Section 2'
+        location: 'Warehouse B - Section 2'
       },
       {
         name: 'Car Battery 12V',
@@ -188,7 +188,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 12,
         supplier: 'Power Solutions Ltd',
-        storageLocation: 'Warehouse C - Section 1'
+        location: 'Warehouse C - Section 1'
       },
       {
         name: 'Car Battery 12V',
@@ -202,7 +202,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 12,
         supplier: 'Power Solutions Ltd',
-        storageLocation: 'Warehouse C - Section 1'
+        location: 'Warehouse C - Section 1'
       },
       {
         name: 'All-Season Tire',
@@ -216,7 +216,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 16,
         supplier: 'Tire World Distribution',
-        storageLocation: 'Warehouse C - Section 2'
+        location: 'Warehouse C - Section 2'
       },
       {
         name: 'All-Season Tire',
@@ -230,7 +230,7 @@ async function seed() {
         quantity: 0,
         lowStockThreshold: 16,
         supplier: 'Tire World Distribution',
-        storageLocation: 'Warehouse C - Section 2'
+        location: 'Warehouse C - Section 2'
       }
     ];
 

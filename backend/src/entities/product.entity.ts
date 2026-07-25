@@ -21,6 +21,25 @@ export enum LogisticsItemCategory {
   MAINTENANCE_TOOLS = 'Maintenance Tools',
   CONSUMABLES = 'Consumables',
   MISCELLANEOUS_ASSETS = 'Miscellaneous Assets',
+  // Asset register categories (from Excel)
+  COMM_DEVICE = 'Comm.Device',
+  KITCHEN_EQPT = 'Kitchen Eqpt.',
+  FURN_AND_FITT = 'Furn. & Fitt.',
+  SECURITY_EQPT = 'Security Eqpt.',
+  OFFICE_FURNITURE = 'Office Furniture',
+  ACC_FURNITURE = 'Acc. Furniture',
+  OFF_MACHINES = 'Off. Machines',
+  OFF_ACCESSORIES = 'Off. accessories',
+  CLEANING_EQPT = 'Cleaning. Eqpt',
+  OFFICE_EQPT = 'Office Eqpt.',
+  FIRE_AND_SAFETY = 'Fire and safety',
+  MISC_DECO = 'Misc/Deco',
+  ELECTRICAL_EQPT = 'Eelectrical Eqpt.',
+  OFFICE_EQUIP = 'Office Equip.',
+  ELECT_DEVICE = 'Elect. Divice',
+  MEASURING_EQUIP = 'Measuring equip',
+  OFFICE_CARTENS = 'Office Cartens',
+  VEHICLE = 'Vehicle',
 }
 
 // Keep ProductCategory as alias for backward compatibility during migration
@@ -56,11 +75,14 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ nullable: true })
+  assetId: string;  // Asset ID from asset register
 
-  @Column({ type: 'enum', enum: LogisticsItemCategory, default: LogisticsItemCategory.MISCELLANEOUS_ASSETS })
-  category: LogisticsItemCategory;
+  @Column()
+  name: string;  // Asset Description
+
+  @Column({ type: 'varchar', length: 100, default: LogisticsItemCategory.MISCELLANEOUS_ASSETS })
+  category: string;  // Asset Category (free text to match Excel)
 
   @Column({ type: 'enum', enum: PackagingUnit, default: PackagingUnit.PIECES })
   packagingUnit: PackagingUnit;
@@ -73,6 +95,9 @@ export class Product {
 
   @Column({ nullable: true })
   model: string;
+
+  @Column({ nullable: true })
+  serialNumber: string;
 
   @Column({ nullable: true })
   itemType: string;  // renamed from partType
@@ -96,10 +121,19 @@ export class Product {
   supplier: string;
 
   @Column({ nullable: true })
-  warehouse: string;  // renamed from storageLocation
+  location: string;  // renamed from warehouse — matches Excel "Location"
+
+  @Column({ nullable: true })
+  custodian: string;
+
+  @Column({ nullable: true })
+  condition: string;  // Asset condition from register (Good, Fair, Poor, etc.)
+
+  @Column({ type: 'timestamp', nullable: true })
+  purchaseDate: Date;
 
   @Column({ nullable: true, type: 'text' })
-  notes: string;
+  notes: string;  // Remarks
 
   @CreateDateColumn()
   dateRecorded: Date;

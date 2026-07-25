@@ -8,12 +8,14 @@ import { LogisticsItemCategory, PackagingUnit } from '../entities/product.entity
 
 // DTO for creating/updating logistics items
 export class CreateProductDto {
+  @IsOptional() @IsString() assetId?: string;
   @IsString() name: string;
-  @IsEnum(LogisticsItemCategory) category: LogisticsItemCategory;
+  @IsOptional() @IsString() category?: string;
   @IsEnum(PackagingUnit) @IsOptional() packagingUnit?: PackagingUnit;
   @Type(() => Number) @IsNumber() @IsOptional() unitsPerPackage?: number;
   @IsOptional() @IsString() brand?: string;
   @IsOptional() @IsString() model?: string;
+  @IsOptional() @IsString() serialNumber?: string;
   @IsOptional() @IsString() itemType?: string;  // Renamed from partType
   @Type(() => Number) @IsNumber() @IsOptional() standardUnitCost?: number;  // Renamed from wholesalePrice - now optional
   @Type(() => Number) @IsNumber() @IsOptional() issueValue?: number;  // Renamed from retailPrice - now optional
@@ -21,13 +23,17 @@ export class CreateProductDto {
   @Type(() => Number) @IsNumber() @Min(0) quantity: number;
   @Type(() => Number) @IsNumber() @Min(0) @IsOptional() lowStockThreshold?: number;
   @IsOptional() @IsString() supplier?: string;
-  @IsOptional() @IsString() warehouse?: string;  // Renamed from storageLocation
+  @IsOptional() @IsString() location?: string;  // Renamed from warehouse
+  @IsOptional() @IsString() custodian?: string;
+  @IsOptional() @IsString() condition?: string;
+  @IsOptional() @IsString() purchaseDate?: string;
   @IsOptional() @IsString() notes?: string;
   
   // Backward compatibility - accept old field names during transition
   @IsOptional() @IsString() partType?: string;
   @Type(() => Number) @IsNumber() @IsOptional() wholesalePrice?: number;
   @Type(() => Number) @IsNumber() @IsOptional() retailPrice?: number;
+  @IsOptional() @IsString() warehouse?: string;
   @IsOptional() @IsString() storageLocation?: string;
 }
 
@@ -36,16 +42,22 @@ export class ProductsService {
   constructor(@InjectRepository(Product) private repo: Repository<Product>) {}
 
   async findAll(query: any) {
-    const { search, category, brand, model, supplier, warehouse, lowStock, recentlyAdded, page = 1, limit = 20 } = query;
+    const { search, category, brand, model, supplier, location, warehouse, lowStock, recentlyAdded, page = 1, limit = 20 } = query;
     const qb = this.repo.createQueryBuilder('p');
 
-    // Search in name and itemType (logistics terminology)
-    if (search) qb.andWhere('(p.name ILIKE :s OR p.itemType ILIKE :s OR p.partType ILIKE :s)', { s: `%${search}%` });
+    // Search in name, assetId, serialNumber, and itemType
+    if (search) {
+      qb.andWhere(
+        '(p.name ILIKE :s OR p.itemType ILIKE :s OR p.assetId ILIKE :s OR p.serialNumber ILIKE :s)',
+        { s: `%${search}%` },
+      );
+    }
     if (category) qb.andWhere('p.category = :category', { category });
     if (brand) qb.andWhere('p.brand ILIKE :brand', { brand: `%${brand}%` });
     if (model) qb.andWhere('p.model ILIKE :model', { model: `%${model}%` });
     if (supplier) qb.andWhere('p.supplier ILIKE :supplier', { supplier: `%${supplier}%` });
-    if (warehouse) qb.andWhere('(p.warehouse ILIKE :warehouse OR p.storageLocation ILIKE :warehouse)', { warehouse: `%${warehouse}%` });
+    const locationFilter = location || warehouse;
+    if (locationFilter) qb.andWhere('p.location ILIKE :location', { location: `%${locationFilter}%` });
     if (lowStock === 'true') qb.andWhere('p.quantity <= p.lowStockThreshold');
     if (recentlyAdded === 'true') qb.orderBy('p.dateRecorded', 'DESC');
     else qb.orderBy('p.id', 'DESC');
@@ -80,7 +92,11 @@ export class ProductsService {
     if (dto.partType && !dto.itemType) itemData.itemType = dto.partType;
     if (dto.wholesalePrice !== undefined && dto.standardUnitCost === undefined) itemData.standardUnitCost = dto.wholesalePrice;
     if (dto.retailPrice !== undefined && dto.issueValue === undefined) itemData.issueValue = dto.retailPrice;
-    if (dto.storageLocation && !dto.warehouse) itemData.warehouse = dto.storageLocation;
+    if (!dto.location) {
+      itemData.location = dto.warehouse || dto.storageLocation;
+    }
+    if (dto.purchaseDate) itemData.purchaseDate = new Date(dto.purchaseDate);
+    if (!itemData.category) itemData.category = LogisticsItemCategory.MISCELLANEOUS_ASSETS;
     
     const p = this.repo.create(itemData);
     return this.repo.save(p);
@@ -95,7 +111,11 @@ export class ProductsService {
     if (dto.partType && !dto.itemType) updateData.itemType = dto.partType;
     if (dto.wholesalePrice !== undefined && dto.standardUnitCost === undefined) updateData.standardUnitCost = dto.wholesalePrice;
     if (dto.retailPrice !== undefined && dto.issueValue === undefined) updateData.issueValue = dto.retailPrice;
-    if (dto.storageLocation && !dto.warehouse) updateData.warehouse = dto.storageLocation;
+    if (!dto.location) {
+      const legacyLocation = dto.warehouse || dto.storageLocation;
+      if (legacyLocation) updateData.location = legacyLocation;
+    }
+    if (dto.purchaseDate) updateData.purchaseDate = new Date(dto.purchaseDate);
     
     Object.assign(p, updateData);
     return this.repo.save(p);
@@ -149,7 +169,7 @@ export class ProductsService {
   }
   
   // Get items by category
-  async getItemsByCategory(category: LogisticsItemCategory) {
+  async getItemsByCategory(category: string) {
     return this.repo.find({
       where: { category },
       order: { name: 'ASC' },

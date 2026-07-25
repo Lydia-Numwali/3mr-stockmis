@@ -25,6 +25,25 @@ export enum LogisticsItemCategory {
     MAINTENANCE_TOOLS = 'Maintenance Tools',
     CONSUMABLES = 'Consumables',
     MISCELLANEOUS_ASSETS = 'Miscellaneous Assets',
+    // Asset register categories
+    COMM_DEVICE = 'Comm.Device',
+    KITCHEN_EQPT = 'Kitchen Eqpt.',
+    FURN_AND_FITT = 'Furn. & Fitt.',
+    SECURITY_EQPT = 'Security Eqpt.',
+    OFFICE_FURNITURE = 'Office Furniture',
+    ACC_FURNITURE = 'Acc. Furniture',
+    OFF_MACHINES = 'Off. Machines',
+    OFF_ACCESSORIES = 'Off. accessories',
+    CLEANING_EQPT = 'Cleaning. Eqpt',
+    OFFICE_EQPT = 'Office Eqpt.',
+    FIRE_AND_SAFETY = 'Fire and safety',
+    MISC_DECO = 'Misc/Deco',
+    ELECTRICAL_EQPT = 'Eelectrical Eqpt.',
+    OFFICE_EQUIP = 'Office Equip.',
+    ELECT_DEVICE = 'Elect. Divice',
+    MEASURING_EQUIP = 'Measuring equip',
+    OFFICE_CARTENS = 'Office Cartens',
+    VEHICLE = 'Vehicle',
 }
 
 export enum StockStatus {

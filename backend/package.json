@@ -19,6 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed": "ts-node src/seed.ts",
+    "import:assets": "ts-node src/import-asset-register.ts",
     "verify-db": "ts-node verify-db.ts"
   },
   "dependencies": {

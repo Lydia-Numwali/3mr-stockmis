@@ -32,7 +32,7 @@ export class Purchase {
   deliveryReference: string;  // new field for tracking number
 
   @Column({ nullable: true })
-  warehouse: string;  // new field for warehouse location
+  location: string;  // renamed from warehouse — matches Excel "Location"
 
   @Column({ nullable: true })
   receivedBy: string;  // new field for staff who received

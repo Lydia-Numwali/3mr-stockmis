@@ -28,12 +28,14 @@ export enum PackagingUnit {
 // Logistics Item (formerly Product)
 export interface LogisticsItem {
     id: number;
+    assetId?: string;
     name: string;
     category: string;
     packagingUnit?: string;
     unitsPerPackage?: number;
     brand?: string;
     model?: string;
+    serialNumber?: string;
     itemType?: string;  // Renamed from partType
     standardUnitCost: number;  // Renamed from wholesalePrice
     issueValue: number;  // Renamed from retailPrice
@@ -41,7 +43,10 @@ export interface LogisticsItem {
     quantity: number;
     lowStockThreshold: number;
     supplier?: string;
-    warehouse?: string;  // Renamed from storageLocation
+    location?: string;  // Renamed from warehouse — matches Excel "Location"
+    custodian?: string;
+    condition?: string;
+    purchaseDate?: string;
     notes?: string;
     dateRecorded?: string;
     updatedAt?: string;
@@ -51,6 +56,7 @@ export interface LogisticsItem {
     partType?: string;
     wholesalePrice?: number;
     retailPrice?: number;
+    warehouse?: string;
     storageLocation?: string;
 }
 
@@ -107,7 +113,8 @@ export interface ItemReceived {
     pricePerUnit: number;
     supplier?: string;
     deliveryReference?: string;  // NEW: tracking number
-    warehouse?: string;  // NEW: storage location
+    location?: string;  // Renamed from warehouse
+    warehouse?: string;  // Backward compatibility
     receivedBy?: string;  // NEW: staff who received
     notes?: string;
     totalValue: number;
@@ -216,7 +223,8 @@ export interface LogisticsItemFilter {
     brand?: string;
     model?: string;
     supplier?: string;
-    warehouse?: string;
+    location?: string;
+    warehouse?: string;  // Backward compatibility
     lowStock?: boolean;
     recentlyAdded?: boolean;
     page?: number;
@@ -227,7 +235,8 @@ export interface ItemReceivedFilter {
     from?: string;
     to?: string;
     supplier?: string;
-    warehouse?: string;
+    location?: string;
+    warehouse?: string;  // Backward compatibility
     deliveryReference?: string;
     search?: string;
     page?: number;
@@ -258,12 +267,14 @@ export interface ItemReturnFilter {
 
 // Create/Update DTOs
 export interface CreateLogisticsItemDto {
+    assetId?: string;
     name: string;
     category?: string;  // Optional to allow flexibility
     packagingUnit?: string;
     unitsPerPackage?: number;
     brand?: string;
     model?: string;
+    serialNumber?: string;
     itemType?: string;
     standardUnitCost?: number;  // Optional since prices are optional
     issueValue?: number;  // Optional since prices are optional
@@ -271,8 +282,14 @@ export interface CreateLogisticsItemDto {
     quantity: number;
     lowStockThreshold?: number;
     supplier?: string;
-    warehouse?: string;
+    location?: string;
+    custodian?: string;
+    condition?: string;
+    purchaseDate?: string;
     notes?: string;
+    // Backward compatibility
+    warehouse?: string;
+    storageLocation?: string;
 }
 
 export interface CreateItemReceivedDto {
@@ -281,7 +298,8 @@ export interface CreateItemReceivedDto {
     pricePerUnit?: number;  // Optional since prices are optional in the system
     supplier?: string;
     deliveryReference?: string;
-    warehouse?: string;
+    location?: string;
+    warehouse?: string;  // Backward compatibility
     receivedBy?: string;
     receivingDate?: string;
     notes?: string;

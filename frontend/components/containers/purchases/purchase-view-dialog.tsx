@@ -92,8 +92,8 @@ const PurchaseViewDialog: React.FC<Props> = ({ purchase, open, onOpenChange }) =
                                 <p className="text-base font-semibold text-gray-900">{purchase.supplier || '-'}</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-sm font-medium text-gray-500">Warehouse</p>
-                                <p className="text-base font-semibold text-gray-900">{purchase.warehouse || '-'}</p>
+                                <p className="text-sm font-medium text-gray-500">Location</p>
+                                <p className="text-base font-semibold text-gray-900">{purchase.location || purchase.warehouse || '-'}</p>
                             </div>
                             <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-500">Delivery Reference</p>
