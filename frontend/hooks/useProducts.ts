@@ -9,10 +9,11 @@ const productsService = new ProductsService(new UtilsService());
 /**
  * Get all logistics items with filtering and pagination
  */
-export function useProducts(params?: LogisticsItemFilter) {
+export function useProducts(params?: LogisticsItemFilter, options?: { enabled?: boolean }) {
     return useQuery<PaginatedResponse<LogisticsItem>>({
         queryKey: ['products', params],
         queryFn: () => productsService.findAll(params),
+        enabled: options?.enabled ?? true,
     });
 }
 

@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { useCreateBulkPurchase } from '@/hooks/usePurchases';
 import { useProducts } from '@/hooks/useProducts';
+import { ProductCategory } from '@/types/stock';
 import { Loader2, Plus, Trash2 } from 'lucide-react';
 import { BulkPurchaseItemDto } from '@/services/purchases.service';
 
@@ -23,6 +24,7 @@ interface PurchaseItem extends BulkPurchaseItemDto {
 
 const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenChange }) => {
     const [formData, setFormData] = useState({
+        category: '',
         supplier: '',
         purchaseDate: new Date().toISOString().split('T')[0],
         notes: '',
@@ -33,7 +35,12 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
     ]);
 
     const { mutate: createBulkPurchase, isPending } = useCreateBulkPurchase();
-    const { data: products } = useProducts({ page: 1, limit: 1000 });
+    const { data: products, isLoading: isLoadingProducts } = useProducts(
+        { category: formData.category, page: 1, limit: 200 },
+        { enabled: open && !!formData.category },
+    );
+
+    const categoryOptions = Array.from(new Set(Object.values(ProductCategory))).sort();
 
     const addItem = () => {
         const newId = (Math.max(...items.map(item => parseInt(item.id))) + 1).toString();
@@ -47,15 +54,15 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
     };
 
     const updateItem = (id: string, field: keyof BulkPurchaseItemDto, value: number) => {
-        setItems(items.map(item => 
+        setItems(items.map(item =>
             item.id === id ? { ...item, [field]: value } : item
         ));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
-        const validItems = items.filter(item => 
+
+        const validItems = items.filter(item =>
             item.productId > 0 && item.quantityReceived > 0
         );
 
@@ -75,6 +82,7 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
             onSuccess: () => {
                 onOpenChange(false);
                 setFormData({
+                    category: '',
                     supplier: '',
                     purchaseDate: new Date().toISOString().split('T')[0],
                     notes: '',
@@ -86,6 +94,11 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
 
     const handleInputChange = (field: string, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleCategoryChange = (category: string) => {
+        setFormData(prev => ({ ...prev, category }));
+        setItems(prev => prev.map(item => ({ ...item, productId: 0 })));
     };
 
     const handleProductChange = (itemId: string, productIdStr: string) => {
@@ -106,10 +119,26 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                 <DialogHeader>
                     <DialogTitle>Bulk Receipt Entry</DialogTitle>
                 </DialogHeader>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* General Information */}
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="category">Category *</Label>
+                            <Select value={formData.category} onValueChange={handleCategoryChange}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a category first" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {categoryOptions.map((category) => (
+                                        <SelectItem key={category} value={category}>
+                                            {category}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="supplier">Supplier</Label>
                             <Input
@@ -156,17 +185,29 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                         <div className="lg:col-span-2">
                                             <Label className="text-sm font-medium">Logistics Item</Label>
-                                            <Select 
-                                                value={item.productId > 0 ? item.productId.toString() : ''} 
+                                            <Select
+                                                value={item.productId > 0 ? item.productId.toString() : ''}
                                                 onValueChange={(value) => handleProductChange(item.id, value)}
+                                                disabled={!formData.category || isLoadingProducts}
                                             >
                                                 <SelectTrigger className="mt-1">
-                                                    <SelectValue placeholder="Select item" />
+                                                    <SelectValue
+                                                        placeholder={
+                                                            !formData.category
+                                                                ? 'Select a category first'
+                                                                : isLoadingProducts
+                                                                    ? 'Loading items...'
+                                                                    : 'Select item'
+                                                        }
+                                                    />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {products?.items?.map((product) => (
                                                         <SelectItem key={product.id} value={product.id.toString()}>
-                                                            {product.name}
+                                                            {product.assetId
+                                                                ? `${product.assetId} — ${product.name}`
+                                                                : product.name}
+                                                            {product.model ? ` (${product.model})` : ''}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
@@ -208,10 +249,10 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                     </div>
                                 </div>
                             ))}
-                            
+
                             {/* Add Item Button - Now appears after each item */}
                             <div className="flex justify-center">
-                                <Button type="button" onClick={addItem} size="sm" variant="outline" className="w-full max-w-xs">
+                                <Button type="button" onClick={addItem} size="sm" variant="outline" className="w-full max-w-xs" disabled={!formData.category}>
                                     <Plus className="h-4 w-4 mr-2" />
                                     Add Another Item
                                 </Button>

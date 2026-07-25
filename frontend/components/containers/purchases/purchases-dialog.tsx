@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { useCreatePurchase } from '@/hooks/usePurchases';
 import { useProducts } from '@/hooks/useProducts';
+import { ProductCategory } from '@/types/stock';
 import { Loader2 } from 'lucide-react';
 
 interface PurchasesDialogProps {
@@ -16,22 +17,37 @@ interface PurchasesDialogProps {
     onOpenChange: (open: boolean) => void;
 }
 
+const emptyForm = {
+    category: '',
+    productId: '',
+    quantityPurchased: '',
+    pricePerUnit: '',
+    supplier: '',
+    purchaseDate: new Date().toISOString().split('T')[0],
+    notes: '',
+};
+
 const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange }) => {
-    const [formData, setFormData] = useState({
-        productId: '',
-        quantityPurchased: '',
-        pricePerUnit: '',
-        supplier: '',
-        purchaseDate: new Date().toISOString().split('T')[0],
-        notes: '',
-    });
+    const [formData, setFormData] = useState(emptyForm);
 
     const { mutate: createPurchase, isPending } = useCreatePurchase();
-    const { data: products } = useProducts({ page: 1, limit: 1000 });
+    const { data: products, isLoading: isLoadingProducts } = useProducts(
+        { category: formData.category, page: 1, limit: 200 },
+        { enabled: open && !!formData.category },
+    );
+
+    useEffect(() => {
+        if (!open) {
+            setFormData({
+                ...emptyForm,
+                purchaseDate: new Date().toISOString().split('T')[0],
+            });
+        }
+    }, [open]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!formData.productId || !formData.quantityPurchased) {
             return;
         }
@@ -47,12 +63,8 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
             onSuccess: () => {
                 onOpenChange(false);
                 setFormData({
-                    productId: '',
-                    quantityPurchased: '',
-                    pricePerUnit: '',
-                    supplier: '',
+                    ...emptyForm,
                     purchaseDate: new Date().toISOString().split('T')[0],
-                    notes: '',
                 });
             }
         });
@@ -62,26 +74,75 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleCategoryChange = (category: string) => {
+        setFormData(prev => ({
+            ...prev,
+            category,
+            productId: '',
+        }));
+    };
+
+    const categoryOptions = Array.from(new Set(Object.values(ProductCategory))).sort();
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Record Items Received</DialogTitle>
                 </DialogHeader>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="productId">Logistics Item *</Label>
-                        <Select value={formData.productId} onValueChange={(value) => handleInputChange('productId', value)}>
+                        <Label htmlFor="category">Category *</Label>
+                        <Select value={formData.category} onValueChange={handleCategoryChange}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select a logistics item" />
+                                <SelectValue placeholder="Select a category first" />
                             </SelectTrigger>
                             <SelectContent>
-                                {products?.items?.map((product) => (
-                                    <SelectItem key={product.id} value={product.id.toString()}>
-                                        {product.name}
+                                {categoryOptions.map((category) => (
+                                    <SelectItem key={category} value={category}>
+                                        {category}
                                     </SelectItem>
                                 ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="productId">Logistics Item *</Label>
+                        <Select
+                            value={formData.productId}
+                            onValueChange={(value) => handleInputChange('productId', value)}
+                            disabled={!formData.category || isLoadingProducts}
+                        >
+                            <SelectTrigger>
+                                <SelectValue
+                                    placeholder={
+                                        !formData.category
+                                            ? 'Select a category first'
+                                            : isLoadingProducts
+                                                ? 'Loading items...'
+                                                : 'Select a logistics item'
+                                    }
+                                />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {products?.items?.length ? (
+                                    products.items.map((product) => (
+                                        <SelectItem key={product.id} value={product.id.toString()}>
+                                            {product.assetId
+                                                ? `${product.assetId} — ${product.name}`
+                                                : product.name}
+                                            {product.model ? ` (${product.model})` : ''}
+                                        </SelectItem>
+                                    ))
+                                ) : (
+                                    formData.category && !isLoadingProducts && (
+                                        <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                                            No items in this category
+                                        </div>
+                                    )
+                                )}
                             </SelectContent>
                         </Select>
                     </div>
@@ -149,7 +210,7 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                         <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                             Cancel
                         </Button>
-                        <Button type="submit" disabled={isPending}>
+                        <Button type="submit" disabled={isPending || !formData.productId}>
                             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Record Receipt
                         </Button>
