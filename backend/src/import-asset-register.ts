@@ -1,19 +1,18 @@
 /**
- * Import assets from "2025 ASSET REGISTER.xlsx" into the products table.
+ * Import a reusable item catalog from "2025 ASSET REGISTER.xlsx".
+ *
+ * Catalog identity:
+ *   Asset Category + Asset Description + Model/Specification
  *
  * Mapping (Excel → DB):
- *   Asset ID          → assetId
- *   Purchase Date     → purchaseDate
  *   Asset Category    → category
  *   Asset Description → name
- *   Serial Number     → serialNumber
  *   Model             → model
- *   QTY               → quantity
- *   Location          → location
- *   Assigned To       → SKIPPED (belongs in Items Issued / sales)
- *   Custodian         → custodian
- *   Condition         → condition
- *   Remarks           → notes
+ *
+ * Asset ID, serial number, location, assigned person, custodian, condition,
+ * remarks, and Excel quantity describe existing asset instances. They are not
+ * imported into the stock catalog. New catalog items start at quantity 0;
+ * stock is added only by recording Items Received.
  *
  * Usage:
  *   cd backend
@@ -33,46 +32,6 @@ const DEFAULT_XLSX = path.resolve(
   '../../../Downloads/2025 ASSET REGISTER.xlsx',
 );
 
-/** Excel serial date or string → JS Date */
-function parseExcelDate(raw: unknown): Date | null {
-  if (raw == null || raw === '') return null;
-
-  if (raw instanceof Date && !isNaN(raw.getTime())) return raw;
-
-  if (typeof raw === 'number') {
-    // Excel serial number (days since 1899-12-30)
-    if (raw > 20000 && raw < 100000) {
-      const epoch = Date.UTC(1899, 11, 30);
-      return new Date(epoch + raw * 86400000);
-    }
-    return null;
-  }
-
-  const trimmed = String(raw).trim();
-  if (!trimmed) return null;
-
-  if (/^\d+(\.\d+)?$/.test(trimmed)) {
-    const serial = parseFloat(trimmed);
-    if (serial > 20000 && serial < 100000) {
-      const epoch = Date.UTC(1899, 11, 30);
-      return new Date(epoch + serial * 86400000);
-    }
-  }
-
-  // dd/mm/yyyy or d/m/yyyy
-  const dmy = trimmed.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-  if (dmy) {
-    const day = parseInt(dmy[1], 10);
-    const month = parseInt(dmy[2], 10) - 1;
-    let year = parseInt(dmy[3], 10);
-    if (year < 100) year += 2000;
-    return new Date(Date.UTC(year, month, day));
-  }
-
-  const parsed = new Date(trimmed);
-  return isNaN(parsed.getTime()) ? null : parsed;
-}
-
 function cellText(value: ExcelJS.CellValue): string {
   if (value == null) return '';
   if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
@@ -87,6 +46,16 @@ function cellText(value: ExcelJS.CellValue): string {
     if ('text' in result && result.text) return String(result.text).trim();
   }
   return String(value).trim();
+}
+
+function cleanText(value: ExcelJS.CellValue): string {
+  return cellText(value).replace(/\s+/g, ' ').trim();
+}
+
+function catalogKey(category: string, name: string, model: string): string {
+  return [category, name, model]
+    .map((value) => value.toLocaleLowerCase())
+    .join('\u0000');
 }
 
 async function importAssets() {
@@ -105,87 +74,82 @@ async function importAssets() {
     process.exit(1);
   }
 
-  const app = await NestFactory.createApplicationContext(AppModule, {
-    logger: ['error', 'warn', 'log'],
-  });
-  const repo = app.get<Repository<Product>>(getRepositoryToken(Product));
-
-  let imported = 0;
-  let skipped = 0;
-  let updated = 0;
-
   // Row 1 = headers; data starts at row 2
-  // Columns: B=Asset ID, C=Purchase Date, D=Category, E=Description,
-  // F=Serial, G=Model, H=QTY, I=Location, J=Assigned To (skip),
-  // K=Custodian, L=Condition, M=Remarks
+  // Columns used: D=Category, E=Description, G=Model/Specification.
   const rows: ExcelJS.Row[] = [];
   sheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
     if (rowNumber === 1) return; // skip header
     rows.push(row);
   });
 
-  console.log(`Found ${rows.length} data rows`);
-
+  const catalog = new Map<
+    string,
+    { category: string; name: string; model?: string }
+  >();
+  let skipped = 0;
   for (const row of rows) {
-    const assetId = cellText(row.getCell(2).value); // B
-    const name = cellText(row.getCell(5).value); // E
-    if (!assetId && !name) {
+    const category =
+      cleanText(row.getCell(4).value) || 'Miscellaneous Assets'; // D
+    const name = cleanText(row.getCell(5).value); // E
+    const model = cleanText(row.getCell(7).value); // G
+    if (!name) {
       skipped++;
       continue;
     }
 
-    const serialNumber = cellText(row.getCell(6).value) || undefined; // F
-    const qtyRaw = row.getCell(8).value; // H
-    const quantity = Math.max(
-      0,
-      typeof qtyRaw === 'number' ? Math.floor(qtyRaw) : parseInt(cellText(qtyRaw), 10) || 1,
-    );
-    const purchaseDate = parseExcelDate(row.getCell(3).value); // C
+    const key = catalogKey(category, name, model);
+    if (!catalog.has(key)) {
+      catalog.set(key, { category, name, model: model || undefined });
+    }
+  }
 
-    const payload: Partial<Product> = {
-      assetId: assetId || undefined,
-      name: name || assetId,
-      category: cellText(row.getCell(4).value) || 'Miscellaneous Assets', // D
-      serialNumber,
-      model: cellText(row.getCell(7).value) || undefined, // G
-      quantity,
-      location: cellText(row.getCell(9).value) || undefined, // I
-      // Assigned To (col 10 / J) intentionally skipped — use Items Issued
-      custodian: cellText(row.getCell(11).value) || undefined, // K
-      condition: cellText(row.getCell(12).value) || undefined, // L
-      notes: cellText(row.getCell(13).value) || undefined, // M
-      purchaseDate: purchaseDate || undefined,
-      packagingUnit: PackagingUnit.PIECES,
-      unitsPerPackage: 1,
-      lowStockThreshold: 1,
-    };
+  console.log(
+    `Found ${rows.length} asset rows and ${catalog.size} unique catalog items`,
+  );
 
-    let existing: Product | null = null;
-    if (assetId && serialNumber) {
-      existing = await repo.findOne({ where: { assetId, serialNumber } });
-    }
-    if (!existing && assetId && !serialNumber) {
-      existing = await repo.findOne({ where: { assetId } });
-    }
-    if (!existing && serialNumber) {
-      existing = await repo.findOne({ where: { serialNumber } });
-    }
+  const app = await NestFactory.createApplicationContext(AppModule, {
+    logger: ['error', 'warn', 'log'],
+  });
+  const repo = app.get<Repository<Product>>(getRepositoryToken(Product));
+
+  let imported = 0;
+  let existingCount = 0;
+  for (const item of catalog.values()) {
+    const existing = await repo
+      .createQueryBuilder('product')
+      .where('lower(btrim(product.category)) = :category', {
+        category: item.category.toLocaleLowerCase(),
+      })
+      .andWhere('lower(btrim(product.name)) = :name', {
+        name: item.name.toLocaleLowerCase(),
+      })
+      .andWhere("lower(btrim(COALESCE(product.model, ''))) = :model", {
+        model: (item.model || '').toLocaleLowerCase(),
+      })
+      .getOne();
 
     if (existing) {
-      Object.assign(existing, payload);
-      await repo.save(existing);
-      updated++;
+      existingCount++;
     } else {
-      const item = repo.create(payload);
-      await repo.save(item);
+      await repo.save(
+        repo.create({
+          name: item.name,
+          category: item.category,
+          model: item.model,
+          quantity: 0,
+          packagingUnit: PackagingUnit.PIECES,
+          unitsPerPackage: 1,
+          lowStockThreshold: 1,
+        }),
+      );
       imported++;
     }
   }
 
   console.log(`\nDone.`);
   console.log(`  Imported: ${imported}`);
-  console.log(`  Updated:  ${updated}`);
-  console.log(`  Skipped:  ${skipped}`);
+  console.log(`  Existing: ${existingCount}`);
+  console.log(`  Skipped rows without a description: ${skipped}`);
 
   await app.close();
 }

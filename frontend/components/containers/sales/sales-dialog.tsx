@@ -10,6 +10,7 @@ import Input from '@/components/auth/Input';
 import { useCreateSale } from '@/hooks/useSales';
 import { useProducts } from '@/hooks/useProducts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ProductCategory } from '@/types/stock';
 
 const saleSchema = z.object({
     productId: z.coerce.number().min(1, 'Product is required'),
@@ -35,8 +36,12 @@ interface Props {
 const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
     const createSaleMutation = useCreateSale();
     const isPending = createSaleMutation.isPending;
+    const [category, setCategory] = useState('');
 
-    const { data: productsData, isLoading: isLoadingProducts } = useProducts({ limit: 1000 });
+    const { data: productsData, isLoading: isLoadingProducts } = useProducts(
+        { category, page: 1, limit: 200 },
+        { enabled: open && !!category },
+    );
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<SaleFormValues>({
         resolver: zodResolver(saleSchema),
@@ -66,6 +71,7 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
     useEffect(() => {
         if (open) {
+            setCategory('');
             const today = new Date().toISOString().split('T')[0];
             reset({ 
                 quantitySold: 1, 
@@ -94,6 +100,13 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
     };
 
     const totalCalculated = (watchQty || 0) * (watchPrice || 0);
+    const categoryOptions = Array.from(new Set(Object.values(ProductCategory))).sort();
+
+    const handleCategoryChange = (value: string) => {
+        setCategory(value);
+        setValue('productId', 0, { shouldValidate: false });
+        setValue('priceUsed', 0);
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -104,15 +117,43 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
 
                     <div>
-                        <label className="text-sm font-medium mb-1 block">Logistics Item *</label>
-                        <Select onValueChange={(val) => setValue('productId', Number(val))}>
+                        <label className="text-sm font-medium mb-1 block">Category *</label>
+                        <Select value={category} onValueChange={handleCategoryChange}>
                             <SelectTrigger>
-                                <SelectValue placeholder={isLoadingProducts ? "Loading items..." : "Select Item"} />
+                                <SelectValue placeholder="Select a category first" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {categoryOptions.map((option) => (
+                                    <SelectItem key={option} value={option}>
+                                        {option}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-medium mb-1 block">Logistics Item *</label>
+                        <Select
+                            value={watchProductId ? String(watchProductId) : ''}
+                            onValueChange={(val) => setValue('productId', Number(val), { shouldValidate: true })}
+                            disabled={!category || isLoadingProducts}
+                        >
+                            <SelectTrigger>
+                                <SelectValue
+                                    placeholder={
+                                        !category
+                                            ? 'Select a category first'
+                                            : isLoadingProducts
+                                                ? 'Loading items...'
+                                                : 'Select item'
+                                    }
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {productsData?.items?.map((p: any) => (
                                     <SelectItem key={p.id} value={p.id.toString()}>
-                                        {p.name} ({p.quantity} in stock)
+                                        {p.name}{p.model ? ` — ${p.model}` : ''} ({p.quantity} in stock)
                                     </SelectItem>
                                 ))}
                             </SelectContent>
