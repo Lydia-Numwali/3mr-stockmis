@@ -90,6 +90,11 @@ export interface ItemIssued {
     issuedBy?: string;  // NEW: staff who issued
     approvedBy?: string;  // NEW: approval
     purpose?: string;  // NEW: reason for issue
+    assetId?: string;
+    serialNumber?: string;
+    location?: string;
+    custodian?: string;
+    condition?: string;
     notes?: string;
     issueDate: string;  // Renamed from saleDate
     recordedDate: string;
@@ -115,6 +120,10 @@ export interface ItemReceived {
     deliveryReference?: string;  // NEW: tracking number
     location?: string;  // Renamed from warehouse
     warehouse?: string;  // Backward compatibility
+    assetId?: string;
+    serialNumber?: string;
+    custodian?: string;
+    condition?: string;
     receivedBy?: string;  // NEW: staff who received
     notes?: string;
     totalValue: number;
@@ -300,6 +309,10 @@ export interface CreateItemReceivedDto {
     deliveryReference?: string;
     location?: string;
     warehouse?: string;  // Backward compatibility
+    assetId?: string;
+    serialNumber?: string;
+    custodian?: string;
+    condition?: string;
     receivedBy?: string;
     receivingDate?: string;
     notes?: string;
@@ -315,6 +328,11 @@ export interface CreateItemIssuedDto {
     issuedBy?: string;
     approvedBy?: string;
     purpose?: string;
+    assetId?: string;
+    serialNumber?: string;
+    location?: string;
+    custodian?: string;
+    condition?: string;
     issueDate?: string;
     notes?: string;
 }

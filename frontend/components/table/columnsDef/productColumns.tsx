@@ -3,9 +3,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Product } from '@/types/stock';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash, ArrowUpDown } from 'lucide-react';
+import { Edit, Trash } from 'lucide-react';
 import { formatValue } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
 
 export const getProductColumns = (
     onEdit: (product: Product) => void,
@@ -13,37 +12,37 @@ export const getProductColumns = (
 ): ColumnDef<Product>[] => {
     return [
         {
-            accessorKey: 'assetId',
+            accessorKey: 'id',
             header: 'Asset ID',
             cell: ({ row }) => (
-                <span className="font-medium text-sm">{row.original.assetId || '-'}</span>
+                <span className="font-mono text-sm">#{row.original.id}</span>
             ),
         },
         {
             accessorKey: 'name',
-            header: 'Asset Description',
+            header: 'Item Name',
         },
         {
             accessorKey: 'category',
             header: 'Category',
         },
         {
-            accessorKey: 'serialNumber',
-            header: 'Serial Number',
-            cell: ({ row }) => (
-                <span className="text-sm">{row.original.serialNumber || '-'}</span>
-            ),
-        },
-        {
             accessorKey: 'model',
-            header: 'Model',
+            header: 'Model/Spec',
             cell: ({ row }) => (
                 <span>{row.original.model || '-'}</span>
             ),
         },
         {
+            accessorKey: 'brand',
+            header: 'Brand',
+            cell: ({ row }) => (
+                <span>{row.original.brand || '-'}</span>
+            ),
+        },
+        {
             accessorKey: 'quantity',
-            header: 'QTY',
+            header: 'InStock',
             cell: ({ row }) => {
                 const qty = row.original.quantity;
                 const lowStock = row.original.lowStockThreshold;
@@ -54,27 +53,6 @@ export const getProductColumns = (
                     </span>
                 );
             },
-        },
-        {
-            accessorKey: 'location',
-            header: 'Location',
-            cell: ({ row }) => (
-                <span>{row.original.location || row.original.warehouse || '-'}</span>
-            ),
-        },
-        {
-            accessorKey: 'custodian',
-            header: 'Custodian',
-            cell: ({ row }) => (
-                <span>{row.original.custodian || '-'}</span>
-            ),
-        },
-        {
-            accessorKey: 'condition',
-            header: 'Condition',
-            cell: ({ row }) => (
-                <span>{row.original.condition || '-'}</span>
-            ),
         },
         {
             id: 'actions',

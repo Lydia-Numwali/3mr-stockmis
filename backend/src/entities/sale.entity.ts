@@ -37,6 +37,21 @@ export class Sale {
   @Column({ nullable: true })
   purpose: string;  // new field - reason for issue
 
+  @Column({ nullable: true })
+  assetId: string;
+
+  @Column({ nullable: true })
+  serialNumber: string;
+
+  @Column({ nullable: true })
+  location: string;
+
+  @Column({ nullable: true })
+  custodian: string;
+
+  @Column({ nullable: true })
+  condition: string;
+
   @Column({ nullable: true, type: 'text' })
   notes: string;
 

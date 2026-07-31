@@ -96,6 +96,22 @@ const PurchaseViewDialog: React.FC<Props> = ({ purchase, open, onOpenChange }) =
                                 <p className="text-base font-semibold text-gray-900">{purchase.location || purchase.warehouse || '-'}</p>
                             </div>
                             <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Asset ID</p>
+                                <p className="text-base font-semibold text-gray-900">{purchase.assetId || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Serial Number</p>
+                                <p className="text-base font-semibold text-gray-900">{purchase.serialNumber || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Custodian</p>
+                                <p className="text-base font-semibold text-gray-900">{purchase.custodian || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Condition</p>
+                                <p className="text-base font-semibold text-gray-900">{purchase.condition || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-500">Delivery Reference</p>
                                 <p className="text-base font-semibold text-gray-900">{purchase.deliveryReference || '-'}</p>
                             </div>

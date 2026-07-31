@@ -67,16 +67,12 @@ const ProductsContainer = () => {
         filename: 'logistics-items-report',
         title: 'Logistics Items Inventory Report',
         columns: [
-            { key: 'assetId', label: 'Asset ID' },
-            { key: 'name', label: 'Asset Description' },
+            { key: 'id', label: 'Asset ID' },
+            { key: 'name', label: 'Item Name' },
             { key: 'category', label: 'Category' },
-            { key: 'serialNumber', label: 'Serial Number' },
-            { key: 'model', label: 'Model' },
-            { key: 'quantity', label: 'QTY' },
-            { key: 'location', label: 'Location' },
-            { key: 'custodian', label: 'Custodian' },
-            { key: 'condition', label: 'Condition' },
-            { key: 'notes', label: 'Remarks' },
+            { key: 'model', label: 'Model/Spec' },
+            { key: 'brand', label: 'Brand' },
+            { key: 'quantity', label: 'InStock' },
         ],
     };
 

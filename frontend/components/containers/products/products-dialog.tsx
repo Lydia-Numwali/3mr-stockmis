@@ -12,25 +12,17 @@ import { useCreateProduct, useUpdateProduct } from '@/hooks/useProducts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const productSchema = z.object({
-    assetId: z.string().optional(),
-    name: z.string().min(1, 'Asset description is required'),
+    name: z.string().min(1, 'Item name is required'),
     category: z.string().optional(),
     packagingUnit: z.nativeEnum(PackagingUnit).optional(),
     unitsPerPackage: z.coerce.number().min(0.01).optional(),
     brand: z.string().optional(),
     model: z.string().optional(),
-    serialNumber: z.string().optional(),
-    partType: z.string().optional(),
     wholesalePrice: z.coerce.number().min(0).optional(),
     retailPrice: z.coerce.number().min(0).optional(),
     costPrice: z.coerce.number().min(0).optional(),
-    quantity: z.coerce.number().min(0),
     lowStockThreshold: z.coerce.number().min(0),
     supplier: z.string().optional(),
-    location: z.string().optional(),
-    custodian: z.string().optional(),
-    condition: z.string().optional(),
-    purchaseDate: z.string().optional(),
     notes: z.string().optional(),
 });
 
@@ -55,7 +47,6 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
             category: ProductCategory.IT_EQUIPMENT,
             packagingUnit: PackagingUnit.PIECES,
             unitsPerPackage: 1,
-            quantity: 0,
             lowStockThreshold: 5,
         }
     });
@@ -63,48 +54,32 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
     useEffect(() => {
         if (open && type === 'edit' && product) {
             reset({
-                assetId: product.assetId || '',
                 name: product.name,
                 category: product.category || ProductCategory.MISCELLANEOUS_ASSETS,
                 packagingUnit: (product.packagingUnit as PackagingUnit) || PackagingUnit.PIECES,
                 unitsPerPackage: product.unitsPerPackage || 1,
                 brand: product.brand || '',
                 model: product.model || '',
-                serialNumber: product.serialNumber || '',
-                partType: product.partType || product.itemType || '',
                 wholesalePrice: product.wholesalePrice ?? product.standardUnitCost,
                 retailPrice: product.retailPrice ?? product.issueValue,
                 costPrice: product.costPrice,
-                quantity: product.quantity,
                 lowStockThreshold: product.lowStockThreshold,
                 supplier: product.supplier || '',
-                location: product.location || product.warehouse || product.storageLocation || '',
-                custodian: product.custodian || '',
-                condition: product.condition || '',
-                purchaseDate: product.purchaseDate ? product.purchaseDate.split('T')[0] : '',
                 notes: product.notes || '',
             });
         } else if (open && type === 'add') {
             reset({
-                assetId: '',
                 name: '',
                 brand: '',
                 category: ProductCategory.IT_EQUIPMENT,
                 packagingUnit: PackagingUnit.PIECES,
                 unitsPerPackage: 1,
                 model: '',
-                serialNumber: '',
-                partType: '',
                 wholesalePrice: 0,
                 retailPrice: 0,
                 costPrice: 0,
-                quantity: 0,
                 lowStockThreshold: 5,
                 supplier: '',
-                location: '',
-                custodian: '',
-                condition: '',
-                purchaseDate: '',
                 notes: '',
             });
         }
@@ -113,14 +88,16 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
     const onSubmit = async (data: ProductFormValues) => {
         const payload = {
             ...data,
-            itemType: data.partType,
             standardUnitCost: data.wholesalePrice,
             issueValue: data.retailPrice,
+            // Catalog items start at zero; stock comes from Items Received
+            quantity: type === 'add' ? 0 : undefined,
         };
         if (type === 'edit' && product) {
-            await updateMutation.mutateAsync({ id: product.id, data: payload });
+            const { quantity: _ignored, ...updatePayload } = payload as any;
+            await updateMutation.mutateAsync({ id: product.id, data: updatePayload });
         } else {
-            await createMutation.mutateAsync(payload);
+            await createMutation.mutateAsync(payload as any);
         }
         onOpenChange(false);
     };
@@ -133,21 +110,13 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 grid grid-cols-2 gap-4">
 
-                    <div>
-                        <Input label="Asset ID" {...register('assetId')} placeholder="CAL-CL-001-2022" />
-                    </div>
-
-                    <div>
-                        <Input label="Purchase Date" type="date" {...register('purchaseDate')} />
-                    </div>
-
                     <div className="col-span-2">
-                        <Input label="Asset Description *" {...register('name')} placeholder="Computer Laptop" />
+                        <Input label="Item Name *" {...register('name')} placeholder="Computer Laptop" />
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                     </div>
 
                     <div>
-                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Asset Category</label>
+                        <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category</label>
                         <Select
                             onValueChange={(val) => setValue('category', val)}
                             defaultValue={product?.category || ProductCategory.IT_EQUIPMENT}
@@ -164,32 +133,11 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div>
-                        <Input label="Serial Number" {...register('serialNumber')} placeholder="5CD21226WC" />
-                    </div>
-
-                    <div>
-                        <Input label="Model" {...register('model')} placeholder="HP PRO BOOK 450" />
+                        <Input label="Model / Specification" {...register('model')} placeholder="HP PRO BOOK 450" />
                     </div>
 
                     <div>
                         <Input label="Brand" {...register('brand')} placeholder="HP" />
-                    </div>
-
-                    <div>
-                        <Input label="QTY *" type="number" {...register('quantity')} disabled={type === 'edit'} />
-                        {errors.quantity && <p className="text-red-500 text-xs mt-1">{errors.quantity.message}</p>}
-                    </div>
-
-                    <div>
-                        <Input label="Location" {...register('location')} placeholder="CAL Office" />
-                    </div>
-
-                    <div>
-                        <Input label="Custodian" {...register('custodian')} placeholder="IT dept" />
-                    </div>
-
-                    <div>
-                        <Input label="Condition" {...register('condition')} placeholder="Good" />
                     </div>
 
                     <div>
@@ -231,8 +179,14 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     </div>
 
                     <div className="col-span-2">
-                        <Input label="Remarks" {...register('notes')} placeholder="No issues" />
+                        <Input label="Notes" {...register('notes')} placeholder="Optional notes" />
                     </div>
+
+                    {type === 'add' && (
+                        <p className="col-span-2 text-sm text-muted-foreground">
+                            New items start at 0 stock. Record stock through Items Received.
+                        </p>
+                    )}
 
                     <DialogFooter className="col-span-2 mt-4">
                         <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>Cancel</Button>

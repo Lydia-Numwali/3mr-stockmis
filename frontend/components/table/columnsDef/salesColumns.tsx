@@ -22,29 +22,36 @@ export const getSalesColumns = (
         },
         {
             accessorKey: 'quantityIssued',
-            header: 'Quantity Issued',
+            header: 'QTY',
             cell: ({ row }) => {
                 const qty = row.original.quantityIssued ?? row.original.quantitySold;
                 return <span className="font-semibold text-red-500">{formatValue(qty)}</span>;
             },
         },
         {
-            accessorKey: 'priceUsed',
-            header: 'Value',
-            cell: ({ row }) => formatValue(row.original.priceUsed),
+            accessorKey: 'assetId',
+            header: 'Asset ID',
+            cell: ({ row }) => row.original.assetId || '-',
         },
         {
-            accessorKey: 'totalValue',
-            header: 'Total Value',
-            cell: ({ row }) => {
-                const qty = row.original.quantityIssued ?? row.original.quantitySold ?? 0;
-                const price = row.original.priceUsed ?? 0;
-                return (
-                    <span className="font-semibold text-green-600">
-                        {formatValue(qty * price)}
-                    </span>
-                );
-            },
+            accessorKey: 'serialNumber',
+            header: 'Serial Number',
+            cell: ({ row }) => row.original.serialNumber || '-',
+        },
+        {
+            accessorKey: 'location',
+            header: 'Location',
+            cell: ({ row }) => row.original.location || '-',
+        },
+        {
+            accessorKey: 'custodian',
+            header: 'Custodian',
+            cell: ({ row }) => row.original.custodian || '-',
+        },
+        {
+            accessorKey: 'condition',
+            header: 'Condition',
+            cell: ({ row }) => row.original.condition || '-',
         },
         {
             accessorKey: 'issuedTo',

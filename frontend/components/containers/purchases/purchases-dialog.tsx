@@ -23,6 +23,11 @@ const emptyForm = {
     quantityPurchased: '',
     pricePerUnit: '',
     supplier: '',
+    assetId: '',
+    serialNumber: '',
+    location: '',
+    custodian: '',
+    condition: '',
     purchaseDate: new Date().toISOString().split('T')[0],
     notes: '',
 };
@@ -57,6 +62,11 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
             quantityReceived: Number(formData.quantityPurchased),
             pricePerUnit: (formData.pricePerUnit && Number(formData.pricePerUnit) > 0) ? Number(formData.pricePerUnit) : undefined,
             supplier: formData.supplier || undefined,
+            assetId: formData.assetId || undefined,
+            serialNumber: formData.serialNumber || undefined,
+            location: formData.location || undefined,
+            custodian: formData.custodian || undefined,
+            condition: formData.condition || undefined,
             purchaseDate: formData.purchaseDate,
             notes: formData.notes || undefined,
         }, {
@@ -86,7 +96,7 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Record Items Received</DialogTitle>
                 </DialogHeader>
@@ -130,10 +140,8 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 {products?.items?.length ? (
                                     products.items.map((product) => (
                                         <SelectItem key={product.id} value={product.id.toString()}>
-                                            {product.assetId
-                                                ? `${product.assetId} — ${product.name}`
-                                                : product.name}
-                                            {product.model ? ` (${product.model})` : ''}
+                                            {product.name}
+                                            {product.model ? ` — ${product.model}` : ''}
                                         </SelectItem>
                                     ))
                                 ) : (
@@ -147,14 +155,25 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                         </Select>
                     </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="supplier">Supplier</Label>
-                        <Input
-                            id="supplier"
-                            value={formData.supplier}
-                            onChange={(e) => handleInputChange('supplier', e.target.value)}
-                            placeholder="Enter supplier name"
-                        />
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="assetId">Asset ID</Label>
+                            <Input
+                                id="assetId"
+                                value={formData.assetId}
+                                onChange={(e) => handleInputChange('assetId', e.target.value)}
+                                placeholder="CAL-CL-001-2022"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="serialNumber">Serial Number</Label>
+                            <Input
+                                id="serialNumber"
+                                value={formData.serialNumber}
+                                onChange={(e) => handleInputChange('serialNumber', e.target.value)}
+                                placeholder="Serial number"
+                            />
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -170,7 +189,49 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 required
                             />
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="location">Location</Label>
+                            <Input
+                                id="location"
+                                value={formData.location}
+                                onChange={(e) => handleInputChange('location', e.target.value)}
+                                placeholder="CAL Office"
+                            />
+                        </div>
+                    </div>
 
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="custodian">Custodian</Label>
+                            <Input
+                                id="custodian"
+                                value={formData.custodian}
+                                onChange={(e) => handleInputChange('custodian', e.target.value)}
+                                placeholder="IT dept"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="condition">Condition</Label>
+                            <Input
+                                id="condition"
+                                value={formData.condition}
+                                onChange={(e) => handleInputChange('condition', e.target.value)}
+                                placeholder="Good"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="supplier">Supplier</Label>
+                        <Input
+                            id="supplier"
+                            value={formData.supplier}
+                            onChange={(e) => handleInputChange('supplier', e.target.value)}
+                            placeholder="Enter supplier name"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="pricePerUnit">Unit Price (Optional)</Label>
                             <Input
@@ -183,16 +244,15 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 placeholder="0"
                             />
                         </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="purchaseDate">Receiving Date</Label>
-                        <Input
-                            id="purchaseDate"
-                            type="date"
-                            value={formData.purchaseDate}
-                            onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
-                        />
+                        <div className="space-y-2">
+                            <Label htmlFor="purchaseDate">Receiving Date</Label>
+                            <Input
+                                id="purchaseDate"
+                                type="date"
+                                value={formData.purchaseDate}
+                                onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
+                            />
+                        </div>
                     </div>
 
                     <div className="space-y-2">

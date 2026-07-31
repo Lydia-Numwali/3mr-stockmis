@@ -204,10 +204,8 @@ const BulkPurchasesDialog: React.FC<BulkPurchasesDialogProps> = ({ open, onOpenC
                                                 <SelectContent>
                                                     {products?.items?.map((product) => (
                                                         <SelectItem key={product.id} value={product.id.toString()}>
-                                                            {product.assetId
-                                                                ? `${product.assetId} — ${product.name}`
-                                                                : product.name}
-                                                            {product.model ? ` (${product.model})` : ''}
+                                                            {product.name}
+                                                            {product.model ? ` — ${product.model}` : ''}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>

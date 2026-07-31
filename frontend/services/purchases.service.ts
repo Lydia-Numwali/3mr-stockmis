@@ -16,6 +16,10 @@ export interface CreatePurchaseDto {
     deliveryReference?: string;  // NEW: tracking number
     location?: string;  // Renamed from warehouse
     warehouse?: string;  // OLD: for backward compatibility
+    assetId?: string;
+    serialNumber?: string;
+    custodian?: string;
+    condition?: string;
     receivedBy?: string;  // NEW: staff who received
     receivingDate?: string;  // NEW: renamed from purchaseDate
     purchaseDate?: string;  // OLD: for backward compatibility

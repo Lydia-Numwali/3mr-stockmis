@@ -19,6 +19,11 @@ export interface CreateSaleDto {
     issuedBy?: string;  // NEW: staff who issued
     approvedBy?: string;  // NEW: approval
     purpose?: string;  // NEW: reason for issue
+    assetId?: string;
+    serialNumber?: string;
+    location?: string;
+    custodian?: string;
+    condition?: string;
     issueDate?: string;  // NEW: renamed from saleDate
     saleDate?: string;  // OLD: for backward compatibility
     notes?: string;

@@ -35,6 +35,18 @@ export class Purchase {
   location: string;  // renamed from warehouse — matches Excel "Location"
 
   @Column({ nullable: true })
+  assetId: string;
+
+  @Column({ nullable: true })
+  serialNumber: string;
+
+  @Column({ nullable: true })
+  custodian: string;
+
+  @Column({ nullable: true })
+  condition: string;
+
+  @Column({ nullable: true })
   receivedBy: string;  // new field for staff who received
 
   @Column({ nullable: true, type: 'text' })

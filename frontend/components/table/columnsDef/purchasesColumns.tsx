@@ -30,7 +30,7 @@ export const getPurchasesColumns = (
         },
         {
             accessorKey: 'quantityReceived',
-            header: 'Quantity Received',
+            header: 'QTY',
             cell: ({ row }) => {
                 const qty = row.original.quantityReceived ?? row.original.quantityPurchased;
                 return (
@@ -41,37 +41,31 @@ export const getPurchasesColumns = (
             },
         },
         {
+            accessorKey: 'location',
+            header: 'Location',
+            cell: ({ row }) => row.original.location || row.original.warehouse || '-',
+        },
+        {
+            accessorKey: 'assetId',
+            header: 'Asset ID',
+            cell: ({ row }) => row.original.assetId || '-',
+        },
+        {
+            accessorKey: 'serialNumber',
+            header: 'Serial Number',
+            cell: ({ row }) => row.original.serialNumber || '-',
+        },
+        {
+            accessorKey: 'condition',
+            header: 'Condition',
+            cell: ({ row }) => row.original.condition || '-',
+        },
+        {
             accessorKey: 'receivingDate',
             header: 'Receiving Date',
             cell: ({ row }) => {
                 const date = row.original.receivingDate ?? row.original.purchaseDate ?? row.original.date;
                 return dayjs(date).format('DD MMM YYYY');
-            },
-        },
-        {
-            accessorKey: 'pricePerUnit',
-            header: 'Unit Cost',
-            cell: ({ row }) => {
-                const price = row.original.pricePerUnit;
-                return price ? (
-                    <span className="font-semibold text-green-600">
-                        Frws {formatValue(price)}
-                    </span>
-                ) : <span className="text-gray-400">-</span>;
-            },
-        },
-        {
-            accessorKey: 'totalValue',
-            header: 'Total Value',
-            cell: ({ row }) => {
-                const qty = row.original.quantityReceived ?? row.original.quantityPurchased ?? 0;
-                const price = row.original.pricePerUnit ?? 0;
-                const total = row.original.totalValue ?? (qty * price);
-                return total > 0 ? (
-                    <span className="font-semibold text-green-700">
-                        Frws {formatValue(total)}
-                    </span>
-                ) : <span className="text-gray-400">-</span>;
             },
         },
         {

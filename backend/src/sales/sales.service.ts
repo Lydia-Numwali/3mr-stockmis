@@ -18,6 +18,11 @@ export class CreateSaleDto {
   @IsOptional() @IsString() issuedBy?: string;  // NEW: staff who issued
   @IsOptional() @IsString() approvedBy?: string;  // NEW: approval
   @IsOptional() @IsString() purpose?: string;  // NEW: reason for issue
+  @IsOptional() @IsString() assetId?: string;
+  @IsOptional() @IsString() serialNumber?: string;
+  @IsOptional() @IsString() location?: string;
+  @IsOptional() @IsString() custodian?: string;
+  @IsOptional() @IsString() condition?: string;
   @IsOptional() @IsString() issueDate?: string;  // Renamed from saleDate
   @IsOptional() @IsString() notes?: string;
   
@@ -92,6 +97,11 @@ export class SalesService {
         issuedBy: dto.issuedBy,
         approvedBy: dto.approvedBy,
         purpose: dto.purpose,
+        assetId: dto.assetId,
+        serialNumber: dto.serialNumber,
+        location: dto.location,
+        custodian: dto.custodian,
+        condition: dto.condition,
         issueDate: issueDate ? new Date(issueDate) : new Date(),
         notes: dto.notes,
       });

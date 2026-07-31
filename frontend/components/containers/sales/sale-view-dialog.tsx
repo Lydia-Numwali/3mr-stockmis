@@ -63,15 +63,29 @@ const SaleViewDialog: React.FC<Props> = ({ sale, open, onOpenChange }) => {
                                 <p className="text-2xl font-bold text-red-600">{formatValue(qty)}</p>
                             </div>
                             <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Asset ID</p>
+                                <p className="text-base font-semibold text-gray-900">{sale.assetId || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Serial Number</p>
+                                <p className="text-base font-semibold text-gray-900">{sale.serialNumber || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Location</p>
+                                <p className="text-base font-semibold text-gray-900">{sale.location || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Custodian</p>
+                                <p className="text-base font-semibold text-gray-900">{sale.custodian || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-gray-500">Condition</p>
+                                <p className="text-base font-semibold text-gray-900">{sale.condition || '-'}</p>
+                            </div>
+                            <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-500">Unit Value</p>
                                 <p className="text-base font-semibold text-gray-900">
                                     {price > 0 ? `Frws ${formatValue(price)}` : '-'}
-                                </p>
-                            </div>
-                            <div className="space-y-1">
-                                <p className="text-sm font-medium text-gray-500">Total Value</p>
-                                <p className="text-2xl font-bold text-green-600">
-                                    {total > 0 ? `Frws ${formatValue(total)}` : '-'}
                                 </p>
                             </div>
                             <div className="space-y-1">

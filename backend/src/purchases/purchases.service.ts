@@ -16,6 +16,10 @@ export class CreatePurchaseDto {
   @IsOptional() @IsString() deliveryReference?: string;  // NEW: tracking number
   @IsOptional() @IsString() location?: string;  // Renamed from warehouse
   @IsOptional() @IsString() warehouse?: string;  // Backward compatibility
+  @IsOptional() @IsString() assetId?: string;
+  @IsOptional() @IsString() serialNumber?: string;
+  @IsOptional() @IsString() custodian?: string;
+  @IsOptional() @IsString() condition?: string;
   @IsOptional() @IsString() receivedBy?: string;  // NEW: staff who received
   @IsOptional() @IsString() receivingDate?: string;  // Renamed from purchaseDate
   @IsOptional() @IsString() notes?: string;
@@ -84,6 +88,10 @@ export class PurchasesService {
         supplier: dto.supplier,
         deliveryReference: dto.deliveryReference,
         location,
+        assetId: dto.assetId,
+        serialNumber: dto.serialNumber,
+        custodian: dto.custodian,
+        condition: dto.condition,
         receivedBy: dto.receivedBy,
         receivingDate: receivingDate ? new Date(receivingDate) : new Date(),
         notes: dto.notes,

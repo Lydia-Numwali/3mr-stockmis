@@ -22,6 +22,11 @@ const saleSchema = z.object({
     issuedBy: z.string().optional(),
     approvedBy: z.string().optional(),
     purpose: z.string().optional(),
+    assetId: z.string().optional(),
+    serialNumber: z.string().optional(),
+    location: z.string().optional(),
+    custodian: z.string().optional(),
+    condition: z.string().optional(),
     saleDate: z.string().optional(),
     notes: z.string().optional(),
 });
@@ -83,6 +88,11 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                 issuedBy: '',
                 approvedBy: '',
                 purpose: '',
+                assetId: '',
+                serialNumber: '',
+                location: '',
+                custodian: '',
+                condition: '',
                 saleDate: today
             });
         }
@@ -175,6 +185,24 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
                         <div>
                             <Input label="Quantity Issued *" type="number" {...register('quantitySold')} />
                             {errors.quantitySold && <p className="text-red-500 text-xs mt-1">{errors.quantitySold.message}</p>}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <Input label="Asset ID" {...register('assetId')} placeholder="CAL-CL-001-2022" />
+                        </div>
+                        <div>
+                            <Input label="Serial Number" {...register('serialNumber')} placeholder="Serial number" />
+                        </div>
+                        <div>
+                            <Input label="Location" {...register('location')} placeholder="CAL Office" />
+                        </div>
+                        <div>
+                            <Input label="Custodian" {...register('custodian')} placeholder="IT dept" />
+                        </div>
+                        <div>
+                            <Input label="Condition" {...register('condition')} placeholder="Good" />
                         </div>
                     </div>
 
