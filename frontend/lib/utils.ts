@@ -35,8 +35,8 @@ export const getCurrentLocale = (): string => {
 };
 
  export const formatValue = (value: number | null | undefined) => {
-    // Return dash for null, undefined, or 0 values
-    if (value === null || value === undefined || value === 0) {
+    // Return dash for null or undefined, but show 0 for zero values
+    if (value === null || value === undefined) {
       return '-';
     }
     // Format number with comma separators (e.g., 5500 instead of 5.5k)
