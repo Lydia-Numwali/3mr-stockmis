@@ -93,7 +93,11 @@ const ProductsContainer = () => {
         filename: 'logistics-items-report',
         title: 'Logistics Items Inventory Report',
         columns: [
-            { key: 'assetId', label: 'Asset ID', format: (val, row) => val || `#${row.id}` },
+            { 
+                key: 'assetId', 
+                label: 'Asset ID', 
+                format: (val) => val || '-'
+            },
             { key: 'name', label: 'Item Name' },
             { key: 'category', label: 'Category' },
             { key: 'model', label: 'Model/Spec' },
