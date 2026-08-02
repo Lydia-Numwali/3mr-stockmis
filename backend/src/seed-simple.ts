@@ -35,7 +35,7 @@ async function seed() {
     const items = [
       {
         name: 'Security Guard Uniform',
-        category: LogisticsItemCategory.SECURITY_UNIFORMS,
+        category: LogisticsItemCategory.SECURITY_EQUIPMENT_AND_UNIFORMS,
         brand: 'Centurion',
         model: 'Standard',
         itemType: 'Uniform',
@@ -52,7 +52,7 @@ async function seed() {
       },
       {
         name: 'Two-Way Radio',
-        category: LogisticsItemCategory.COMMUNICATION_EQUIPMENT,
+        category: LogisticsItemCategory.COMMUNICATION_DEVICES,
         brand: 'Motorola',
         model: 'CP200d',
         itemType: 'Communication Device',
@@ -69,7 +69,7 @@ async function seed() {
       },
       {
         name: 'Flashlight - Heavy Duty',
-        category: LogisticsItemCategory.PATROL_EQUIPMENT,
+        category: LogisticsItemCategory.SAFETY_EQUIPMENT,
         brand: 'Maglite',
         model: 'ML300L',
         itemType: 'Equipment',
@@ -86,7 +86,7 @@ async function seed() {
       },
       {
         name: 'Handcuffs',
-        category: LogisticsItemCategory.SECURITY_ACCESSORIES,
+        category: LogisticsItemCategory.SECURITY_EQUIPMENT_AND_UNIFORMS,
         brand: 'Smith & Wesson',
         model: 'Model 100',
         itemType: 'Restraint',
@@ -103,7 +103,7 @@ async function seed() {
       },
       {
         name: 'First Aid Kit',
-        category: LogisticsItemCategory.EMERGENCY_EQUIPMENT,
+        category: LogisticsItemCategory.SAFETY_EQUIPMENT,
         brand: 'Red Cross',
         model: 'Professional',
         itemType: 'Medical Supplies',
