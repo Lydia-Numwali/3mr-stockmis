@@ -20,7 +20,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed": "ts-node src/seed.ts",
     "import:assets": "ts-node src/import-asset-register.ts",
-    "verify-db": "ts-node verify-db.ts"
+    "verify-db": "ts-node verify-db.ts",
+    "reset-db": "ts-node src/reset-database.ts",
+    "import:june": "ts-node src/import-june-inventory.ts",
+    "generate:assets": "ts-node src/generate-asset-ids.ts"
   },
   "dependencies": {
     "@nestjs/cli": "^11.0.0",

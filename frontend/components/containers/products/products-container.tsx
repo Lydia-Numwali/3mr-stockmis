@@ -100,8 +100,7 @@ const ProductsContainer = () => {
             },
             { key: 'name', label: 'Item Name' },
             { key: 'category', label: 'Category' },
-            { key: 'model', label: 'Model/Spec' },
-            { key: 'brand', label: 'Brand' },
+            { key: 'supplier', label: 'Supplier' },
             { key: 'quantity', label: 'InStock' },
         ],
     };

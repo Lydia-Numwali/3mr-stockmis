@@ -1,71 +1,107 @@
-import { DataSource, IsNull } from 'typeorm';
-import { Product } from './entities/product.entity';
+import { DataSource } from 'typeorm';
+import { Product, PackagingUnit } from './entities/product.entity';
 import { Sale } from './entities/sale.entity';
 import { Purchase } from './entities/purchase.entity';
 import { Lending } from './entities/lending.entity';
 import { StockMovement } from './entities/stock-movement.entity';
 import { User } from './entities/user.entity';
+import { ReportHistory } from './entities/report-history.entity';
 import * as dotenv from 'dotenv';
-import * as path from 'path';
 
-// Load environment variables
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config();
 
-async function generateAssetIds() {
-  const dataSource = new DataSource({
-    type: 'postgres',
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT || '5432'),
-    username: process.env.DB_USERNAME || 'rcaa',
-    password: process.env.DB_PASSWORD || 'Test@123',
-    database: process.env.DB_NAME || 'stockmis',
-    entities: [Product, Sale, Purchase, Lending, StockMovement, User],
-    synchronize: false,
-  });
-
-  await dataSource.initialize();
-  console.log('✅ Database connected');
-
-  const productRepo = dataSource.getRepository(Product);
-
-  // Get all products without Asset IDs
-  const productsWithoutAssetIds = await productRepo.find({
-    where: { assetId: IsNull() },
-  });
-
-  console.log(`Found ${productsWithoutAssetIds.length} products without Asset IDs`);
-
-  for (const product of productsWithoutAssetIds) {
-    const year = new Date(product.dateRecorded || new Date()).getFullYear();
-    const prefix = 'CAL';
-
-    // Get first 2-3 letters from item name (remove spaces and special chars)
-    const cleanName = product.name.replace(/[^a-zA-Z]/g, '').toUpperCase();
-    const nameCode = cleanName.substring(0, Math.min(3, cleanName.length)).padEnd(2, 'X');
-
-    // Count existing items with similar name code to generate sequential number
-    const namePattern = `${prefix}-${nameCode}-%`;
-    const existingCount = await productRepo
-      .createQueryBuilder('p')
-      .where('p.assetId LIKE :pattern', { pattern: namePattern })
-      .getCount();
-
-    const sequentialNumber = (existingCount + 1).toString().padStart(3, '0');
-    const assetId = `${prefix}-${nameCode}-${sequentialNumber}-${year}`;
-
-    // Update the product
-    product.assetId = assetId;
-    await productRepo.save(product);
-
-    console.log(`✅ Generated Asset ID for "${product.name}": ${assetId}`);
+/**
+ * Generate Asset ID in format: CAL-[2-3 letters from name]-[sequential number]-[year]
+ * Example: CAL-CL-001-2022
+ */
+function generateAssetId(name: string, sequence: number, year: number): string {
+  // Extract 2-3 letters from name (first letters of words, or first 2-3 chars)
+  let nameCode = '';
+  const words = name.split(' ').filter(w => w.length > 0);
+  
+  if (words.length >= 2) {
+    // Take first letter of first 2-3 words
+    nameCode = words.slice(0, Math.min(3, words.length))
+      .map(w => w[0])
+      .join('')
+      .toUpperCase();
+  } else {
+    // Take first 2-3 characters
+    nameCode = name.substring(0, Math.min(3, name.length)).toUpperCase();
   }
-
-  console.log('\n✅ Asset ID generation complete!');
-  await dataSource.destroy();
-  process.exit(0);
+  
+  // Ensure we have 2-3 letters
+  if (nameCode.length < 2) {
+    nameCode = nameCode.padEnd(2, 'X');
+  }
+  if (nameCode.length > 3) {
+    nameCode = nameCode.substring(0, 3);
+  }
+  
+  // Format: CAL-XX-NNN-YYYY
+  const seqStr = sequence.toString().padStart(3, '0');
+  return `CAL-${nameCode}-${seqStr}-${year}`;
 }
 
-generateAssetIds().catch((error) => {
-  console.error('❌ Error generating Asset IDs:', error);
-  process.exit(1);
-});
+async function generateAssetIdsForAllProducts() {
+  const databaseUrl = process.env.DATABASE_URL || process.env.PROD_DATABASE_URL;
+  
+  if (!databaseUrl) {
+    console.error('❌ No DATABASE_URL found');
+    process.exit(1);
+  }
+
+  console.log('🔌 Connecting to database...');
+  
+  const dataSource = new DataSource({
+    type: 'postgres',
+    url: databaseUrl,
+    entities: [Product, Sale, Purchase, Lending, StockMovement, User, ReportHistory],
+    synchronize: false,
+    ssl: { rejectUnauthorized: false },
+  });
+
+  try {
+    await dataSource.initialize();
+    console.log('✅ Connected to database\n');
+
+    const productRepo = dataSource.getRepository(Product);
+
+    // Get all products without Asset IDs or with empty Asset IDs
+    const products = await productRepo
+      .createQueryBuilder('product')
+      .where('product.assetId IS NULL OR product.assetId = :empty', { empty: '' })
+      .orderBy('product.id', 'ASC')
+      .getMany();
+
+    console.log(`📝 Found ${products.length} products without Asset IDs\n`);
+    console.log('🔧 Generating Asset IDs...\n');
+
+    let generated = 0;
+    const year = 2026;
+
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const sequence = i + 1;
+      const assetId = generateAssetId(product.name, sequence, year);
+      
+      product.assetId = assetId;
+      await productRepo.save(product);
+      
+      generated++;
+      console.log(`   ✓ ${assetId} - ${product.name}`);
+    }
+
+    console.log(`\n✅ Generated ${generated} Asset IDs`);
+    console.log('🎉 All products now have Asset IDs!');
+    
+    await dataSource.destroy();
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error generating Asset IDs:', error);
+    await dataSource.destroy();
+    process.exit(1);
+  }
+}
+
+generateAssetIdsForAllProducts();

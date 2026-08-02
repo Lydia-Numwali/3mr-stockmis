@@ -29,17 +29,10 @@ export const getProductColumns = (
             header: 'Category',
         },
         {
-            accessorKey: 'model',
-            header: 'Model/Spec',
+            accessorKey: 'supplier',
+            header: 'Supplier',
             cell: ({ row }) => (
-                <span>{row.original.model || '-'}</span>
-            ),
-        },
-        {
-            accessorKey: 'brand',
-            header: 'Brand',
-            cell: ({ row }) => (
-                <span>{row.original.brand || '-'}</span>
+                <span>{row.original.supplier || '-'}</span>
             ),
         },
         {
