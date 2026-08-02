@@ -234,4 +234,75 @@ export class PurchasesService {
       .limit(limit)
       .getRawMany();
   }
+
+  async update(id: number, dto: Partial<CreatePurchaseDto>) {
+    return this.dataSource.transaction(async (em) => {
+      const purchase = await em.findOne(Purchase, { 
+        where: { id },
+        relations: ['product']
+      });
+      
+      if (!purchase) {
+        throw new BadRequestException('Purchase record not found');
+      }
+
+      const product = purchase.product;
+      const oldQuantity = purchase.quantityReceived || purchase.quantityPurchased || 0;
+      const newQuantity = dto.quantityReceived || dto.quantityPurchased || oldQuantity;
+
+      // Adjust stock if quantity changed
+      if (newQuantity !== oldQuantity) {
+        const quantityDiff = newQuantity - oldQuantity;
+        product.quantity += quantityDiff;
+        await em.save(product);
+      }
+
+      // Update purchase record
+      Object.assign(purchase, {
+        ...dto,
+        quantityReceived: dto.quantityReceived || dto.quantityPurchased,
+        receivingDate: dto.receivingDate || dto.purchaseDate,
+        location: dto.location || dto.warehouse,
+      });
+
+      return em.save(purchase);
+    });
+  }
+
+  async remove(id: number) {
+    return this.dataSource.transaction(async (em) => {
+      const purchase = await em.findOne(Purchase, {
+        where: { id },
+        relations: ['product']
+      });
+
+      if (!purchase) {
+        throw new BadRequestException('Purchase record not found');
+      }
+
+      const product = purchase.product;
+      const quantityReceived = purchase.quantityReceived || purchase.quantityPurchased || 0;
+
+      // Reverse the stock increase
+      product.quantity -= quantityReceived;
+      
+      // Prevent negative stock
+      if (product.quantity < 0) {
+        throw new BadRequestException(
+          `Cannot delete: This would result in negative stock. ` +
+          `Current stock: ${product.quantity + quantityReceived}, ` +
+          `Attempting to remove: ${quantityReceived}`
+        );
+      }
+
+      await em.save(product);
+      await em.remove(purchase);
+
+      return {
+        success: true,
+        message: 'Purchase record deleted and stock adjusted',
+        id
+      };
+    });
+  }
 }

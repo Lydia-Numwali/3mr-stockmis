@@ -297,4 +297,74 @@ export class SalesService {
       .limit(limit)
       .getRawMany();
   }
+
+  async update(id: number, dto: Partial<CreateSaleDto>) {
+    return this.dataSource.transaction(async (em) => {
+      const sale = await em.findOne(Sale, {
+        where: { id },
+        relations: ['product']
+      });
+
+      if (!sale) {
+        throw new BadRequestException('Sale/Issue record not found');
+      }
+
+      const product = sale.product;
+      const oldQuantity = sale.quantityIssued || sale.quantitySold || 0;
+      const newQuantity = dto.quantityIssued || dto.quantitySold || oldQuantity;
+
+      // Adjust stock if quantity changed
+      if (newQuantity !== oldQuantity) {
+        const quantityDiff = newQuantity - oldQuantity;
+        
+        // Check if we have enough stock for the increase
+        if (quantityDiff > 0 && product.quantity < quantityDiff) {
+          throw new BadRequestException(
+            `Insufficient stock. Available: ${product.quantity}, Additional needed: ${quantityDiff}`
+          );
+        }
+        
+        // Decrease stock by the difference (positive diff means more issued)
+        product.quantity -= quantityDiff;
+        await em.save(product);
+      }
+
+      // Update sale record
+      Object.assign(sale, {
+        ...dto,
+        quantityIssued: dto.quantityIssued || dto.quantitySold,
+        issuedTo: dto.issuedTo || dto.customerName,
+        issueDate: dto.issueDate || dto.saleDate,
+      });
+
+      return em.save(sale);
+    });
+  }
+
+  async remove(id: number) {
+    return this.dataSource.transaction(async (em) => {
+      const sale = await em.findOne(Sale, {
+        where: { id },
+        relations: ['product']
+      });
+
+      if (!sale) {
+        throw new BadRequestException('Sale/Issue record not found');
+      }
+
+      const product = sale.product;
+      const quantityIssued = sale.quantityIssued || sale.quantitySold || 0;
+
+      // Return the stock (reverse the issue)
+      product.quantity += quantityIssued;
+      await em.save(product);
+      await em.remove(sale);
+
+      return {
+        success: true,
+        message: 'Issue record deleted and stock returned',
+        id
+      };
+    });
+  }
 }

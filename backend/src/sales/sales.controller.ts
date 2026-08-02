@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { SalesService, CreateSaleDto, CreateBulkSaleDto } from './sales.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -45,5 +45,14 @@ export class SalesController {
   getIssueBySite(@Query('limit') limit?: number) {
     return this.service.getIssueBySite(limit || 10);
   }
-}
 
+  @Put(':id')
+  update(@Param('id') id: number, @Body() dto: Partial<CreateSaleDto>) {
+    return this.service.update(+id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.service.remove(+id);
+  }
+}

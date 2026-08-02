@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { PurchasesService, CreatePurchaseDto, CreateBulkPurchaseDto } from './purchases.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -37,5 +37,15 @@ export class PurchasesController {
   @Get('by-supplier')
   getReceivingBySupplier(@Query('limit') limit?: number) {
     return this.service.getReceivingBySupplier(limit || 10);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: number, @Body() dto: Partial<CreatePurchaseDto>) {
+    return this.service.update(+id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.service.remove(+id);
   }
 }
