@@ -1,7 +1,9 @@
-import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, Res, UseGuards, Param, Delete } from '@nestjs/common';
 import type { Response } from 'express';
 import { ReportsService } from './reports.service';
 import { MonthlyInventoryReportService } from './monthly-inventory-report.service';
+import { ReportHistoryService } from './report-history.service';
+import { ReportType } from '../entities/report-history.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import * as ExcelJS from 'exceljs';
 
@@ -11,6 +13,7 @@ export class ReportsController {
   constructor(
     private service: ReportsService,
     private monthlyInventoryService: MonthlyInventoryReportService,
+    private reportHistoryService: ReportHistoryService,
   ) {}
 
   @Get('sales')
@@ -24,6 +27,29 @@ export class ReportsController {
 
   @Get('income')
   getIncome(@Query() query: any) { return this.service.getIncomeReport(query); }
+
+  // Report History
+  @Get('history')
+  async getReportHistory(@Query() query: any) {
+    return this.reportHistoryService.getAllReports(query);
+  }
+
+  @Get('history/:id/download')
+  async downloadHistoryReport(@Param('id') id: string, @Res() res: Response) {
+    const { buffer, report } = await this.reportHistoryService.getReportFile(parseInt(id));
+    
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="${report.fileName}"`
+    });
+    res.send(buffer);
+  }
+
+  @Delete('history/:id')
+  async deleteHistoryReport(@Param('id') id: string) {
+    await this.reportHistoryService.deleteReport(parseInt(id));
+    return { success: true, message: 'Report deleted successfully' };
+  }
 
   // Monthly Inventory Report
   @Get('monthly-inventory')
@@ -104,9 +130,22 @@ export class ReportsController {
     // Generate buffer
     const buffer = await workbook.xlsx.writeBuffer();
     
+    // Save to history
+    const fileName = `inventory-report-${data.monthName}-${data.year}.xlsx`;
+    await this.reportHistoryService.saveReport(
+      ReportType.MONTHLY_INVENTORY,
+      fileName,
+      Buffer.from(buffer),
+      {
+        description: `Monthly Inventory Report for ${data.monthName} ${data.year}`,
+        month: monthNum,
+        year: yearNum,
+      }
+    );
+    
     res.set({
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': `attachment; filename="inventory-report-${data.monthName}-${data.year}.xlsx"`
+      'Content-Disposition': `attachment; filename="${fileName}"`
     });
     res.send(buffer);
   }
