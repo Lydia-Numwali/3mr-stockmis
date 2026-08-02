@@ -178,6 +178,8 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                             />
                         </div>
                     </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="location">Location</Label>
                             <Input
@@ -187,9 +189,6 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 placeholder="CAL Office"
                             />
                         </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="custodian">Custodian</Label>
                             <Input
@@ -199,6 +198,9 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 placeholder="IT dept"
                             />
                         </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="condition">Condition</Label>
                             <Input
@@ -208,16 +210,15 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 placeholder="Good"
                             />
                         </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="supplier">Supplier</Label>
-                        <Input
-                            id="supplier"
-                            value={formData.supplier}
-                            onChange={(e) => handleInputChange('supplier', e.target.value)}
-                            placeholder="Enter supplier name"
-                        />
+                        <div className="space-y-2">
+                            <Label htmlFor="supplier">Supplier</Label>
+                            <Input
+                                id="supplier"
+                                value={formData.supplier}
+                                onChange={(e) => handleInputChange('supplier', e.target.value)}
+                                placeholder="Enter supplier name"
+                            />
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
