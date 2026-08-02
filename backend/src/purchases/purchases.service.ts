@@ -20,7 +20,7 @@ export class CreatePurchaseDto {
   @IsOptional() @Type(() => Number) @IsNumber() productId?: number;
   
   // Common fields for both new and existing items
-  @Type(() => Number) @IsNumber() @Min(1) quantityReceived: number;  // Number of individual items
+  @IsOptional() @Type(() => Number) @IsNumber() @Min(1) quantityReceived?: number;  // Made optional
   @IsOptional() @Type(() => Number) @IsNumber() pricePerUnit?: number;
   @IsOptional() @IsString() supplier?: string;
   @IsOptional() @IsString() deliveryReference?: string;
@@ -72,106 +72,114 @@ export class PurchasesService {
 
   async create(dto: CreatePurchaseDto) {
     return this.dataSource.transaction(async (em) => {
-      const quantityReceived = dto.quantityReceived || dto.quantityPurchased;
-      const receivingDate = dto.receivingDate || dto.purchaseDate;
-      const location = dto.location || dto.warehouse;
-      
-      if (!quantityReceived) throw new BadRequestException('Quantity received is required');
-      
-      let product: Product | null = null;
-      
-      // If productId is provided, we're receiving more of an existing item type
-      if (dto.productId) {
-        product = await em.findOne(Product, { where: { id: dto.productId } });
-        if (!product) throw new BadRequestException('Logistics item not found');
-      } 
-      // If itemName is provided, create new item type (or find existing by name)
-      else if (dto.itemName) {
-        // Check if an item with this name already exists
-        product = await em.findOne(Product, { where: { name: dto.itemName } });
+      try {
+        const quantityReceived = dto.quantityReceived || dto.quantityPurchased;
+        const receivingDate = dto.receivingDate || dto.purchaseDate;
+        const location = dto.location || dto.warehouse;
         
-        if (!product) {
-          // Create new item type (master record)
-          product = em.create(Product, {
-            name: dto.itemName,
-            category: dto.category || 'Miscellaneous Assets',
-            brand: dto.brand,
-            model: dto.model,
-            itemType: dto.itemType,
-            quantity: 0, // Will be incremented below
-            lowStockThreshold: 5,
-            supplier: dto.supplier,
-            location,
-          });
-          product = await em.save(product);
+        if (!quantityReceived) {
+          throw new BadRequestException('Quantity received is required');
         }
-      } else {
-        throw new BadRequestException('Either productId or itemName is required');
-      }
-      
-      // At this point, product is guaranteed to be non-null
-      if (!product) {
-        throw new BadRequestException('Failed to create or find product');
-      }
-      
-      const savedPurchases = [];
-      
-      // Create individual item records for each received item
-      for (let i = 0; i < quantityReceived; i++) {
-        // Generate unique Asset ID for each individual item
-        const assetId = await this.generateAssetId(product.name, em);
         
-        // Create individual product record
-        const individualItem = em.create(Product, {
-          name: product.name,
-          assetId,
-          category: product.category,
-          brand: dto.brand || product.brand,
-          model: dto.model || product.model,
-          itemType: dto.itemType || product.itemType,
-          serialNumber: dto.serialNumber,
-          costPrice: dto.pricePerUnit,
-          quantity: 1, // Each record represents 1 physical item
-          lowStockThreshold: 1,
-          supplier: dto.supplier || product.supplier,
-          location,
-          custodian: dto.custodian,
-          condition: dto.condition || 'Good',
-        });
-        const savedItem = await em.save(individualItem);
+        let product: Product | null = null;
         
-        // Create purchase/receiving record
-        const purchase = em.create(Purchase, {
-          productId: savedItem.id,
-          quantityReceived: 1,
-          pricePerUnit: dto.pricePerUnit,
-          supplier: dto.supplier,
-          deliveryReference: dto.deliveryReference,
-          location,
-          assetId,
-          serialNumber: dto.serialNumber,
-          custodian: dto.custodian,
-          condition: dto.condition || 'Good',
-          receivedBy: dto.receivedBy,
-          receivingDate: receivingDate ? new Date(receivingDate) : new Date(),
-          notes: dto.notes,
-        });
-        const savedPurchase = await em.save(purchase);
-        savedPurchases.push(savedPurchase);
+        // If productId is provided, we're receiving more of an existing item type
+        if (dto.productId) {
+          product = await em.findOne(Product, { where: { id: dto.productId } });
+          if (!product) throw new BadRequestException('Logistics item not found');
+        } 
+        // If itemName is provided, create new item type (or find existing by name)
+        else if (dto.itemName) {
+          // Check if an item with this name already exists
+          product = await em.findOne(Product, { where: { name: dto.itemName } });
+          
+          if (!product) {
+            // Create new item type (master record)
+            product = em.create(Product, {
+              name: dto.itemName,
+              category: dto.category || 'Miscellaneous Assets',
+              brand: dto.brand,
+              model: dto.model,
+              itemType: dto.itemType,
+              quantity: 0, // Will be incremented below
+              lowStockThreshold: 5,
+              supplier: dto.supplier,
+              location,
+            });
+            product = await em.save(product);
+          }
+        } else {
+          throw new BadRequestException('Either productId or itemName is required');
+        }
         
-        // Create stock movement record
-        const movement = em.create(StockMovement, {
-          productId: savedItem.id,
-          type: MovementType.IN,
-          quantity: 1,
-          purchasePrice: dto.pricePerUnit,
-          supplier: dto.supplier,
-          notes: `Items Received #${savedPurchase.id}${dto.deliveryReference ? ` - Ref: ${dto.deliveryReference}` : ''}`,
-        });
-        await em.save(movement);
+        // At this point, product is guaranteed to be non-null
+        if (!product) {
+          throw new BadRequestException('Failed to create or find product');
+        }
+        
+        const savedPurchases = [];
+        
+        // Create individual item records for each received item
+        for (let i = 0; i < quantityReceived; i++) {
+          // Generate unique Asset ID for each individual item
+          const assetId = await this.generateAssetId(product.name, em);
+          
+          // Create individual product record
+          const individualItem = em.create(Product, {
+            name: product.name,
+            assetId,
+            category: product.category,
+            brand: dto.brand || product.brand,
+            model: dto.model || product.model,
+            itemType: dto.itemType || product.itemType,
+            serialNumber: dto.serialNumber,
+            costPrice: dto.pricePerUnit,
+            quantity: 1, // Each record represents 1 physical item
+            lowStockThreshold: 1,
+            supplier: dto.supplier || product.supplier,
+            location,
+            custodian: dto.custodian,
+            condition: dto.condition || 'Good',
+          });
+          const savedItem = await em.save(individualItem);
+          
+          // Create purchase/receiving record
+          const purchase = em.create(Purchase, {
+            productId: savedItem.id,
+            quantityReceived: 1,
+            pricePerUnit: dto.pricePerUnit,
+            supplier: dto.supplier,
+            deliveryReference: dto.deliveryReference,
+            location,
+            assetId,
+            serialNumber: dto.serialNumber,
+            custodian: dto.custodian,
+            condition: dto.condition || 'Good',
+            receivedBy: dto.receivedBy,
+            receivingDate: receivingDate ? new Date(receivingDate) : new Date(),
+            notes: dto.notes,
+          });
+          const savedPurchase = await em.save(purchase);
+          savedPurchases.push(savedPurchase);
+          
+          // Create stock movement record
+          const movement = em.create(StockMovement, {
+            productId: savedItem.id,
+            type: MovementType.IN,
+            quantity: 1,
+            purchasePrice: dto.pricePerUnit,
+            supplier: dto.supplier,
+            notes: `Items Received #${savedPurchase.id}${dto.deliveryReference ? ` - Ref: ${dto.deliveryReference}` : ''}`,
+          });
+          await em.save(movement);
+        }
+        
+        return savedPurchases;
+      } catch (error) {
+        // Log the error for debugging
+        console.error('Error creating purchase:', error);
+        throw error;
       }
-      
-      return savedPurchases;
     });
   }
 
