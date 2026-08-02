@@ -103,7 +103,40 @@ const ProductsContainer = () => {
     };
 
     return (
-        <div className="w-full">
+        <div className="w-full space-y-4">
+            {/* Date Range Filters */}
+            <div className="flex gap-3 items-end bg-white p-4 rounded-lg border">
+                <div className="flex flex-col gap-1">
+                    <label className="text-sm font-medium text-gray-700">From Date</label>
+                    <input
+                        type="date"
+                        value={dateFrom}
+                        onChange={(e) => setDateFrom(e.target.value)}
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label className="text-sm font-medium text-gray-700">To Date</label>
+                    <input
+                        type="date"
+                        value={dateTo}
+                        onChange={(e) => setDateTo(e.target.value)}
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+                {(dateFrom || dateTo) && (
+                    <button
+                        onClick={() => {
+                            setDateFrom('');
+                            setDateTo('');
+                        }}
+                        className="px-4 py-2 text-sm text-red-600 hover:text-red-700 font-medium"
+                    >
+                        Clear Filters
+                    </button>
+                )}
+            </div>
+
             <DataTable<Product>
                 columns={productColumns}
                 data={filteredData}
@@ -126,40 +159,7 @@ const ProductsContainer = () => {
                 searchPlaceholder="Search item name or brand..."
                 exportConfig={exportConfig}
                 onRowClick={handleView}
-            >
-                {/* Date Range Filters */}
-                <div className="flex gap-3 items-end">
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">From Date</label>
-                        <input
-                            type="date"
-                            value={dateFrom}
-                            onChange={(e) => setDateFrom(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-gray-700">To Date</label>
-                        <input
-                            type="date"
-                            value={dateTo}
-                            onChange={(e) => setDateTo(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    {(dateFrom || dateTo) && (
-                        <button
-                            onClick={() => {
-                                setDateFrom('');
-                                setDateTo('');
-                            }}
-                            className="px-4 py-2 text-sm text-red-600 hover:text-red-700 font-medium"
-                        >
-                            Clear Filters
-                        </button>
-                    )}
-                </div>
-            </DataTable>
+            />
 
             {openDialog && <ProductDialog
                 type={dialogType}
