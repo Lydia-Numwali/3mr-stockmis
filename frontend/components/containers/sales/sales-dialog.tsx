@@ -190,9 +190,6 @@ const SalesDialog: React.FC<Props> = ({ open, onOpenChange }) => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <Input label="Asset ID" {...register('assetId')} placeholder="CAL-CL-001-2022" />
-                        </div>
-                        <div>
                             <Input label="Serial Number" {...register('serialNumber')} placeholder="Serial number" />
                         </div>
                         <div>

@@ -157,15 +157,6 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="assetId">Asset ID</Label>
-                            <Input
-                                id="assetId"
-                                value={formData.assetId}
-                                onChange={(e) => handleInputChange('assetId', e.target.value)}
-                                placeholder="CAL-CL-001-2022"
-                            />
-                        </div>
-                        <div className="space-y-2">
                             <Label htmlFor="serialNumber">Serial Number</Label>
                             <Input
                                 id="serialNumber"
@@ -174,9 +165,6 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 placeholder="Serial number"
                             />
                         </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="quantityPurchased">Quantity Received *</Label>
                             <Input
@@ -189,6 +177,7 @@ const PurchasesDialog: React.FC<PurchasesDialogProps> = ({ open, onOpenChange })
                                 required
                             />
                         </div>
+                    </div>
                         <div className="space-y-2">
                             <Label htmlFor="location">Location</Label>
                             <Input

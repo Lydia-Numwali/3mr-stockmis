@@ -29,11 +29,6 @@ export const getSalesColumns = (
             },
         },
         {
-            accessorKey: 'assetId',
-            header: 'Asset ID',
-            cell: ({ row }) => row.original.assetId || '-',
-        },
-        {
             accessorKey: 'serialNumber',
             header: 'Serial Number',
             cell: ({ row }) => row.original.serialNumber || '-',
