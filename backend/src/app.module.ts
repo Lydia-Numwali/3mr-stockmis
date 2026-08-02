@@ -9,6 +9,7 @@ import { StockMovement } from './entities/stock-movement.entity';
 import { Sale } from './entities/sale.entity';
 import { Purchase } from './entities/purchase.entity';
 import { Lending } from './entities/lending.entity';
+import { ReportHistory } from './entities/report-history.entity';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { StockModule } from './stock/stock.module';
@@ -31,7 +32,7 @@ import { ReportsModule } from './reports/reports.module';
           return {
             type: 'postgres',
             url: databaseUrl,
-            entities: [User, Product, StockMovement, Sale, Purchase, Lending],
+            entities: [User, Product, StockMovement, Sale, Purchase, Lending, ReportHistory],
             synchronize: true,
             logging: false,
             ssl: {
@@ -48,7 +49,7 @@ import { ReportsModule } from './reports/reports.module';
           username: config.get('DB_USER', 'postgres'),
           password: config.get('DB_PASS', '123'),
           database: config.get('DB_NAME', 'stockmis'),
-          entities: [User, Product, StockMovement, Sale, Purchase, Lending],
+          entities: [User, Product, StockMovement, Sale, Purchase, Lending, ReportHistory],
           synchronize: true,
           logging: false,
         };
