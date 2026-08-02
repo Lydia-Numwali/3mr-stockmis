@@ -41,6 +41,33 @@ export class CreateProductDto {
 export class ProductsService {
   constructor(@InjectRepository(Product) private repo: Repository<Product>) {}
 
+  /**
+   * Generate Asset ID in format: CAL-CL-001-2022
+   * CAL = fixed prefix
+   * CL = first 2 letters of item name (uppercase)
+   * 001 = sequential number for that item type
+   * 2022 = current year
+   */
+  private async generateAssetId(name: string): Promise<string> {
+    const year = new Date().getFullYear();
+    const prefix = 'CAL';
+    
+    // Get first 2-3 letters from item name (remove spaces and special chars)
+    const cleanName = name.replace(/[^a-zA-Z]/g, '').toUpperCase();
+    const nameCode = cleanName.substring(0, Math.min(3, cleanName.length)).padEnd(2, 'X');
+    
+    // Count existing items with similar name to generate sequential number
+    const namePattern = `${prefix}-${nameCode}-%`;
+    const existingCount = await this.repo
+      .createQueryBuilder('p')
+      .where('p.assetId LIKE :pattern', { pattern: namePattern })
+      .getCount();
+    
+    const sequentialNumber = (existingCount + 1).toString().padStart(3, '0');
+    
+    return `${prefix}-${nameCode}-${sequentialNumber}-${year}`;
+  }
+
   async findAll(query: any) {
     const { search, category, brand, model, supplier, location, warehouse, lowStock, recentlyAdded, page = 1, limit = 20 } = query;
     const qb = this.repo.createQueryBuilder('p');
@@ -97,6 +124,11 @@ export class ProductsService {
     }
     if (dto.purchaseDate) itemData.purchaseDate = new Date(dto.purchaseDate);
     if (!itemData.category) itemData.category = LogisticsItemCategory.MISCELLANEOUS_ASSETS;
+    
+    // Generate Asset ID automatically if not provided
+    if (!itemData.assetId) {
+      itemData.assetId = await this.generateAssetId(dto.name);
+    }
     
     const p = this.repo.create(itemData);
     return this.repo.save(p);
