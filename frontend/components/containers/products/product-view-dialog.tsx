@@ -41,7 +41,13 @@ const ProductViewDialog: React.FC<Props> = ({ product, open, onOpenChange }) => 
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-xl font-semibold text-gray-900">{product.name}</h3>
-                            <p className="text-sm text-gray-500 mt-1">ID: #{product.id}</p>
+                            <p className="text-sm text-gray-500 mt-1">
+                                {product.assetId ? (
+                                    <span className="font-mono font-semibold text-blue-600">{product.assetId}</span>
+                                ) : (
+                                    `ID: #${product.id}`
+                                )}
+                            </p>
                         </div>
                         <Badge className={`${status.color} text-white`}>
                             {status.label}

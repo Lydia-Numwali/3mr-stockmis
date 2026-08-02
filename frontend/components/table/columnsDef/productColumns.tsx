@@ -12,10 +12,12 @@ export const getProductColumns = (
 ): ColumnDef<Product>[] => {
     return [
         {
-            accessorKey: 'id',
+            accessorKey: 'assetId',
             header: 'Asset ID',
             cell: ({ row }) => (
-                <span className="font-mono text-sm">#{row.original.id}</span>
+                <span className="font-mono text-sm font-semibold text-blue-600">
+                    {row.original.assetId || `#${row.original.id}`}
+                </span>
             ),
         },
         {

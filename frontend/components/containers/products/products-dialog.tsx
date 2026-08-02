@@ -12,6 +12,7 @@ import { useCreateProduct, useUpdateProduct } from '@/hooks/useProducts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const productSchema = z.object({
+    assetId: z.string().optional(),
     name: z.string().min(1, 'Item name is required'),
     category: z.string().optional(),
     packagingUnit: z.nativeEnum(PackagingUnit).optional(),
@@ -54,6 +55,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
     useEffect(() => {
         if (open && type === 'edit' && product) {
             reset({
+                assetId: product.assetId || '',
                 name: product.name,
                 category: product.category || ProductCategory.MISCELLANEOUS_ASSETS,
                 packagingUnit: (product.packagingUnit as PackagingUnit) || PackagingUnit.PIECES,
@@ -69,6 +71,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
             });
         } else if (open && type === 'add') {
             reset({
+                assetId: '',
                 name: '',
                 brand: '',
                 category: ProductCategory.IT_EQUIPMENT,
@@ -109,6 +112,17 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                     <DialogTitle>{type === 'add' ? 'Add Logistics Item' : 'Edit Logistics Item'}</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 grid grid-cols-2 gap-4">
+
+                    <div className="col-span-2">
+                        <Input 
+                            label="Asset ID (Optional - Auto-generated if empty)" 
+                            {...register('assetId')} 
+                            placeholder="Leave empty for auto-generation (e.g., CAL-CHA-001-2026)" 
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                            Format: CAL-[Name]-[Number]-[Year]. Leave empty to auto-generate.
+                        </p>
+                    </div>
 
                     <div className="col-span-2">
                         <Input label="Item Name *" {...register('name')} placeholder="Computer Laptop" />
