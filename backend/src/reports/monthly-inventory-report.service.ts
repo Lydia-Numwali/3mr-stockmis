@@ -89,7 +89,7 @@ export class MonthlyInventoryReportService {
     const purchases = await this.purchaseRepo
       .createQueryBuilder('p')
       .where('p.productId = :productId', { productId })
-      .andWhere('p.receivingDate <= :endDate OR p.date <= :endDate', { endDate })
+      .andWhere('(p.receivingDate <= :endDate OR p.date <= :endDate)', { endDate })
       .select('COALESCE(SUM(p.quantityReceived), 0)', 'total')
       .getRawOne();
 
@@ -99,7 +99,7 @@ export class MonthlyInventoryReportService {
     const sales = await this.saleRepo
       .createQueryBuilder('s')
       .where('s.productId = :productId', { productId })
-      .andWhere('s.issueDate <= :endDate OR s.saleDate <= :endDate OR s.date <= :endDate', { endDate })
+      .andWhere('(s.issueDate <= :endDate OR s.date <= :endDate)', { endDate })
       .select('COALESCE(SUM(s.quantityIssued), 0)', 'total')
       .getRawOne();
 
@@ -144,7 +144,7 @@ export class MonthlyInventoryReportService {
     const result = await this.saleRepo
       .createQueryBuilder('s')
       .where('s.productId = :productId', { productId })
-      .andWhere('((s.issueDate >= :startDate AND s.issueDate <= :endDate) OR (s.saleDate >= :startDate AND s.saleDate <= :endDate) OR (s.date >= :startDate AND s.date <= :endDate))', 
+      .andWhere('(s.issueDate >= :startDate AND s.issueDate <= :endDate) OR (s.date >= :startDate AND s.date <= :endDate)', 
         { startDate, endDate })
       .select('COALESCE(SUM(s.quantityIssued), 0)', 'total')
       .getRawOne();
