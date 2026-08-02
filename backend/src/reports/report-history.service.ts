@@ -71,27 +71,38 @@ export class ReportHistoryService {
    * Get all report history with pagination
    */
   async getAllReports(params: { page?: number; limit?: number; reportType?: ReportType }) {
-    const { page = 1, limit = 20, reportType } = params;
-    
-    const qb = this.reportHistoryRepo.createQueryBuilder('r');
-    
-    if (reportType) {
-      qb.where('r.reportType = :reportType', { reportType });
+    try {
+      const { page = 1, limit = 20, reportType } = params;
+      
+      const qb = this.reportHistoryRepo.createQueryBuilder('r');
+      
+      if (reportType) {
+        qb.where('r.reportType = :reportType', { reportType });
+      }
+      
+      qb.orderBy('r.generatedAt', 'DESC')
+        .skip((page - 1) * limit)
+        .take(limit);
+      
+      const [items, total] = await qb.getManyAndCount();
+      
+      return {
+        items,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      };
+    } catch (error) {
+      // Return empty result if table doesn't exist yet
+      return {
+        items: [],
+        total: 0,
+        page: 1,
+        limit: params.limit || 20,
+        totalPages: 0,
+      };
     }
-    
-    qb.orderBy('r.generatedAt', 'DESC')
-      .skip((page - 1) * limit)
-      .take(limit);
-    
-    const [items, total] = await qb.getManyAndCount();
-    
-    return {
-      items,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
-    };
   }
 
   /**

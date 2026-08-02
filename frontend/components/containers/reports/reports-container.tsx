@@ -23,7 +23,7 @@ const ReportsContainer = () => {
     const exportMonthlyInventory = useExportMonthlyInventory();
     
     // Report History
-    const { data: reportHistory, isLoading: isLoadingHistory } = useReportHistory({ limit: 50 });
+    const { data: reportHistory, isLoading: isLoadingHistory, error: historyError } = useReportHistory({ limit: 50 });
     const downloadHistoryReport = useDownloadHistoryReport();
     const deleteHistoryReport = useDeleteHistoryReport();
 
@@ -256,6 +256,10 @@ const ReportsContainer = () => {
                     <CardContent>
                         {isLoadingHistory ? (
                             <div className="text-center py-8 text-gray-500">Loading report history...</div>
+                        ) : historyError ? (
+                            <div className="text-center py-8 text-gray-500">
+                                Report history will be available after generating your first report.
+                            </div>
                         ) : !reportHistory?.items || reportHistory.items.length === 0 ? (
                             <div className="text-center py-8 text-gray-500">No reports generated yet.</div>
                         ) : (

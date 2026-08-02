@@ -402,6 +402,7 @@ export function useReportHistory(params?: { page?: number; limit?: number; repor
     return useQuery({
         queryKey: ['reports', 'history', params],
         queryFn: () => reportsService.getReportHistory(params),
+        retry: false, // Don't retry if table doesn't exist yet
     });
 }
 
