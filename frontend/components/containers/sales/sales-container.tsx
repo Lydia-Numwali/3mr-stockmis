@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import DataTable from '@/components/common/DataTable';
 import { getSalesColumns } from '@/components/table/columnsDef/salesColumns';
-import { useSalesHistory as useSales } from '@/hooks/useSales';
+import { useSalesHistory as useSales, useDeleteSale } from '@/hooks/useSales';
 import { PaginationState } from '@tanstack/react-table';
 import { useDebounce } from 'use-debounce';
 import { Sale } from '@/types/stock';
 import SalesDialog from './sales-dialog';
 import SaleViewDialog from './sale-view-dialog';
 import BulkSalesDialog from './bulk-sales-dialog';
+import BulkConfirmDialog from '@/components/common/bulk-action-dialog';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
@@ -24,6 +25,10 @@ const SalesContainer = () => {
     const [openBulkDialog, setOpenBulkDialog] = useState(false);
     const [viewOpen, setViewOpen] = useState(false);
     const [viewSale, setViewSale] = useState<Sale | null>(null);
+    
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const [selectedSale, setSelectedSale] = useState<Sale | null>(null);
+    const deleteSaleMutation = useDeleteSale();
     
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -48,14 +53,20 @@ const SalesContainer = () => {
         handleView(sale);
     };
 
-    const handleDelete = (sale: Sale) => {
-        if (confirm(`Delete issue record for ${sale.product?.name}?`)) {
-            // TODO: Implement delete functionality
-            console.log('Delete sale:', sale.id);
+    const handleDeleteClick = (sale: Sale) => {
+        setSelectedSale(sale);
+        setDeleteOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (selectedSale) {
+            await deleteSaleMutation.mutateAsync(selectedSale.id);
+            setDeleteOpen(false);
+            setSelectedSale(null);
         }
     };
 
-    const salesColumns = getSalesColumns(handleEdit, handleDelete);
+    const salesColumns = getSalesColumns(handleEdit, handleDeleteClick);
 
     // Export configuration
     const exportConfig: { filename: string; title: string; columns: ExportColumn[] } = {
@@ -137,6 +148,16 @@ const SalesContainer = () => {
             {openBulkDialog && <BulkSalesDialog
                 open={openBulkDialog}
                 onOpenChange={setOpenBulkDialog}
+            />}
+
+            {deleteOpen && <BulkConfirmDialog
+                open={deleteOpen}
+                onConfirm={handleConfirmDelete}
+                onCancel={() => setDeleteOpen(false)}
+                type="delete"
+                entityLabel="Issue Record"
+                count={1}
+                loading={deleteSaleMutation.isPending}
             />}
         </div>
     );

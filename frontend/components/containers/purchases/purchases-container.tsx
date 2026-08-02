@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import DataTable from '@/components/common/DataTable';
 import { getPurchasesColumns } from '@/components/table/columnsDef/purchasesColumns';
-import { usePurchases } from '@/hooks/usePurchases';
-import { PaginationState } from '@tanstack/react-table';
+import { usePurchases, useDeletePurchase } from '@/hooks/usePurchases';
+import { PaginationState } from '@tantml:react-table';
 import { useDebounce } from 'use-debounce';
 import { Purchase } from '@/types/stock';
 import PurchasesDialog from './purchases-dialog';
 import BulkPurchasesDialog from './bulk-purchases-dialog';
 import PurchaseViewDialog from './purchase-view-dialog';
+import BulkConfirmDialog from '@/components/common/bulk-action-dialog';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
@@ -24,6 +25,10 @@ const PurchasesContainer = () => {
     const [openBulkDialog, setOpenBulkDialog] = useState(false);
     const [viewOpen, setViewOpen] = useState(false);
     const [viewPurchase, setViewPurchase] = useState<Purchase | null>(null);
+    
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const [selectedPurchase, setSelectedPurchase] = useState<Purchase | null>(null);
+    const deletePurchaseMutation = useDeletePurchase();
     
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -48,14 +53,20 @@ const PurchasesContainer = () => {
         handleView(purchase);
     };
 
-    const handleDelete = (purchase: Purchase) => {
-        if (confirm(`Delete receipt record for ${purchase.product?.name}?`)) {
-            // TODO: Implement delete functionality
-            console.log('Delete purchase:', purchase.id);
+    const handleDeleteClick = (purchase: Purchase) => {
+        setSelectedPurchase(purchase);
+        setDeleteOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (selectedPurchase) {
+            await deletePurchaseMutation.mutateAsync(selectedPurchase.id);
+            setDeleteOpen(false);
+            setSelectedPurchase(null);
         }
     };
 
-    const purchasesColumns = getPurchasesColumns(handleEdit, handleDelete);
+    const purchasesColumns = getPurchasesColumns(handleEdit, handleDeleteClick);
 
     // Export configuration
     const exportConfig: { filename: string; title: string; columns: ExportColumn[] } = {
@@ -137,6 +148,16 @@ const PurchasesContainer = () => {
                 purchase={viewPurchase}
                 open={viewOpen}
                 onOpenChange={setViewOpen}
+            />}
+
+            {deleteOpen && <BulkConfirmDialog
+                open={deleteOpen}
+                onConfirm={handleConfirmDelete}
+                onCancel={() => setDeleteOpen(false)}
+                type="delete"
+                entityLabel="Receipt Record"
+                count={1}
+                loading={deletePurchaseMutation.isPending}
             />}
         </div>
     );
