@@ -90,7 +90,7 @@ export class MonthlyInventoryReportService {
       .createQueryBuilder('p')
       .where('p.productId = :productId', { productId })
       .andWhere('p.receivingDate <= :endDate OR p.date <= :endDate', { endDate })
-      .select('COALESCE(SUM(p.quantityReceived), COALESCE(SUM(p.quantityPurchased), 0))', 'total')
+      .select('COALESCE(SUM(p.quantityReceived), 0)', 'total')
       .getRawOne();
 
     const totalReceived = Number(purchases?.total || 0);
@@ -100,7 +100,7 @@ export class MonthlyInventoryReportService {
       .createQueryBuilder('s')
       .where('s.productId = :productId', { productId })
       .andWhere('s.issueDate <= :endDate OR s.saleDate <= :endDate OR s.date <= :endDate', { endDate })
-      .select('COALESCE(SUM(s.quantityIssued), COALESCE(SUM(s.quantitySold), 0))', 'total')
+      .select('COALESCE(SUM(s.quantityIssued), 0)', 'total')
       .getRawOne();
 
     const totalIssued = Number(sales?.total || 0);
@@ -117,7 +117,7 @@ export class MonthlyInventoryReportService {
       .where('p.productId = :productId', { productId })
       .andWhere('((p.receivingDate >= :startDate AND p.receivingDate <= :endDate) OR (p.date >= :startDate AND p.date <= :endDate))', 
         { startDate, endDate })
-      .select('COALESCE(SUM(p.quantityReceived), COALESCE(SUM(p.quantityPurchased), 0))', 'total')
+      .select('COALESCE(SUM(p.quantityReceived), 0)', 'total')
       .getRawOne();
 
     return Number(result?.total || 0);
@@ -131,7 +131,7 @@ export class MonthlyInventoryReportService {
       .createQueryBuilder('l')
       .where('l.productId = :productId', { productId })
       .andWhere('l.returnDate >= :startDate AND l.returnDate <= :endDate', { startDate, endDate })
-      .select('COALESCE(SUM(l.quantityReturned), COALESCE(SUM(l.quantityLent), 0))', 'total')
+      .select('COALESCE(SUM(l.quantityReturned), 0)', 'total')
       .getRawOne();
 
     return Number(result?.total || 0);
@@ -146,7 +146,7 @@ export class MonthlyInventoryReportService {
       .where('s.productId = :productId', { productId })
       .andWhere('((s.issueDate >= :startDate AND s.issueDate <= :endDate) OR (s.saleDate >= :startDate AND s.saleDate <= :endDate) OR (s.date >= :startDate AND s.date <= :endDate))', 
         { startDate, endDate })
-      .select('COALESCE(SUM(s.quantityIssued), COALESCE(SUM(s.quantitySold), 0))', 'total')
+      .select('COALESCE(SUM(s.quantityIssued), 0)', 'total')
       .getRawOne();
 
     return Number(result?.total || 0);
