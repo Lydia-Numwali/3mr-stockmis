@@ -207,4 +207,36 @@ export class ProductsService {
       order: { name: 'ASC' },
     });
   }
+
+  // Generate Asset IDs for all existing items that don't have one
+  async generateAssetIdsForExisting() {
+    const itemsWithoutAssetIds = await this.repo
+      .createQueryBuilder('p')
+      .where('p.assetId IS NULL')
+      .getMany();
+
+    if (itemsWithoutAssetIds.length === 0) {
+      return {
+        success: true,
+        message: 'All items already have Asset IDs',
+        count: 0,
+      };
+    }
+
+    const updated = [];
+    
+    for (const item of itemsWithoutAssetIds) {
+      const assetId = await this.generateAssetId(item.name);
+      item.assetId = assetId;
+      await this.repo.save(item);
+      updated.push({ id: item.id, name: item.name, assetId });
+    }
+
+    return {
+      success: true,
+      message: `Generated Asset IDs for ${updated.length} items`,
+      count: updated.length,
+      items: updated,
+    };
+  }
 }

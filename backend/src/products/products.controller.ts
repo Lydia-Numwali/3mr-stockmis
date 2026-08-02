@@ -36,6 +36,12 @@ export class ProductsController {
     return this.service.getOutOfStockItems();
   }
 
+  // Generate Asset IDs for items that don't have one
+  @Post('generate-asset-ids')
+  generateAssetIds() {
+    return this.service.generateAssetIdsForExisting();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.service.findOne(+id);
