@@ -9,41 +9,18 @@ export enum EUserRoles {
 
 // Logistics-specific enums
 export enum LogisticsItemCategory {
-    SECURITY_UNIFORMS = 'Security Uniforms',
-    PROTECTIVE_EQUIPMENT = 'Protective Equipment',
-    COMMUNICATION_EQUIPMENT = 'Communication Equipment',
-    SECURITY_ACCESSORIES = 'Security Accessories',
+    // Categories from June 2026 Inventory
+    GENERAL = 'General',
+    IT_ITEMS = 'IT Items',
+    SECURITY_EQUIPMENT_AND_UNIFORMS = 'Security Equipment & Uniforms',
+    BEDDINGS = 'Beddings',
+    // Additional common categories
     OFFICE_SUPPLIES = 'Office Supplies',
     CLEANING_SUPPLIES = 'Cleaning Supplies',
-    PATROL_EQUIPMENT = 'Patrol Equipment',
-    ELECTRONICS = 'Electronics',
-    FURNITURE = 'Furniture',
+    SAFETY_EQUIPMENT = 'Safety Equipment',
+    COMMUNICATION_DEVICES = 'Communication Devices',
     STATIONERY = 'Stationery',
-    IT_EQUIPMENT = 'IT Equipment',
-    VEHICLE_EQUIPMENT = 'Vehicle Equipment',
-    EMERGENCY_EQUIPMENT = 'Emergency Equipment',
-    MAINTENANCE_TOOLS = 'Maintenance Tools',
-    CONSUMABLES = 'Consumables',
-    MISCELLANEOUS_ASSETS = 'Miscellaneous Assets',
-    // Asset register categories
-    COMM_DEVICE = 'Comm.Device',
-    KITCHEN_EQPT = 'Kitchen Eqpt.',
-    FURN_AND_FITT = 'Furn. & Fitt.',
-    SECURITY_EQPT = 'Security Eqpt.',
-    OFFICE_FURNITURE = 'Office Furniture',
-    ACC_FURNITURE = 'Acc. Furniture',
-    OFF_MACHINES = 'Off. Machines',
-    OFF_ACCESSORIES = 'Off. accessories',
-    CLEANING_EQPT = 'Cleaning. Eqpt',
-    OFFICE_EQPT = 'Office Eqpt.',
-    FIRE_AND_SAFETY = 'Fire and safety',
-    MISC_DECO = 'Misc/Deco',
-    ELECTRICAL_EQPT = 'Eelectrical Eqpt.',
-    OFFICE_EQUIP = 'Office Equip.',
-    ELECT_DEVICE = 'Elect. Divice',
-    MEASURING_EQUIP = 'Measuring equip',
-    OFFICE_CARTENS = 'Office Cartens',
-    VEHICLE = 'Vehicle',
+    MISCELLANEOUS = 'Miscellaneous',
 }
 
 export enum StockStatus {

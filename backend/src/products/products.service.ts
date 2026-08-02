@@ -123,7 +123,7 @@ export class ProductsService {
       itemData.location = dto.warehouse || dto.storageLocation;
     }
     if (dto.purchaseDate) itemData.purchaseDate = new Date(dto.purchaseDate);
-    if (!itemData.category) itemData.category = LogisticsItemCategory.MISCELLANEOUS_ASSETS;
+    if (!itemData.category) itemData.category = LogisticsItemCategory.GENERAL;
     
     // Generate Asset ID automatically if not provided
     if (!itemData.assetId) {
