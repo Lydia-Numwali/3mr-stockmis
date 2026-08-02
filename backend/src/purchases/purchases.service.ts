@@ -186,8 +186,11 @@ export class PurchasesService {
     
     // Count existing items with similar name code to generate sequential number
     const namePattern = `${prefix}-${nameCode}-%`;
-    const existingCount = await em
-      .createQueryBuilder(Product, 'p')
+    
+    // Use the entity manager's repository to query
+    const productRepo = em.getRepository(Product);
+    const existingCount = await productRepo
+      .createQueryBuilder('p')
       .where('p.assetId LIKE :pattern', { pattern: namePattern })
       .getCount();
     
