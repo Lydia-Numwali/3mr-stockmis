@@ -78,7 +78,7 @@ export class PurchasesService {
       
       if (!quantityReceived) throw new BadRequestException('Quantity received is required');
       
-      let product: Product;
+      let product: Product | null = null;
       
       // If productId is provided, we're receiving more of an existing item type
       if (dto.productId) {
@@ -107,6 +107,11 @@ export class PurchasesService {
         }
       } else {
         throw new BadRequestException('Either productId or itemName is required');
+      }
+      
+      // At this point, product is guaranteed to be non-null
+      if (!product) {
+        throw new BadRequestException('Failed to create or find product');
       }
       
       const savedPurchases = [];
