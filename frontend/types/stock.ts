@@ -302,14 +302,23 @@ export interface CreateLogisticsItemDto {
 }
 
 export interface CreateItemReceivedDto {
-    productId: number;
+    // Option 1: Add to existing item
+    productId?: number;
+    
+    // Option 2: Create new item
+    itemName?: string;
+    category?: string;
+    brand?: string;
+    model?: string;
+    itemType?: string;
+    
+    // Common fields
     quantityReceived: number;
     pricePerUnit?: number;  // Optional since prices are optional in the system
     supplier?: string;
     deliveryReference?: string;
     location?: string;
     warehouse?: string;  // Backward compatibility
-    assetId?: string;
     serialNumber?: string;
     custodian?: string;
     condition?: string;

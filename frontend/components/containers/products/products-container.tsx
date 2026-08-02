@@ -146,13 +146,9 @@ const ProductsContainer = () => {
                 data={filteredData}
                 isLoading={isLoading}
                 heading="Logistics Items"
-                addButtonIcon="solar:box-minimalistic-bold"
-                addButtonTitle="Add Logistics Item"
-                onAdd={() => {
-                    setSelectedProduct(null);
-                    setDialogType('add');
-                    setOpenDialog(true);
-                }}
+                addButtonIcon=""
+                addButtonTitle=""
+                onAdd={undefined}
                 count={data?.total ?? 0}
                 pagination={pagination}
                 setPagination={setPagination}
