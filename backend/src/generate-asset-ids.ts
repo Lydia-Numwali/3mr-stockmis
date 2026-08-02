@@ -15,22 +15,20 @@ dotenv.config();
  * Example: CAL-CL-001-2022
  */
 function generateAssetId(name: string, sequence: number, year: number): string {
-  // Extract 2-3 letters from name (first letters of words, or first 2-3 chars)
-  let nameCode = '';
-  const words = name.split(' ').filter(w => w.length > 0);
+  // Remove commas, ampersands, and other special chars
+  // This handles names like "T-Shirt, &Vision" -> "TShirtVision" -> "TSH"
+  const cleanName = name
+    .replace(/[,&()]/g, ' ')  // Replace commas, ampersands, parentheses with spaces
+    .replace(/[^a-zA-Z\s]/g, '')  // Remove all other special chars except letters and spaces
+    .split(/\s+/)  // Split by spaces
+    .filter(w => w.length > 0)  // Remove empty strings
+    .join('')  // Join back
+    .toUpperCase();
   
-  if (words.length >= 2) {
-    // Take first letter of first 2-3 words
-    nameCode = words.slice(0, Math.min(3, words.length))
-      .map(w => w[0])
-      .join('')
-      .toUpperCase();
-  } else {
-    // Take first 2-3 characters
-    nameCode = name.substring(0, Math.min(3, name.length)).toUpperCase();
-  }
+  // Get 2-3 letters from cleaned name
+  let nameCode = cleanName.substring(0, Math.min(3, cleanName.length));
   
-  // Ensure we have 2-3 letters
+  // Ensure we have at least 2 letters
   if (nameCode.length < 2) {
     nameCode = nameCode.padEnd(2, 'X');
   }

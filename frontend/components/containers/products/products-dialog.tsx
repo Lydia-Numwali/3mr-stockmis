@@ -45,7 +45,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
         resolver: zodResolver(productSchema),
         defaultValues: {
             brand: '',
-            category: ProductCategory.IT_EQUIPMENT,
+            category: ProductCategory.GENERAL,
             packagingUnit: PackagingUnit.PIECES,
             unitsPerPackage: 1,
             lowStockThreshold: 5,
@@ -74,7 +74,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                 assetId: '',
                 name: '',
                 brand: '',
-                category: ProductCategory.IT_EQUIPMENT,
+                category: ProductCategory.GENERAL,
                 packagingUnit: PackagingUnit.PIECES,
                 unitsPerPackage: 1,
                 model: '',
@@ -133,7 +133,7 @@ const ProductDialog: React.FC<Props> = ({ type, product, open, onOpenChange }) =
                         <label className="text-sm font-urbanist text-[#081129DB] text-[18px] font-[400] pb-1 block">Category</label>
                         <Select
                             onValueChange={(val) => setValue('category', val)}
-                            defaultValue={product?.category || ProductCategory.IT_EQUIPMENT}
+                            defaultValue={product?.category || ProductCategory.GENERAL}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Category" />

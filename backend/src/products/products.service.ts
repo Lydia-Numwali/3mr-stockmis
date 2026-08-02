@@ -52,8 +52,16 @@ export class ProductsService {
     const year = new Date().getFullYear();
     const prefix = 'CAL';
     
-    // Get first 2-3 letters from item name (remove spaces and special chars)
-    const cleanName = name.replace(/[^a-zA-Z]/g, '').toUpperCase();
+    // Remove commas, ampersands, and other special chars, then get first 2-3 letters
+    // This handles names like "T-Shirt, &Vision" -> "TShirtVision" -> "TSH"
+    const cleanName = name
+      .replace(/[,&()]/g, ' ')  // Replace commas, ampersands, parentheses with spaces
+      .replace(/[^a-zA-Z\s]/g, '')  // Remove all other special chars except letters and spaces
+      .split(/\s+/)  // Split by spaces
+      .filter(w => w.length > 0)  // Remove empty strings
+      .join('')  // Join back
+      .toUpperCase();
+    
     const nameCode = cleanName.substring(0, Math.min(3, cleanName.length)).padEnd(2, 'X');
     
     // Count existing items with similar name to generate sequential number
