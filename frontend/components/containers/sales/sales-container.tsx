@@ -49,7 +49,7 @@ const SalesContainer = () => {
     };
 
     const handleEdit = (sale: Sale) => {
-        // For now, just view - edit functionality can be added later
+        // View the issue record
         handleView(sale);
     };
 
