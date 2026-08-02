@@ -65,14 +65,26 @@ async function generateAssetIdsForAllProducts() {
 
     const productRepo = dataSource.getRepository(Product);
 
-    // Get all products without Asset IDs or with empty Asset IDs
-    const products = await productRepo
+    // Get all products without Asset IDs, with empty Asset IDs, or with Asset IDs containing special characters
+    const allProducts = await productRepo
       .createQueryBuilder('product')
-      .where('product.assetId IS NULL OR product.assetId = :empty', { empty: '' })
       .orderBy('product.id', 'ASC')
       .getMany();
 
-    console.log(`📝 Found ${products.length} products without Asset IDs\n`);
+    // Filter products that need new Asset IDs
+    const products = allProducts.filter(p => {
+      if (!p.assetId || p.assetId.trim() === '') return true;
+      // Check if Asset ID contains special characters like commas, ampersands, etc.
+      const hasSpecialChars = /[,&()]/.test(p.assetId);
+      return hasSpecialChars;
+    });
+
+    console.log(`📝 Found ${products.length} products that need Asset ID generation/update\n`);
+    if (products.length === 0) {
+      console.log('✅ All products already have clean Asset IDs!');
+      await dataSource.destroy();
+      process.exit(0);
+    }
     console.log('🔧 Generating Asset IDs...\n');
 
     let generated = 0;
@@ -81,13 +93,18 @@ async function generateAssetIdsForAllProducts() {
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
       const sequence = i + 1;
+      const oldAssetId = product.assetId;
       const assetId = generateAssetId(product.name, sequence, year);
       
       product.assetId = assetId;
       await productRepo.save(product);
       
       generated++;
-      console.log(`   ✓ ${assetId} - ${product.name}`);
+      if (oldAssetId) {
+        console.log(`   ✓ ${oldAssetId} → ${assetId} - ${product.name}`);
+      } else {
+        console.log(`   ✓ ${assetId} - ${product.name}`);
+      }
     }
 
     console.log(`\n✅ Generated ${generated} Asset IDs`);
