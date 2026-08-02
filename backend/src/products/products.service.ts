@@ -162,36 +162,33 @@ export class ProductsService {
   }
 
   async remove(id: number) {
-    const p = await this.repo.findOne({ 
-      where: { id },
-      relations: ['sales', 'purchases', 'lendings', 'movements']
-    });
+    console.log(`[DELETE] Attempting to delete product with ID: ${id}`);
+    
+    const p = await this.repo.findOne({ where: { id } });
     
     if (!p) {
+      console.log(`[DELETE] Product ${id} not found`);
       throw new NotFoundException('Logistics item not found');
     }
 
-    // Check if product has related transactions
-    const hasTransactions = 
-      (p.sales && p.sales.length > 0) ||
-      (p.purchases && p.purchases.length > 0) ||
-      (p.lendings && p.lendings.length > 0) ||
-      (p.movements && p.movements.length > 0);
-
-    if (hasTransactions) {
+    console.log(`[DELETE] Product found: ${p.name}, proceeding with deletion...`);
+    
+    try {
+      // TypeORM with CASCADE should handle related records
+      await this.repo.delete(id);
+      console.log(`[DELETE] Product ${id} deleted successfully`);
+      
+      return { 
+        success: true, 
+        message: 'Item deleted successfully',
+        id 
+      };
+    } catch (error) {
+      console.error(`[DELETE] Error deleting product ${id}:`, error);
       throw new BadRequestException(
-        'Cannot delete item with existing transactions. ' +
-        'This item has purchase, issue, or lending records. ' +
-        'Consider marking it as inactive instead.'
+        'Failed to delete item. It may have related records. Error: ' + error.message
       );
     }
-
-    await this.repo.remove(p);
-    return { 
-      success: true, 
-      message: 'Item deleted successfully',
-      id 
-    };
   }
 
   // Get most issued items (renamed from getBestSelling)
