@@ -162,9 +162,36 @@ export class ProductsService {
   }
 
   async remove(id: number) {
-    const p = await this.repo.findOne({ where: { id } });
-    if (!p) throw new NotFoundException('Logistics item not found');
-    return this.repo.remove(p);
+    const p = await this.repo.findOne({ 
+      where: { id },
+      relations: ['sales', 'purchases', 'lendings', 'movements']
+    });
+    
+    if (!p) {
+      throw new NotFoundException('Logistics item not found');
+    }
+
+    // Check if product has related transactions
+    const hasTransactions = 
+      (p.sales && p.sales.length > 0) ||
+      (p.purchases && p.purchases.length > 0) ||
+      (p.lendings && p.lendings.length > 0) ||
+      (p.movements && p.movements.length > 0);
+
+    if (hasTransactions) {
+      throw new BadRequestException(
+        'Cannot delete item with existing transactions. ' +
+        'This item has purchase, issue, or lending records. ' +
+        'Consider marking it as inactive instead.'
+      );
+    }
+
+    await this.repo.remove(p);
+    return { 
+      success: true, 
+      message: 'Item deleted successfully',
+      id 
+    };
   }
 
   // Get most issued items (renamed from getBestSelling)
