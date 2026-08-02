@@ -247,7 +247,7 @@ export class PurchasesService {
       }
 
       const product = purchase.product;
-      const oldQuantity = purchase.quantityReceived || purchase.quantityPurchased || 0;
+      const oldQuantity = purchase.quantityReceived || 0;
       const newQuantity = dto.quantityReceived || dto.quantityPurchased || oldQuantity;
 
       // Adjust stock if quantity changed
@@ -281,7 +281,7 @@ export class PurchasesService {
       }
 
       const product = purchase.product;
-      const quantityReceived = purchase.quantityReceived || purchase.quantityPurchased || 0;
+      const quantityReceived = purchase.quantityReceived || 0;
 
       // Reverse the stock increase
       product.quantity -= quantityReceived;

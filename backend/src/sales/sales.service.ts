@@ -310,7 +310,7 @@ export class SalesService {
       }
 
       const product = sale.product;
-      const oldQuantity = sale.quantityIssued || sale.quantitySold || 0;
+      const oldQuantity = sale.quantityIssued || 0;
       const newQuantity = dto.quantityIssued || dto.quantitySold || oldQuantity;
 
       // Adjust stock if quantity changed
@@ -353,7 +353,7 @@ export class SalesService {
       }
 
       const product = sale.product;
-      const quantityIssued = sale.quantityIssued || sale.quantitySold || 0;
+      const quantityIssued = sale.quantityIssued || 0;
 
       // Return the stock (reverse the issue)
       product.quantity += quantityIssued;
