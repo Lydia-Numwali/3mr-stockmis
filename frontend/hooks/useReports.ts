@@ -360,3 +360,75 @@ export function useExportSupplier() {
         onError: () => toast.error('Failed to export supplier report'),
     });
 }
+
+// ============================================================================
+// MONTHLY INVENTORY REPORT
+// ============================================================================
+
+/**
+ * Get monthly inventory report data
+ */
+export function useMonthlyInventoryReport(params: { month: number; year: number }) {
+    return useQuery({
+        queryKey: ['reports', 'monthly-inventory', params],
+        queryFn: () => reportsService.getMonthlyInventoryReport(params),
+        enabled: !!params.month && !!params.year,
+    });
+}
+
+/**
+ * Export monthly inventory report
+ */
+export function useExportMonthlyInventory() {
+    return useMutation({
+        mutationFn: (params: { month: number; year: number }) => reportsService.exportMonthlyInventory(params),
+        onSuccess: (data, variables) => {
+            const monthName = new Date(variables.year, variables.month - 1).toLocaleString('default', { month: 'long' });
+            handleBlobDownload(data, `inventory-report-${monthName}-${variables.year}.xlsx`);
+            toast.success('Monthly Inventory Report downloaded successfully');
+        },
+        onError: () => toast.error('Failed to export monthly inventory report'),
+    });
+}
+
+// ============================================================================
+// REPORT HISTORY
+// ============================================================================
+
+/**
+ * Get report history
+ */
+export function useReportHistory(params?: { page?: number; limit?: number; reportType?: string }) {
+    return useQuery({
+        queryKey: ['reports', 'history', params],
+        queryFn: () => reportsService.getReportHistory(params),
+    });
+}
+
+/**
+ * Download a historical report
+ */
+export function useDownloadHistoryReport() {
+    return useMutation({
+        mutationFn: (id: number) => reportsService.downloadHistoryReport(id),
+        onSuccess: (data) => {
+            // The filename comes from the backend response headers, but we'll use a generic one
+            handleBlobDownload(data, `report_${new Date().getTime()}.xlsx`);
+            toast.success('Report downloaded successfully');
+        },
+        onError: () => toast.error('Failed to download report'),
+    });
+}
+
+/**
+ * Delete a historical report
+ */
+export function useDeleteHistoryReport() {
+    return useMutation({
+        mutationFn: (id: number) => reportsService.deleteHistoryReport(id),
+        onSuccess: () => {
+            toast.success('Report deleted successfully');
+        },
+        onError: () => toast.error('Failed to delete report'),
+    });
+}

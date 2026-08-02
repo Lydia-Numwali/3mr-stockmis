@@ -258,6 +258,46 @@ export class ReportsService {
             responseType: 'blob' 
         }).then((res: any) => res.data);
     }
+
+    /**
+     * Get monthly inventory report data
+     */
+    async getMonthlyInventoryReport(params: { month: number; year: number }): Promise<any> {
+        return this.utils.authorizedAPI().get('/reports/monthly-inventory', { params }).then((res: any) => res.data);
+    }
+
+    /**
+     * Export monthly inventory report
+     */
+    async exportMonthlyInventory(params: { month: number; year: number }): Promise<Blob> {
+        return this.utils.authorizedAPI().get('/reports/export/monthly-inventory', { 
+            params, 
+            responseType: 'blob' 
+        }).then((res: any) => res.data);
+    }
+
+    /**
+     * Get report history
+     */
+    async getReportHistory(params: { page?: number; limit?: number; reportType?: string } = {}): Promise<any> {
+        return this.utils.authorizedAPI().get('/reports/history', { params }).then((res: any) => res.data);
+    }
+
+    /**
+     * Download a historical report
+     */
+    async downloadHistoryReport(id: number): Promise<Blob> {
+        return this.utils.authorizedAPI().get(`/reports/history/${id}/download`, { 
+            responseType: 'blob' 
+        }).then((res: any) => res.data);
+    }
+
+    /**
+     * Delete a historical report
+     */
+    async deleteHistoryReport(id: number): Promise<any> {
+        return this.utils.authorizedAPI().delete(`/reports/history/${id}`).then((res: any) => res.data);
+    }
 }
 
 // No alias needed - service name matches new terminology
