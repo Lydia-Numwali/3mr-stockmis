@@ -30,6 +30,7 @@ export class MonthlyInventoryReportService {
 
   /**
    * Generate monthly inventory report
+   * Only includes items with activity (received, issued, returned) during the month
    * @param month - Month number (1-12)
    * @param year - Year (e.g., 2026)
    */
@@ -39,15 +40,13 @@ export class MonthlyInventoryReportService {
     const endDate = new Date(year, month, 0, 23, 59, 59); // Last day of month
     const previousMonthEnd = new Date(year, month - 1, 0, 23, 59, 59); // End of previous month
 
-    // Get all products
-    const products = await this.productRepo.find({
-      order: { id: 'ASC' },
-    });
+    // Get products with activity during the month
+    const productsWithActivity = await this.getProductsWithActivity(startDate, endDate);
 
     const report: MonthlyInventoryItem[] = [];
 
-    for (let i = 0; i < products.length; i++) {
-      const product = products[i];
+    for (let i = 0; i < productsWithActivity.length; i++) {
+      const product = productsWithActivity[i];
 
       // Calculate opening balance (quantity at end of previous month)
       const openingBalance = await this.calculateOpeningBalance(product.id, previousMonthEnd);
@@ -73,12 +72,60 @@ export class MonthlyInventoryReportService {
         returns,
         issued,
         closingBalance,
-        units: product.packagingUnit || 'pcs',
+        units: product.packagingUnit || 'Pieces',
         status: product.condition || 'New',
       });
     }
 
     return report;
+  }
+
+  /**
+   * Get products that had any activity during the specified date range
+   */
+  private async getProductsWithActivity(startDate: Date, endDate: Date): Promise<Product[]> {
+    // Get products with purchases during the month
+    const purchasedProductIds = await this.purchaseRepo
+      .createQueryBuilder('p')
+      .select('DISTINCT p.productId', 'productId')
+      .where('((p.receivingDate >= :startDate AND p.receivingDate <= :endDate) OR (p.date >= :startDate AND p.date <= :endDate))',
+        { startDate, endDate })
+      .getRawMany();
+
+    // Get products with sales during the month
+    const soldProductIds = await this.saleRepo
+      .createQueryBuilder('s')
+      .select('DISTINCT s.productId', 'productId')
+      .where('((s.issueDate >= :startDate AND s.issueDate <= :endDate) OR (s.date >= :startDate AND s.date <= :endDate))',
+        { startDate, endDate })
+      .getRawMany();
+
+    // Get products with returns during the month
+    const returnedProductIds = await this.lendingRepo
+      .createQueryBuilder('l')
+      .select('DISTINCT l.productId', 'productId')
+      .where('l.returnDate >= :startDate AND l.returnDate <= :endDate',
+        { startDate, endDate })
+      .getRawMany();
+
+    // Combine all product IDs
+    const allProductIds = new Set<number>();
+    purchasedProductIds.forEach(p => allProductIds.add(p.productId));
+    soldProductIds.forEach(p => allProductIds.add(p.productId));
+    returnedProductIds.forEach(p => allProductIds.add(p.productId));
+
+    if (allProductIds.size === 0) {
+      return [];
+    }
+
+    // Get the actual product details
+    const products = await this.productRepo
+      .createQueryBuilder('product')
+      .whereInIds(Array.from(allProductIds))
+      .orderBy('product.id', 'ASC')
+      .getMany();
+
+    return products;
   }
 
   /**
@@ -154,26 +201,18 @@ export class MonthlyInventoryReportService {
 
   /**
    * Generate report data grouped by status (New Items, Old Items)
+   * Only includes items with activity during the month
    */
   async generateGroupedMonthlyReport(month: number, year: number) {
     const allItems = await this.generateMonthlyReport(month, year);
 
-    // Filter items with any activity or balance
-    const activeItems = allItems.filter(item => 
-      item.openingBalance > 0 || 
-      item.received > 0 || 
-      item.returns > 0 || 
-      item.issued > 0 ||
-      item.closingBalance > 0
-    );
-
-    // Group by status
-    const newItems = activeItems.filter(item => 
+    // Group by status - already filtered to only items with activity
+    const newItems = allItems.filter(item => 
       item.status.toLowerCase().includes('new')
     );
 
-    const usedItems = activeItems.filter(item => 
-      !item.status.toLowerCase().includes('new')
+    const usedItems = allItems.filter(item => 
+      !item.status.toLowerCase().includes('new') || item.status.toLowerCase().includes('used')
     );
 
     return {
