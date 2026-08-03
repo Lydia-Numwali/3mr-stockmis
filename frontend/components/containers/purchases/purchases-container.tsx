@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import DataTable from '@/components/common/DataTable';
 import { getPurchasesColumns } from '@/components/table/columnsDef/purchasesColumns';
 import { usePurchases, useDeletePurchase } from '@/hooks/usePurchases';
-import { PaginationState } from '@tantml:react-table';
+import { PaginationState } from '@tanstack/react-table';
 import { useDebounce } from 'use-debounce';
 import { Purchase } from '@/types/stock';
 import PurchasesDialog from './purchases-dialog';
